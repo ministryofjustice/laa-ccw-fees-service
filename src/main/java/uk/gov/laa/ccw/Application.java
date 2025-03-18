@@ -10,8 +10,6 @@ public class Application {
 
     public static void main(String[] args) {
 
-        log.info("Hi Jason");
-
         SpringApplication.run(Application.class, args);
     }
 
