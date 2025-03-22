@@ -47,9 +47,23 @@ CREATE TABLE IF NOT EXISTS CCW.FIXED_FEES
     UNIT                    SOMETHING   NULL,
     FIXED_VALUE             SOMETHING   NULL,
     TYPE                    SOMETHING   NULL,
-    FIELD                   SOMETHING   NOT NULL,
+    FIELD                   SOMETHING   NULL,
     CONSTRAINT pk_fee_id PRIMARY KEY (fee_id),
     CONSTRAINT fk_provider_categories_provider_category_id FOREIGN KEY (PROVIDER_CATEGORY_ID) REFERENCES PROVIDER_CATEGORIES(PROVIDER_CATEGORY_ID)
+);
+
+CREATE TABLE IF NOT EXISTS CCW.HOURLY_FEES
+(
+    FEE_ID                  UUID        NOT NULL DEFAULT sys_guid(),
+    PROVIDER_CATEGORY_ID    UUID        NOT NULL,
+    FEE_PER_UNIT            SOMETHING   NULL,
+    UNIT                    SOMETHING   NULL,
+    FIXED_VALUE             SOMETHING   NULL,
+    PROVIDER_LOCATION       SOMETHING   NULL,
+    ACTIVITY_ID             UUID        NOT NULL,
+    CONSTRAINT pk_fee_id PRIMARY KEY (fee_id),
+    CONSTRAINT fk_provider_categories_provider_category_id FOREIGN KEY (PROVIDER_CATEGORY_ID) REFERENCES PROVIDER_CATEGORIES(PROVIDER_CATEGORY_ID)
+    CONSTRAINT fk_provider_categories_activity_id FOREIGN KEY (ACTIVITY_ID) REFERENCES ACTIVITIES(ACTIVITY_ID)
 );
 
 CREATE TABLE IF NOT EXISTS CCW.FEE_SCHEME_FIXEDFEE
@@ -60,5 +74,10 @@ CREATE TABLE IF NOT EXISTS CCW.FEE_SCHEME_FIXEDFEE
     CONSTRAINT fk_fixed_fees_fee_id FOREIGN KEY (FIXED_FEE_ID) REFERENCES FIXED_FEES(FEE_ID)
 );
 
-done: activity, matter codes, fee scheme, feescheme_mt, fee scheme_fixedfeee, fixed fees, provider categories
-next: hourly fees -> feescheme_hourlyfee
+CREATE TABLE IF NOT EXISTS CCW.FEE_SCHEME_HOURLYFEE
+(
+    FEE_SCHEME_ID   UUID    NOT NULL,
+    HOURLY_FEE_ID   UUID    NOT NULL,
+    CONSTRAINT fk_fee_schemes_fee_scheme_id FOREIGN KEY (FEE_SCHEME_ID) REFERENCES FEE_SCHEMES(FEE_SCHEME_ID)
+    CONSTRAINT fk_hourly_fees_fee_id FOREIGN KEY (HOURLY_FEE_ID) REFERENCES HOURLY_FEES(FEE_ID)
+);
