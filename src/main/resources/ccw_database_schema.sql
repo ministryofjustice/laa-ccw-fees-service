@@ -13,8 +13,8 @@ CREATE TABLE CCW.FEE_SCHEMES
 (
     FEE_SCHEME_ID   UUID         NOT NULL DEFAULT sys_guid(),
     NAME            VARCHAR(150) NOT NULL,
-    START_DATE      DATE NULL,
-    END_DATE        DATE NULL,
+    START_DATE      DATE         NULL,
+    END_DATE        DATE         NULL,
     CONSTRAINT pk_fee_scheme_id PRIMARY KEY (fee_scheme_id)
 );
 
@@ -38,7 +38,7 @@ CREATE TABLE CCW.PROVIDER_CATEGORIES
 (
     PROVIDER_CATEGORY_ID    UUID            NOT NULL DEFAULT sys_guid(),
     DESCRIPTION             VARCHAR(150)    NOT NULL,
-    PROVIDER_ROLE           SOMETHING       NOT NULL,
+    PROVIDER_ROLE           SOMETHING       NULL,
     CONSTRAINT pk_provider_category_id PRIMARY KEY (provider_category_id)
 );
 
