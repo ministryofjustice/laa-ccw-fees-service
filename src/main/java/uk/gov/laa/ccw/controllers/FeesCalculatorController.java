@@ -28,7 +28,7 @@ public class FeesCalculatorController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NumberFormatException.class)
     public ResponseEntity<String> shouldBeANumber(NumberFormatException exception) {
-        String message = "Should be supplied a number, but instead was supplied " + exception.getMessage();
+        String message = "Should be supplied a number:" + exception.getMessage();
         log.error(message);
         return badRequest().body(message);
     }
