@@ -26,13 +26,12 @@ jobs:
         shell:
           bash
 
-      - uses: aws-actions/configure-aws-credentials@v4
+      - name: Build & push Docker image + Deploy to Kubernetes
+        uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
           aws-region: ${{ vars.ECR_REGION }}
-
-      - name: Build & push Docker image + Deploy to Kubernetes
-        uses: aws-actions/amazon-ecr-login@v2
+      - uses: aws-actions/amazon-ecr-login@v2
         id: login-ecr
       - run: |
           docker build -t $REGISTRY/$REPOSITORY:$IMAGE_TAG .
