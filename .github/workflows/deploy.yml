@@ -1,9 +1,10 @@
 name: deploy
 
 on:
-#  push:
-#    branches: [main]
+  push:
+    branches: [BILL-65-create-git-hub-deployment-workflow]
   workflow_dispatch:
+
 jobs:
   ecr:
     runs-on: ubuntu-latest
