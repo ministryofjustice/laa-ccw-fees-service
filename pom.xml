@@ -21,7 +21,7 @@
     <snakeyaml.version>2.4</snakeyaml.version>
     <h2.version>2.3.232</h2.version>
     <org-json.version>20231013</org-json.version>
-    <oracle-jdbc.version>19.25.0.0</oracle-jdbc.version>
+    <oracle-jdbc.version>19.26.0.0</oracle-jdbc.version>
     <commons-io.version>2.18.0</commons-io.version>
   </properties>
 
