@@ -5,18 +5,44 @@ VALUES
     ('FAMD')
 ;
 
-INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
+INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
 VALUES
-    ('FAMA', 'FPET,FRES,FADV,FAPP,FREP,FCHG,FCHS,FOTH'),
-    ('FAMC', 'FPET,FRES,FADV,FAPP,FREP,FCHG,FCHS,FOTH'),
-    ('FAMD', 'FPET,FRES,FADV,FAPP,FREP,FCHG,FCHS,FOTH')
+    ('FPET'),
+    ('FRES'),
+    ('FADV'),
+    ('FAPP'),
+    ('FREP'),
+    ('FCHG'),
+    ('FCHS'),
+    ('FOTH')
 ;
 
-INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
+INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
 VALUES
-    ('FAMA', 'FPL01,FPL10'),
-    ('FAMC', 'FPL01'),
-    ('FAMD', 'FPL01,FPL02,FPL04,FPL08,FPL11,FPL13')
+    ('FAMA', 'FPET'),
+    ('FAMA', 'FRES'),
+    ('FAMA', 'FADV'),
+    ('FAMA', 'FAPP'),
+    ('FAMA', 'FREP'),
+    ('FAMA', 'FCHG'),
+    ('FAMA', 'FCHS'),
+    ('FAMA', 'FOTH'),
+    ('FAMC', 'FPET'),
+    ('FAMC', 'FRES'),
+    ('FAMC', 'FADV'),
+    ('FAMC', 'FAPP'),
+    ('FAMC', 'FREP'),
+    ('FAMC', 'FCHG'),
+    ('FAMC', 'FCHS'),
+    ('FAMC', 'FOTH'),
+    ('FAMD', 'FPET'),
+    ('FAMD', 'FRES'),
+    ('FAMD', 'FADV'),
+    ('FAMD', 'FAPP'),
+    ('FAMD', 'FREP'),
+    ('FAMD', 'FCHG'),
+    ('FAMD', 'FCHS'),
+    ('FAMD', 'FOTH')
 ;
 
 INSERT INTO CCW.PROVIDER_LOCATIONS(PROVIDER_LOCATION_ID,DESCRIPTION)
@@ -27,12 +53,43 @@ VALUES
 
 INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION)
 VALUES
+    ('BLT1', 'Bolt on 1'),
+    ('BLT2', 'Bolt on 2'),
+    ('BLT3', 'Bolt on 3'),
+    ('BLT4', 'Bolt on 4'),
+    ('BLT5', 'Bolt on 5'),
+    ('BLT6', 'Bolt on 6'),
     ('LVL1', 'Level 1'),
     ('LVL2CH', 'Level 2 children'),
     ('LVL2FI', 'Level 2 finance'),
     ('SFC', 'Settlement fee children'),
     ('SFF', 'settlement fee finance'),
     ('DPF', 'Div pet fee')
+;
+
+INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
+VALUES
+    ('NA'),
+    ('FPL01'),
+    ('FPL02'),
+    ('FPL04'),
+    ('FPL08'),
+    ('FPL10'),
+    ('FPL11'),
+    ('FPL13')
+;
+
+INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
+VALUES
+    ('FAMA', 'FPL01'),
+    ('FAMA', 'FPL10'),
+    ('FAMC', 'FPL01'),
+    ('FAMD', 'FPL01'),
+    ('FAMD', 'FPL02'),
+    ('FAMD', 'FPL04'),
+    ('FAMD', 'FPL08'),
+    ('FAMD', 'FPL11'),
+    ('FAMD', 'FPL13')
 ;
 
 INSERT INTO CCW.FIXED_FEES(FIXED_AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FIXED_FEE_ID)

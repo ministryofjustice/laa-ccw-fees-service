@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.Services;
+package uk.gov.laa.ccw.services;
 
 import java.io.File;
 import java.io.IOException;
