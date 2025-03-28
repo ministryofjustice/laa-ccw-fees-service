@@ -4,3 +4,10 @@ logging:
 
 server:
   port: 8085
+
+ccw:
+  datasource:
+    url: jdbc:h2:file:~/ccwDb;MODE=Oracle
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver

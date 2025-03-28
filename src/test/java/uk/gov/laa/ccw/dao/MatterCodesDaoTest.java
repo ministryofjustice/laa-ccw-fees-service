@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 @SpringBootTest()
 public class MatterCodesDaoTest {
     @Mock
-    private JdbcTemplate jdbcManager;
+    private JdbcTemplate myJdbc;
 
     @InjectMocks
     private MatterCodesDao classUnderTest;
@@ -43,7 +43,7 @@ public class MatterCodesDaoTest {
     @Test
     void shouldFetchAllMatterCodes() {
 
-        when(jdbcManager.queryForList(anyString()))
+        when(myJdbc.queryForList(anyString()))
                 .thenReturn(setupMatterCodeQueryDataset());
 
         List<MatterCode> dataReturned = classUnderTest.fetchAllMatterCodes();
@@ -55,7 +55,7 @@ public class MatterCodesDaoTest {
     @Test
     void shouldThrowExceptionIfMatterCodeNotReadCorrectly() {
 
-        doThrow(new DataAccessException(""){}).when(jdbcManager).queryForList(anyString());
+        doThrow(new DataAccessException(""){}).when(myJdbc).queryForList(anyString());
 
         assertThrows(DatabaseReadException.class,
                 () -> classUnderTest.fetchAllMatterCodes());

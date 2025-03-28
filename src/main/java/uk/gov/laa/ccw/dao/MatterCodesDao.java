@@ -2,7 +2,6 @@ package uk.gov.laa.ccw.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
@@ -21,7 +20,7 @@ public class MatterCodesDao {
     private static final String SELECT_ALL_MATTER_CODE_1_SQL =
             "SELECT MATTER_CODE_ID, DESCRIPTION FROM CCW.MATTER_CODES_1";
 
-    private final JdbcTemplate jdbcManager;
+    private final JdbcTemplate myJdbc;
 
     public List<MatterCode> fetchAllMatterCodes() {
         log.info("fetchAllMatterCodes");
@@ -29,7 +28,7 @@ public class MatterCodesDao {
         List<Map<String, Object>> queryResults = new ArrayList<>();
 
         try {
-            queryResults = jdbcManager.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
+            queryResults = myJdbc.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
 
             matterCodes = queryResults.stream().map(MatterCodesDaoMapping::mapAllMatterCodes).toList();
         } catch (Exception ex) {
