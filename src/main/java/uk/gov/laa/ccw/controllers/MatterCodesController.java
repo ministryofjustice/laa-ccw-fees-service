@@ -30,10 +30,4 @@ public class MatterCodesController {
                         .toList())
                 .build();
     }
-
-    @PostMapping("/v1/matter-codes/{code}/mc-combinations")
-    public List<String> getMatterCodeTwosForSpecificCode(@PathVariable(value = "code") String code) {
-        log.info("retrieve all matter code 2 for a specific code");
-        return List.of("X", "Y", "Z");
-    }
 }
