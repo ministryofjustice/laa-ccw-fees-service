@@ -23,7 +23,7 @@ public class MatterCodesDao {
     private final JdbcTemplate ccwJdbc;
 
     public List<MatterCode> fetchAllMatterCodes() {
-        log.info("fetchAllMatterCodes");
+        log.info("fetch all Matter Codes from database");
         List<MatterCode> matterCodes = new ArrayList<>();
         List<Map<String, Object>> queryResults = new ArrayList<>();
 

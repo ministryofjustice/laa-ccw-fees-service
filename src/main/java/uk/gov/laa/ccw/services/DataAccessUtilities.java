@@ -10,18 +10,12 @@ public class DataAccessUtilities {
     private static final String ERROR_MESSAGE_FORMAT = "Unable to read file with filePath [%s]";
 
     public static void initialiseDatabase(JdbcTemplate jdbcTemplate) {
-        String sqlSchema = readResourceToString("schema.sql");
-        String sqlData = readResourceToString("data.sql");
+        String sqlSchema = readResourceToString("ccw-database-schema.sql");
+        String sqlData = readResourceToString("ccw-database-data.sql");
 
         jdbcTemplate.execute(sqlSchema);
         jdbcTemplate.execute(sqlData);
 
-    }
-
-    public static void dropDatabase(JdbcTemplate jdbcTemplate) {
-        String sqlDropDatabase = readResourceToString("dropdb.sql");
-
-        jdbcTemplate.execute(sqlDropDatabase);
     }
 
     public static String readResourceToString(String filePath) {
