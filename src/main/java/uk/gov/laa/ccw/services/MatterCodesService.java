@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.dao.MatterCodesDao;
-import uk.gov.laa.ccw.mapping.MatterCodesGet200ResponseMapping;
+import uk.gov.laa.ccw.models.MatterCode;
 
 import java.util.List;
 
@@ -15,11 +15,9 @@ public class MatterCodesService {
 
     private final MatterCodesDao matterCodesDao;
 
-    public List<String> getAllMatterCodes() {
-        log.info("getAllMatterCodes");
+    public List<MatterCode> getAllMatterCodes() {
+        log.info("return matter codes from dao to controller");
 
-        return matterCodesDao.fetchAllMatterCodes().stream()
-                .map(MatterCodesGet200ResponseMapping::map)
-                .toList();
+        return matterCodesDao.fetchAllMatterCodes();
     }
 }

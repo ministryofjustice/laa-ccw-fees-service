@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.laa.ccw.mapping.MatterCodesResponseMapping;
+import uk.gov.laa.ccw.models.MatterCodesResponse;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;
@@ -18,9 +20,15 @@ public class MatterCodesController {
     private final MatterCodesService service;
 
     @GetMapping("/v1/matter-codes")
-    public List<String> getAllMatterCodeOnes(){
+    public MatterCodesResponse getAllMatterCodeOnes(){
         log.info("retrieve all matter codes");
-        return service.getAllMatterCodes();
+        return MatterCodesResponse.builder()
+                .matterCodes(
+                service.getAllMatterCodes()
+                        .stream()
+                        .map(MatterCodesResponseMapping::map)
+                        .toList())
+                .build();
     }
 
     @PostMapping("/v1/matter-codes/{code}/mc-combinations")

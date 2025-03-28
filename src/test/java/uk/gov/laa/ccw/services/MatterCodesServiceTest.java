@@ -40,9 +40,9 @@ public class MatterCodesServiceTest {
         when(matterCodesDao.fetchAllMatterCodes())
                 .thenReturn(setupMatterCodeDataset());
 
-        List<String> dataReturned = classUnderTest.getAllMatterCodes();
+        List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes();
         assertEquals(2, dataReturned.size());
-        assertEquals("mt1", dataReturned.get(0));
-        assertEquals("mt2", dataReturned.get(1));
+        assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
+        assertEquals("mt2", dataReturned.get(1).getMatterCodeId());
     }
 }
