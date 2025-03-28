@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapping.MatterCodesResponseMapping;
-import uk.gov.laa.ccw.models.MatterCodesResponse;
+import uk.gov.laa.ccw.models.MatterCodes200Response;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;
@@ -20,9 +20,9 @@ public class MatterCodesController {
     private final MatterCodesService service;
 
     @GetMapping("/v1/matter-codes")
-    public MatterCodesResponse getAllMatterCodeOnes(){
+    public MatterCodes200Response getAllMatterCodeOnes(){
         log.info("retrieve all matter codes");
-        return MatterCodesResponse.builder()
+        return MatterCodes200Response.builder()
                 .matterCodes(
                 service.getAllMatterCodes()
                         .stream()

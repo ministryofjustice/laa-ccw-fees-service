@@ -9,7 +9,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatterCodesResponseInnerMatterCode {
-    private String matterCode;
-    private String description;
+public class HttpError500Response {
+    public String error;
 }
