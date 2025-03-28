@@ -18,6 +18,12 @@ public class DataAccessUtilities {
 
     }
 
+    public static void dropDatabase(JdbcTemplate jdbcTemplate) {
+        String sqlDropDatabase = readResourceToString("dropdb.sql");
+
+        jdbcTemplate.execute(sqlDropDatabase);
+    }
+
     public static String readResourceToString(String filePath) {
 
         ClassLoader classLoader = DataAccessUtilities.class.getClassLoader();

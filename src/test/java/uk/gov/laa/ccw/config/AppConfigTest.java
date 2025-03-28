@@ -28,14 +28,14 @@ public class AppConfigTest {
 
     @Test
     void shouldCreateJdbcTemplate() {
-        var jdbcTemplate = applicationContext.getBean("myJdbc", JdbcTemplate.class);
+        var jdbcTemplate = applicationContext.getBean("ccwJdbc", JdbcTemplate.class);
 
         assertNotNull(jdbcTemplate);
     }
 
     @Test
     void shouldJdbcTemplateUseCorrectDataSource() {
-        var jdbcTemplate = applicationContext.getBean("myJdbc", JdbcTemplate.class);
+        var jdbcTemplate = applicationContext.getBean("ccwJdbc", JdbcTemplate.class);
 
         assertInstanceOf(DriverManagerDataSource.class, jdbcTemplate.getDataSource());
     }

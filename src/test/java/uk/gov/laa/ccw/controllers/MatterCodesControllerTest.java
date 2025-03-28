@@ -1,5 +1,7 @@
 package uk.gov.laa.ccw.controllers;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -18,12 +20,20 @@ public class MatterCodesControllerTest {
     MockMvc mockMvc;
 
     @Autowired
-    private JdbcTemplate myJdbc;
+    private JdbcTemplate ccwJdbc;
+
+    @BeforeEach
+    void setup() {
+        DataAccessUtilities.initialiseDatabase(ccwJdbc);
+    }
+
+    @AfterEach
+    void resetDatabase() {
+        DataAccessUtilities.dropDatabase(ccwJdbc);
+    }
 
     @Test
     void shouldReturnAllMatterCode1() throws Exception {
-
-        DataAccessUtilities.initialiseDatabase(myJdbc);
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
                 .andExpect(status().isOk());

@@ -18,7 +18,7 @@ public class AppConfig {
     }
 
     @Bean
-    JdbcTemplate myJdbc(@Qualifier("ccwDataSource") DataSource dataSource) {
+    JdbcTemplate ccwJdbc(@Qualifier("ccwDataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 

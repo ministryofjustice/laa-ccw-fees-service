@@ -20,7 +20,7 @@ public class MatterCodesDao {
     private static final String SELECT_ALL_MATTER_CODE_1_SQL =
             "SELECT MATTER_CODE_ID, DESCRIPTION FROM CCW.MATTER_CODES_1";
 
-    private final JdbcTemplate myJdbc;
+    private final JdbcTemplate ccwJdbc;
 
     public List<MatterCode> fetchAllMatterCodes() {
         log.info("fetchAllMatterCodes");
@@ -28,7 +28,7 @@ public class MatterCodesDao {
         List<Map<String, Object>> queryResults = new ArrayList<>();
 
         try {
-            queryResults = myJdbc.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
+            queryResults = ccwJdbc.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
 
             matterCodes = queryResults.stream().map(MatterCodesDaoMapping::mapAllMatterCodes).toList();
         } catch (Exception ex) {
