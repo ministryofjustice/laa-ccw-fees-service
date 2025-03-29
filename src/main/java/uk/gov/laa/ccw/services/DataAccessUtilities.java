@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.Services;
+package uk.gov.laa.ccw.services;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,8 +10,8 @@ public class DataAccessUtilities {
     private static final String ERROR_MESSAGE_FORMAT = "Unable to read file with filePath [%s]";
 
     public static void initialiseDatabase(JdbcTemplate jdbcTemplate) {
-        String sqlSchema = readResourceToString("ccw_database_schema.sql");
-        String sqlData = readResourceToString("ccw_database_data.sql");
+        String sqlSchema = readResourceToString("ccw-database-schema.sql");
+        String sqlData = readResourceToString("ccw-database-data.sql");
 
         jdbcTemplate.execute(sqlSchema);
         jdbcTemplate.execute(sqlData);
