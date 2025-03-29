@@ -13,7 +13,7 @@ import uk.gov.laa.ccw.services.DataAccessUtilities;
 public class Application implements CommandLineRunner {
 
     @Autowired
-    JdbcTemplate ccwJdbc;
+    JdbcTemplate jdbcTemplate;
 
     public static void main(String[] args) {
 
@@ -22,6 +22,6 @@ public class Application implements CommandLineRunner {
 
     @Override
     public void run(String... strings) throws Exception {
-        DataAccessUtilities.initialiseDatabase(ccwJdbc);
+        DataAccessUtilities.initialiseDatabase(jdbcTemplate);
     }
 }
