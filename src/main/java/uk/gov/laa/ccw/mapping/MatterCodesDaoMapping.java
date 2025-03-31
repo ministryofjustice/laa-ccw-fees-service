@@ -5,7 +5,6 @@ import uk.gov.laa.ccw.models.MatterCode;
 import java.util.Map;
 
 public class MatterCodesDaoMapping {
-    @SuppressWarnings("java:S3599")
     public static MatterCode mapAllMatterCodes(Map<String, Object> queryData) {
 
         return new MatterCode() {{

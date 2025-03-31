@@ -15,7 +15,6 @@ import static org.springframework.http.ResponseEntity.internalServerError;
 
 @Slf4j
 @ControllerAdvice
-@SuppressWarnings({"java:S1171", "java:S3599"}) //Disabling due to generated code
 public class GlobalExceptionHandler {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(DatabaseReadException.class)
