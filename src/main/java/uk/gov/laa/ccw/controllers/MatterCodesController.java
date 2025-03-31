@@ -40,4 +40,17 @@ public class MatterCodesController {
                                 .toList())
                 .build();
     }
+
+    @PostMapping("/v1/matter-codes/{id}/case-stages")
+    public MatterCodes200Response getCaseStagesForMatterCodeOnes(@PathVariable(value = "id") String id) {
+        log.info("retrieve all matter code twos for matter code {}", id);
+        return MatterCodes200Response.builder()
+                .matterCodes(
+                        service.getAllCaseStagesForMatterCodeOne(id)
+                                .stream()
+                                .map(MatterCodesResponseMapping::map)
+                                .toList())
+                .build();
+    }
+
 }
