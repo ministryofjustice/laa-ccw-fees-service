@@ -20,4 +20,10 @@ public class MatterCodesService {
 
         return matterCodesDao.fetchAllMatterCodes();
     }
+
+    public List<MatterCode> getAllMatterTwosForMatterCodeOne(String matterCodeOne) {
+        log.info("return matter codes from dao to controller");
+
+        return matterCodesDao.fetchMatterCodeTwos(matterCodeOne);
+    }
 }

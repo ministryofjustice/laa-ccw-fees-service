@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest()
@@ -41,6 +42,18 @@ public class MatterCodesServiceTest {
                 .thenReturn(setupMatterCodeDataset());
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes();
+        assertEquals(2, dataReturned.size());
+        assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
+        assertEquals("mt2", dataReturned.get(1).getMatterCodeId());
+    }
+
+    @Test
+    void shouldFetchMatterCodesForSpecificMatterCodeOne() {
+
+        when(matterCodesDao.fetchMatterCodeTwos(anyString()))
+                .thenReturn(setupMatterCodeDataset());
+
+        List<MatterCode> dataReturned = classUnderTest.getAllMatterTwosForMatterCodeOne("CODE1");
         assertEquals(2, dataReturned.size());
         assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
         assertEquals("mt2", dataReturned.get(1).getMatterCodeId());

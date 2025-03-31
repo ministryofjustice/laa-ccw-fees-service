@@ -2,8 +2,7 @@ package uk.gov.laa.ccw.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import uk.gov.laa.ccw.mapping.MatterCodesResponseMapping;
 import uk.gov.laa.ccw.models.MatterCodes200Response;
 import uk.gov.laa.ccw.services.MatterCodesService;
@@ -24,6 +23,18 @@ public class MatterCodesController {
                         .stream()
                         .map(MatterCodesResponseMapping::map)
                         .toList())
+                .build();
+    }
+
+    @PostMapping("/v1/matter-codes/{id}/matter-code-2")
+    public MatterCodes200Response getMatterCodeTwosForMatterCodeOnes(@PathVariable(value = "id") String id) {
+        log.info("retrieve all matter code twos for matter code {}", id);
+        return MatterCodes200Response.builder()
+                .matterCodes(
+                        service.getAllMatterTwosForMatterCodeOne(id)
+                                .stream()
+                                .map(MatterCodesResponseMapping::map)
+                                .toList())
                 .build();
     }
 }

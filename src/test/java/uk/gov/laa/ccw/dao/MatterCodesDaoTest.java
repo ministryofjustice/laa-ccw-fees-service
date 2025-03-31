@@ -7,6 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.MatterCode;
 
 import java.util.ArrayList;
@@ -61,4 +62,33 @@ public class MatterCodesDaoTest {
                 () -> classUnderTest.fetchAllMatterCodes());
     }
 
+    @Test
+    void shouldFetchMatterCode2ForOneMatterCode() {
+
+        when(jdbcTemplate.queryForList(anyString(), anyString()))
+                .thenReturn(setupMatterCodeQueryDataset());
+
+        List<MatterCode> dataReturned = classUnderTest.fetchMatterCodeTwos("CODE1");
+        assertEquals(2, dataReturned.size());
+        assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
+        assertEquals("", dataReturned.get(1).getDescription());
+    }
+
+    @Test
+    void shouldThrowExceptionIfMatterCode2NotReadCorrectly() {
+
+        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString(), anyString());
+
+        assertThrows(DatabaseReadException.class,
+                () -> classUnderTest.fetchMatterCodeTwos("CODE2"));
+    }
+
+    @Test
+    void shouldThrowExceptionIfMatterCode1NotFound() {
+
+        doThrow(new MatterCodeNotFoundException(""){}).when(jdbcTemplate).queryForList(anyString(), anyString());
+
+        assertThrows(MatterCodeNotFoundException.class,
+                () -> classUnderTest.fetchMatterCodeTwos("CODE3"));
+    }
 }
