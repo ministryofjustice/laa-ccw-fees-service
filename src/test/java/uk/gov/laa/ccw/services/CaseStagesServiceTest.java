@@ -5,6 +5,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.dao.CaseStagesDao;
+import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.MatterCode;
 
@@ -12,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest()
@@ -101,4 +105,22 @@ public class CaseStagesServiceTest {
         assertEquals("cs1", dataReturned.get(0).getCaseStageId());
         assertEquals("FPL10", dataReturned.get(2).getCaseStageId());
     }
+
+    @Test
+    void shouldThrowExceptionWhenDaoThrowsDatabaseReadException() {
+
+        doThrow(new DatabaseReadException(""){}).when(caseStagesDao).fetchCaseStages(anyString());
+
+        assertThrows(DatabaseReadException.class,
+                () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDaoThrowsMatterCodeNotFoundException() {
+        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesDao).fetchCaseStages(anyString());
+
+        assertThrows(MatterCodeNotFoundException.class,
+                () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
+    }
+
 }

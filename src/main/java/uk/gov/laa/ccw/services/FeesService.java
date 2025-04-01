@@ -19,8 +19,6 @@ public class FeesService {
     private final VatRatesDao vatRatesDao;
 
     public Fee calculateFees(String location,
-                             String matterCode1,
-                             String matterCode2,
                              String caseStage) {
 
         log.info("get fees for location {}", location);
