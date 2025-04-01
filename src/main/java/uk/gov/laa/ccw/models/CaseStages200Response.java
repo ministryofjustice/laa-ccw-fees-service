@@ -5,11 +5,12 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class MatterCodes200ResponseInnerMatterCode {
-    private String matterCode;
-    private String description;
+public class CaseStages200Response {
+    List<CaseStages200ResponseCaseStage> caseStages;
 }

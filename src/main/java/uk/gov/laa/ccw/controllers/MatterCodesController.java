@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.laa.ccw.mapping.CaseStagesResponseMapping;
 import uk.gov.laa.ccw.mapping.MatterCodesResponseMapping;
+import uk.gov.laa.ccw.models.CaseStages200Response;
 import uk.gov.laa.ccw.models.MatterCodes200Response;
+import uk.gov.laa.ccw.services.CaseStagesService;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 @Slf4j
@@ -16,6 +19,7 @@ import uk.gov.laa.ccw.services.MatterCodesService;
 public class MatterCodesController {
 
     private final MatterCodesService service;
+    private final CaseStagesService caseService;
 
     @GetMapping("/v1/matter-codes")
     public MatterCodes200Response getAllMatterCodeOnes(){
@@ -29,7 +33,7 @@ public class MatterCodesController {
                 .build();
     }
 
-    @PostMapping("/v1/matter-codes/{id}/matter-code-2")
+    @GetMapping("/v1/matter-codes/{id}/matter-code-2")
     public MatterCodes200Response getMatterCodeTwosForMatterCodeOnes(@PathVariable(value = "id") String id) {
         log.info("retrieve all matter code twos for matter code {}", id);
         return MatterCodes200Response.builder()
@@ -37,6 +41,18 @@ public class MatterCodesController {
                         service.getAllMatterTwosForMatterCodeOne(id)
                                 .stream()
                                 .map(MatterCodesResponseMapping::map)
+                                .toList())
+                .build();
+    }
+
+    @GetMapping("/v1/matter-codes/{id}/case-stages")
+    public CaseStages200Response getCaseStagesForMatterCodeOnes(@PathVariable(value = "id") String id) {
+        log.info("retrieve all case stages for matter code {}", id);
+        return CaseStages200Response.builder()
+                .caseStages(
+                        caseService.getAllCaseStagesForMatterCodeOne(id)
+                                .stream()
+                                .map(CaseStagesResponseMapping::map)
                                 .toList())
                 .build();
     }
