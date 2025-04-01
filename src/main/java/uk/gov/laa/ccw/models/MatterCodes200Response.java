@@ -12,5 +12,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MatterCodes200Response {
-    public List<MatterCodes200ResponseInnerMatterCode> matterCodes;
+    public List<MatterCodes200ResponseMatterCode> matterCodes;
 }

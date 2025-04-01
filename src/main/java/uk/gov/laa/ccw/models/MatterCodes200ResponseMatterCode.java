@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CaseStages200ResponseInnerCaseStage {
-    private String caseStage;
+public class MatterCodes200ResponseMatterCode {
+    private String matterCode;
     private String description;
 }

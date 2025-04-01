@@ -10,7 +10,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
+import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.MatterCode;
+import uk.gov.laa.ccw.services.CaseStagesService;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;
@@ -29,6 +31,9 @@ public class MatterCodesControllerTest {
 
     @MockitoBean
     MatterCodesService matterCodesService; // This is required, despite the sonarlint suggestions
+
+    @MockitoBean
+    CaseStagesService caseStagesService; // This is required, despite the sonarlint suggestions
 
     @Test
     void shouldReturnAllMatterCode1() throws Exception {
@@ -89,10 +94,47 @@ public class MatterCodesControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNoMatterCode1or2() throws Exception {
+    void shouldThrowExceptionWhenDatabaseError() throws Exception {
         doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
 
         mockMvc.perform(MockMvcRequestBuilders.post("/v1/matter-codes/XXXX/matter-code-2"))
+                .andExpect(status().is5xxServerError());
+    }
+
+    @Test
+    void shouldReturnCaseStagesForMatterCode1() throws Exception {
+        List<CaseStage> caseStages = List.of(
+                CaseStage.builder()
+                        .caseStageId("1")
+                        .description("description")
+                        .build(),
+                CaseStage.builder()
+                        .caseStageId("2")
+                        .description("description")
+                        .build()
+        );
+        String returnedContent = "{\"caseStages\":[{\"caseStage\":\"1\",\"description\":\"description\"},{\"caseStage\":\"2\",\"description\":\"description\"}]}";
+        when(caseStagesService.getAllCaseStagesForMatterCodeOne(anyString()))
+                .thenReturn(caseStages);
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/matter-codes/CODE1/case-stages"))
+                .andExpect(status().isOk())
+                .andExpect(content().string(returnedContent));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenNoMatterCode1ForCaseStages() throws Exception {
+        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodeOne(anyString());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/matter-codes/XXXX/case-stages"))
+                .andExpect(status().is4xxClientError());
+    }
+
+    @Test
+    void shouldThrowExceptionNotCaseStagesWhenDatabaseError() throws Exception {
+        doThrow(new DatabaseReadException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodeOne(anyString());
+
+        mockMvc.perform(MockMvcRequestBuilders.post("/v1/matter-codes/XXXX/case-stages"))
                 .andExpect(status().is5xxServerError());
     }
 }
