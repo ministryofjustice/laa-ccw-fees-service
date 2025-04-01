@@ -15,9 +15,23 @@ import java.util.List;
 public class CaseStagesService {
     private final CaseStagesDao caseStagesDao;
 
-    public List<CaseStage> getAllCaseStagesForMatterCodeOne(String matterCodeOne) {
-        log.info("return matter codes from dao to controller");
+    public List<CaseStage> getAllCaseStagesForMatterCodes(String matterCodeOne, String matterCodeTwo) {
+        log.info("get case stages");
+        List<CaseStage> caseStages = caseStagesDao.fetchCaseStages(matterCodeOne);
 
-        return caseStagesDao.fetchCaseStages(matterCodeOne);
+        CaseStage caseFPL10 = caseStages.stream()
+                .filter(c -> c.getCaseStageId().contentEquals("FPL10"))
+                .findAny()
+                .orElse(null);
+
+        if (caseFPL10 != null) {
+            log.info("case stage FPL10 found so check for FAMA and FPET combination");
+            if (!(matterCodeOne.contentEquals("FAMA") && matterCodeTwo.contentEquals("FPET"))) {
+                log.info("remove case stage FPL10 found");
+                caseStages.remove(caseFPL10);
+            }
+        }
+
+        return caseStages;
     }
 }

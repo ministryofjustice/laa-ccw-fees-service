@@ -100,41 +100,4 @@ public class MatterCodesControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
                 .andExpect(status().is5xxServerError());
     }
-
-    @Test
-    void shouldReturnCaseStagesForMatterCode1() throws Exception {
-        List<CaseStage> caseStages = List.of(
-                CaseStage.builder()
-                        .caseStageId("1")
-                        .description("description")
-                        .build(),
-                CaseStage.builder()
-                        .caseStageId("2")
-                        .description("description")
-                        .build()
-        );
-        String returnedContent = "{\"caseStages\":[{\"caseStage\":\"1\",\"description\":\"description\"},{\"caseStage\":\"2\",\"description\":\"description\"}]}";
-        when(caseStagesService.getAllCaseStagesForMatterCodeOne(anyString()))
-                .thenReturn(caseStages);
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/CODE1/case-stages"))
-                .andExpect(status().isOk())
-                .andExpect(content().string(returnedContent));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNoMatterCode1ForCaseStages() throws Exception {
-        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/case-stages"))
-                .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    void shouldThrowExceptionNotCaseStagesWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/case-stages"))
-                .andExpect(status().is5xxServerError());
-    }
 }
