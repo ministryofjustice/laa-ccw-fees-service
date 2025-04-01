@@ -18,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FeesDao {
     private static final String GET_FEES_SQL =
-        "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM FIXED_FEES WHERE PROVIDER_LOCATION = ?";
+        "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM CCW.FIXED_FEES WHERE PROVIDER_LOCATION = ?";
 
     private final JdbcTemplate jdbcTemplate;
 

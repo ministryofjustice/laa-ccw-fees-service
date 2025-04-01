@@ -18,7 +18,7 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class VatRatesDao {
     private static final String GET_VAT_SQL =
-            "SELECT RATE_PERCENTAGE FROM VAT_RATES";
+            "SELECT RATE_PERCENTAGE FROM CCW.VAT_RATES";
 
     private final JdbcTemplate jdbcTemplate;
 

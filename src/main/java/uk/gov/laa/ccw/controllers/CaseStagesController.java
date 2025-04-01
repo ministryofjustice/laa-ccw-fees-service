@@ -19,6 +19,22 @@ public class CaseStagesController {
     @GetMapping("/v1/case-stages")
     public CaseStages200Response getCaseStagesForMatterCodes(@RequestBody CaseStageRequest request) {
 
+        validateRequest(request);
+
+        log.info("retrieve all case stages for matter code 1 {} and matter code 2 {}",
+                request.getMatterCode1(), request.getMatterCode2());
+
+        return CaseStages200Response.builder()
+                .caseStages(
+                    caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
+                        .stream()
+                        .map(CaseStagesResponseMapping::map)
+                        .toList())
+                .build();
+
+    }
+
+    private void validateRequest(CaseStageRequest request) throws MissingDataException {
         if (request.getMatterCode1() == null) {
             throw new MissingDataException("No matter code 1 provided");
         }
@@ -34,17 +50,5 @@ public class CaseStagesController {
         if (request.getMatterCode2().isEmpty()) {
             throw new MissingDataException("Matter code 2 cannot be blank");
         }
-
-        log.info("retrieve all case stages for matter code 1 {} and matter code 2 {}",
-                request.getMatterCode1(), request.getMatterCode2());
-
-        return CaseStages200Response.builder()
-                .caseStages(
-                    caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
-                        .stream()
-                        .map(CaseStagesResponseMapping::map)
-                        .toList())
-                .build();
-
     }
 }
