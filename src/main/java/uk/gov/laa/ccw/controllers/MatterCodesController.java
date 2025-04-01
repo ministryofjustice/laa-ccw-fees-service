@@ -33,7 +33,7 @@ public class MatterCodesController {
                 .build();
     }
 
-    @PostMapping("/v1/matter-codes/{id}/matter-code-2")
+    @GetMapping("/v1/matter-codes/{id}/matter-code-2")
     public MatterCodes200Response getMatterCodeTwosForMatterCodeOnes(@PathVariable(value = "id") String id) {
         log.info("retrieve all matter code twos for matter code {}", id);
         return MatterCodes200Response.builder()
@@ -45,7 +45,7 @@ public class MatterCodesController {
                 .build();
     }
 
-    @PostMapping("/v1/matter-codes/{id}/case-stages")
+    @GetMapping("/v1/matter-codes/{id}/case-stages")
     public CaseStages200Response getCaseStagesForMatterCodeOnes(@PathVariable(value = "id") String id) {
         log.info("retrieve all case stages for matter code {}", id);
         return CaseStages200Response.builder()
