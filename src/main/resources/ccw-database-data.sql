@@ -1,3 +1,5 @@
+INSERT INTO CCW.VAT_RATES(RATE_PERCENTAGE) VALUES(20.00);
+
 INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID)
 VALUES
     ('FAMA'),
@@ -58,19 +60,11 @@ VALUES
     ('LVL2FI', 'Level 2 finance'),
     ('SFC', 'Settlement fee children'),
     ('SFF', 'settlement fee finance'),
-    ('DPF', 'Div pet fee'),
-
-    ('BLT1', 'Bolt on 1'),
-    ('BLT2', 'Bolt on 2'),
-    ('BLT3', 'Bolt on 3'),
-    ('BLT4', 'Bolt on 4'),
-    ('BLT5', 'Bolt on 5'),
-    ('BLT6', 'Bolt on 6')
+    ('DPF', 'Div pet fee')
 ;
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
 VALUES
-    ('NA'),
     ('FPL01'),
     ('FPL02'),
     ('FPL04'),
