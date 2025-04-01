@@ -4,3 +4,20 @@ services:
       context: .
     ports:
       - "8085:8085"
+    networks:
+      - laa
+  db:
+    image: postgres:latest
+    container_name: fees-services-db
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: fees-services-db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    networks:
+      - laa
+
+networks:
+  laa:
