@@ -4,15 +4,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.services.CaseStagesService;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;
@@ -31,9 +28,6 @@ public class MatterCodesControllerTest {
 
     @MockitoBean
     MatterCodesService matterCodesService; // This is required, despite the sonarlint suggestions
-
-    @MockitoBean
-    CaseStagesService caseStagesService; // This is required, despite the sonarlint suggestions
 
     @Test
     void shouldReturnAllMatterCode1() throws Exception {

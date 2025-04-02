@@ -9,6 +9,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpError500Response {
-    public String error;
+public class Fee {
+    private Double amount;
+    private Double vat;
+    private Double total;
 }

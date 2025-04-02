@@ -1,7 +1,7 @@
-package uk.gov.laa.ccw.mapping;
+package uk.gov.laa.ccw.mapping.api;
 
 import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.models.MatterCodes200ResponseMatterCode;
+import uk.gov.laa.ccw.models.api.MatterCodes200ResponseMatterCode;
 
 public class MatterCodesResponseMapping {
     public static MatterCodes200ResponseMatterCode map(MatterCode inputData) {
@@ -10,4 +10,5 @@ public class MatterCodesResponseMapping {
                 .description(inputData.getDescription())
                 .build();
     }
+
 }
