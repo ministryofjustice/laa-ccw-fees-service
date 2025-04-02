@@ -2,7 +2,7 @@ name: deploy
 
 on:
   push:
-    branches: [main]
+    branches: [BILL-93-integrate-postgresql-db]
 
 jobs:
   build-test:

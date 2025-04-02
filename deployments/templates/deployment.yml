@@ -27,3 +27,24 @@ spec:
               type: RuntimeDefault
             runAsNonRoot: true
             runAsUser: 1001
+          env:
+          - name: DB_SERVER
+            valueFrom:
+              secretKeyRef:
+                name: rds-mssql-instance-output
+                key: rds_instance_endpoint
+          - name: DB_NAME
+            valueFrom:
+              secretKeyRef:
+                name: rds-mssql-instance-output
+                key: database_name
+          - name: DB_USER
+            valueFrom:
+              secretKeyRef:
+                name: rds-mssql-instance-output
+                key: database_username
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: rds-mssql-instance-output
+                key: database_password
