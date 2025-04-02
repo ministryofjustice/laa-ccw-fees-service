@@ -28,12 +28,7 @@ public class CaseStagesService {
             log.info("case stage FPL10 found so check for FAMA and FPET combination");
             if (!(matterCodeOne.contentEquals("FAMA") && matterCodeTwo.contentEquals("FPET"))) {
                 log.info("remove case stage FPL10 found");
-                try {
-                    caseStages.remove(caseFPL10.get());
-                } catch (Exception e)
-                {
-                    log.info(e.getMessage());
-                }
+                caseStages.remove(caseFPL10.get());
             }
         }
 

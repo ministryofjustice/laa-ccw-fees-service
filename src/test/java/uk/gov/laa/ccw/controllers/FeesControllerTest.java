@@ -43,7 +43,7 @@ public class FeesControllerTest {
         String returnedContent =
             "{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT2\",\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\",\"amount\":2331.0,\"vat\":134.0,\"total\":1234.0}";
 
-        when(feesService.calculateFees(anyString(), anyString()))
+        when(feesService.calculateFees("LOC1", "CASE1"))
                 .thenReturn(
                     Fee.builder()
                         .total(1234.00)
