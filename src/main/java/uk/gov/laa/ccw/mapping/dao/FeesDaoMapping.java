@@ -4,33 +4,42 @@ import uk.gov.laa.ccw.models.FeeRecord;
 
 import java.util.Map;
 
+/**
+ * Mapping class between query data and FeeRecord.
+ */
 public class FeesDaoMapping {
+
+    /**
+     * Maps the given query data to a FeeRecord.
+     *
+     * @param queryData the query data
+     * @return the FeeRecord
+     */
     public static FeeRecord mapAllFees(Map<String, Object> queryData) {
-        return new FeeRecord() {{
-            if (queryData.get("PROVIDER_LOCATION") != null) {
-                setProviderLocation(queryData.get("PROVIDER_LOCATION").toString());
-            } else {
-                setProviderLocation(null);
-            }
+        FeeRecord.FeeRecordBuilder builder = FeeRecord.builder();
+        if (queryData.get("PROVIDER_LOCATION") != null) {
+            builder.providerLocation(queryData.get("PROVIDER_LOCATION").toString());
+        }
 
-            if (queryData.get("LEVEL_CODE") != null) {
-                setLevelCode(queryData.get("LEVEL_CODE").toString());
-            } else {
-                setLevelCode("");
-            }
+        if (queryData.get("LEVEL_CODE") != null) {
+            builder.levelCode(queryData.get("LEVEL_CODE").toString());
+        } else {
+            builder.levelCode(queryData.get("LEVEL_CODE").toString());
+        }
 
-            if (queryData.get("CASE_STAGE") != null) {
-                setCaseStage(queryData.get("CASE_STAGE").toString());
-            } else {
-                setCaseStage("");
-            }
+        if (queryData.get("CASE_STAGE") != null) {
+            builder.caseStage(queryData.get("CASE_STAGE").toString());
+        } else {
+            builder.caseStage("");
+        }
 
-            if (queryData.get("AMOUNT") != null) {
-                setAmount(Double.valueOf(queryData.get("AMOUNT").toString()));
-            } else {
-                setAmount(0.00);
-            }
-        }};
+        if (queryData.get("AMOUNT") != null) {
+            builder.caseStage(queryData.get("AMOUNT").toString());
+        } else {
+            builder.amount(0.00);
+        }
+
+        return builder.build();
     }
 
 }

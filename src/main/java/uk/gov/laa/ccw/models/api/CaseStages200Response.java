@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.List;
 
+/**
+ * The model class for Case Stages 200 response.
+ */
 @Data
 @Builder
 @AllArgsConstructor

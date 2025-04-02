@@ -10,12 +10,21 @@ import uk.gov.laa.ccw.models.api.Fee200Response;
 import uk.gov.laa.ccw.models.api.FeeRequest;
 import uk.gov.laa.ccw.services.FeesService;
 
+/**
+ * Controller for handling the fees requests.
+ */
 @Slf4j
 @RequiredArgsConstructor
 @RestController
 public class FeesController {
     private final FeesService service;
 
+    /**
+     * Calculates the fee for a given request.
+     *
+     * @param request the fee request
+     * @return the fee
+     */
     @GetMapping("/v1/fees/calculate")
     public Fee200Response getFees(@RequestBody FeeRequest request) {
         log.info("calculating fees");

@@ -8,20 +8,28 @@ import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.mapping.dao.FeesDaoMapping;
 import uk.gov.laa.ccw.models.FeeRecord;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Dao class for fees.
+ */
 @Slf4j
 @Repository
 @RequiredArgsConstructor
 public class FeesDao {
     private static final String GET_FEES_SQL =
-        "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM CCW.FIXED_FEES WHERE PROVIDER_LOCATION = ?";
+            "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM CCW.FIXED_FEES WHERE PROVIDER_LOCATION = ?";
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Fetches the fees for a given location.
+     *
+     * @param providerLocation the provider location
+     * @return the list of matter codes
+     */
     public List<FeeRecord> fetchFeesForLocation(String providerLocation) {
         log.info("fetch fees from database for {}", providerLocation);
         List<FeeRecord> feeData = new ArrayList<>();

@@ -11,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Dao class for vat rates.
+ */
 @Slf4j
 @Repository
 @RequiredArgsConstructor
@@ -20,6 +23,11 @@ public class VatRatesDao {
 
     private final JdbcTemplate jdbcTemplate;
 
+    /**
+     * Fetches the VAT.
+     *
+     * @return the VAT.
+     */
     public Double fetchVat() {
         log.info("fetch vat from database");
         List<Double> vatData = new ArrayList<>();

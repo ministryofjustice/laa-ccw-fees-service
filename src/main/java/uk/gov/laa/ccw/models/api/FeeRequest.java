@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The model class for Fees Request.
+ */
 @Data
 @Builder
 @AllArgsConstructor
