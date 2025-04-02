@@ -12,6 +12,7 @@ import uk.gov.laa.ccw.models.CaseStage;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Repository
@@ -46,7 +47,9 @@ public class CaseStagesDao {
         try {
             queryResults = jdbcTemplate.queryForList(SELECT_GET_CASE_STAGES_SQL, matterCodeOne);
 
-            caseStages = queryResults.stream().map(CaseStagesDaoMapping::mapAllCaseStages).toList();
+            caseStages = queryResults.stream()
+                    .map(CaseStagesDaoMapping::mapAllCaseStages)
+                    .collect(Collectors.toCollection(ArrayList::new));
         } catch (Exception ex) {
             throw new DatabaseReadException("Unable to retrieve case stages from database: " + ex);
         }

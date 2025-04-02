@@ -29,7 +29,14 @@ public class CaseStagesServiceTest {
 
     private List<CaseStage> setupData(Boolean addInFPL10) {
         List<CaseStage> dataSet = new ArrayList<CaseStage>();
-        CaseStage rowSet = CaseStage.builder()
+        CaseStage rowSet;
+        if (addInFPL10) {
+            rowSet = CaseStage.builder()
+                    .caseStageId("FPL10")
+                    .build();
+            dataSet.add(rowSet);
+        }
+        rowSet = CaseStage.builder()
                 .caseStageId("cs1")
                 .build();
         dataSet.add(rowSet);
@@ -37,12 +44,6 @@ public class CaseStagesServiceTest {
                 .caseStageId("cs2")
                 .build();
         dataSet.add(rowSet);
-        if (addInFPL10) {
-            rowSet = CaseStage.builder()
-                    .caseStageId("FPL10")
-                    .build();
-            dataSet.add(rowSet);
-        }
         return dataSet;
     }
 
@@ -102,8 +103,7 @@ public class CaseStagesServiceTest {
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes("FAMA", "FPET");
         assertEquals(3, dataReturned.size());
-        assertEquals("cs1", dataReturned.get(0).getCaseStageId());
-        assertEquals("FPL10", dataReturned.get(2).getCaseStageId());
+        assertEquals("FPL10", dataReturned.get(0).getCaseStageId());
     }
 
     @Test
