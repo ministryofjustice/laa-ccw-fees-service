@@ -1,10 +1,17 @@
 INSERT INTO CCW.VAT_RATES(RATE_PERCENTAGE) VALUES(20.00);
 
-INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID)
+INSERT INTO CCW.LAW_TYPES(LAW_TYPE_ID,DESCRIPTION)
 VALUES
-    ('FAMA'),
-    ('FAMC'),
-    ('FAMD')
+    ('FAM','Family'),
+    ('IMM','Immigration')
+;
+
+-------------- family law -----------------------
+INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE)
+VALUES
+    ('FAMA','FAM'),
+    ('FAMC','FAM'),
+    ('FAMD','FAM')
 ;
 
 INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
@@ -122,3 +129,5 @@ VALUES
     (119.00, 'FPL11', 'SFC', 'NLDN'),
     (199.00, 'FPL13', 'LVL2CH', 'NLDN')
 ;
+
+---------------- immigration law -------------------------

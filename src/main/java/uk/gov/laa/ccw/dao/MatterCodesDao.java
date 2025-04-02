@@ -22,7 +22,7 @@ import java.util.Map;
 public class MatterCodesDao {
 
     private static final String SELECT_ALL_MATTER_CODE_1_SQL =
-            "SELECT MATTER_CODE_ID, DESCRIPTION FROM CCW.MATTER_CODES_1";
+            "SELECT MATTER_CODE_ID, DESCRIPTION FROM CCW.MATTER_CODES_1 WHERE LAW_TYPE = ?";
 
     private static final String SELECT_CONFIRM_MATTER_CODE_1_SQL =
             "SELECT MATTER_CODE_ID FROM CCW.MATTER_CODES_1 WHERE MATTER_CODE_ID = ?";
@@ -43,7 +43,7 @@ public class MatterCodesDao {
         log.info("fetch all Matter Codes from database");
 
         try {
-            List<Map<String, Object>> queryResults = jdbcTemplate.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
+            List<Map<String, Object>> queryResults = jdbcTemplate.queryForList(SELECT_ALL_MATTER_CODE_1_SQL, "FAM");
 
             return queryResults.stream().map(MatterCodesDaoMapping::mapAllMatterCodes).toList();
         } catch (Exception ex) {

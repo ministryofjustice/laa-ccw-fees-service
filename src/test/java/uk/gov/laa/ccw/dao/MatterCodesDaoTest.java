@@ -44,7 +44,7 @@ public class MatterCodesDaoTest {
     @Test
     void shouldFetchAllMatterCodes() {
 
-        when(jdbcTemplate.queryForList(anyString()))
+        when(jdbcTemplate.queryForList(anyString(),anyString()))
                 .thenReturn(setupMatterCodeQueryDataset());
 
         List<MatterCode> dataReturned = classUnderTest.fetchAllMatterCodes();
@@ -56,7 +56,7 @@ public class MatterCodesDaoTest {
     @Test
     void shouldThrowExceptionIfMatterCodeNotReadCorrectly() {
 
-        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString());
+        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString(),anyString());
 
         assertThrows(DatabaseReadException.class,
                 () -> classUnderTest.fetchAllMatterCodes());
