@@ -33,7 +33,8 @@ public class GlobalExceptionHandler {
             DatabaseReadException exception) {
         var response = HttpError500Response.builder().error(exception.getMessage()).build();
 
-        log.error("DatabaseReadException occurred", exception);
+        log.error("DatabaseReadException Thrown: %s".formatted(response));
+        log.error("DatabaseReadException stacktrace: %s".formatted(exception.getStackTrace()));
 
         return internalServerError().body(response);
     }
@@ -50,7 +51,8 @@ public class GlobalExceptionHandler {
             MatterCodeNotFoundException exception) {
         var response = HttpError404Response.builder().error(exception.getMessage()).build();
 
-        log.error("MatterCodeNotFoundException occurred", exception);
+        log.error("DatabaseReadException Thrown: %s".formatted(response));
+        log.error("DatabaseReadException stacktrace: %s".formatted(exception.getStackTrace()));
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
     }
@@ -67,7 +69,8 @@ public class GlobalExceptionHandler {
             MissingDataException exception) {
         var response = HttpError400Response.builder().error(exception.getMessage()).build();
 
-        log.error("DatabaseReadException occurred", exception);
+        log.error("DatabaseReadException Thrown: %s".formatted(response));
+        log.error("DatabaseReadException stacktrace: %s".formatted(exception.getStackTrace()));
 
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
