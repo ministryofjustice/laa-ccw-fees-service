@@ -25,6 +25,8 @@ public class MatterCodesDaoMapping {
 
         if (queryData.get("DESCRIPTION") != null) {
             builder.description(queryData.get("DESCRIPTION").toString());
+        } else {
+            builder.description("");
         }
 
         return builder.build();
