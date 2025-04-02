@@ -56,18 +56,19 @@ VALUES
 
 INSERT INTO CCW.PROVIDER_LOCATIONS(PROVIDER_LOCATION_ID,DESCRIPTION)
 VALUES
+    ('NA', 'Not applicable'),
     ('LDN', 'London'),
     ('NLDN', 'Non-London')
 ;
 
-INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION)
+INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE)
 VALUES
-    ('LVL1', 'Level 1'),
-    ('LVL2CH', 'Level 2 children'),
-    ('LVL2FI', 'Level 2 finance'),
-    ('SFC', 'Settlement fee children'),
-    ('SFF', 'settlement fee finance'),
-    ('DPF', 'Div pet fee')
+    ('LVL1', 'Level 1','A'),
+    ('LVL2CH', 'Level 2 children','A'),
+    ('LVL2FI', 'Level 2 finance','A'),
+    ('SFC', 'Settlement fee children','A'),
+    ('SFF', 'settlement fee finance','A'),
+    ('DPF', 'Div pet fee','A')
 ;
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
