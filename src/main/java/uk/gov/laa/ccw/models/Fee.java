@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The model class for HTTP 500 error response.
+ * The model class for Fee.
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpError500Response {
-    public String error;
+public class Fee {
+    private Double amount;
+    private Double vat;
+    private Double total;
 }

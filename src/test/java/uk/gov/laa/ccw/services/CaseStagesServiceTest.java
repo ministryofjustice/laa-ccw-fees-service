@@ -5,6 +5,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.dao.CaseStagesDao;
+import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.MatterCode;
 
@@ -12,7 +14,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest()
@@ -25,7 +29,14 @@ public class CaseStagesServiceTest {
 
     private List<CaseStage> setupData(Boolean addInFPL10) {
         List<CaseStage> dataSet = new ArrayList<CaseStage>();
-        CaseStage rowSet = CaseStage.builder()
+        CaseStage rowSet;
+        if (addInFPL10) {
+            rowSet = CaseStage.builder()
+                    .caseStageId("FPL10")
+                    .build();
+            dataSet.add(rowSet);
+        }
+        rowSet = CaseStage.builder()
                 .caseStageId("cs1")
                 .build();
         dataSet.add(rowSet);
@@ -33,12 +44,6 @@ public class CaseStagesServiceTest {
                 .caseStageId("cs2")
                 .build();
         dataSet.add(rowSet);
-        if (addInFPL10) {
-            rowSet = CaseStage.builder()
-                    .caseStageId("FPL10")
-                    .build();
-            dataSet.add(rowSet);
-        }
         return dataSet;
     }
 
@@ -98,7 +103,24 @@ public class CaseStagesServiceTest {
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes("FAMA", "FPET");
         assertEquals(3, dataReturned.size());
-        assertEquals("cs1", dataReturned.get(0).getCaseStageId());
-        assertEquals("FPL10", dataReturned.get(2).getCaseStageId());
+        assertEquals("FPL10", dataReturned.get(0).getCaseStageId());
     }
+
+    @Test
+    void shouldThrowExceptionWhenDaoThrowsDatabaseReadException() {
+
+        doThrow(new DatabaseReadException(""){}).when(caseStagesDao).fetchCaseStages(anyString());
+
+        assertThrows(DatabaseReadException.class,
+                () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
+    }
+
+    @Test
+    void shouldThrowExceptionWhenDaoThrowsMatterCodeNotFoundException() {
+        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesDao).fetchCaseStages(anyString());
+
+        assertThrows(MatterCodeNotFoundException.class,
+                () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
+    }
+
 }

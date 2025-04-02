@@ -8,8 +8,10 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.models.HttpError404Response;
-import uk.gov.laa.ccw.models.HttpError500Response;
+import uk.gov.laa.ccw.exceptions.MissingDataException;
+import uk.gov.laa.ccw.models.api.HttpError400Response;
+import uk.gov.laa.ccw.models.api.HttpError404Response;
+import uk.gov.laa.ccw.models.api.HttpError500Response;
 
 import static org.springframework.http.ResponseEntity.internalServerError;
 
@@ -51,5 +53,22 @@ public class GlobalExceptionHandler {
         log.error("MatterCodeNotFoundException occurred", exception);
 
         return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
+    /**
+     * Handles MissingDataException.
+     *
+     * @param exception the missing data exception
+     * @return the Bad Request response
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MissingDataException.class)
+    public ResponseEntity<HttpError400Response> handleMissingDataException(
+            MissingDataException exception) {
+        var response = HttpError400Response.builder().error(exception.getMessage()).build();
+
+        log.error("DatabaseReadException occurred", exception);
+
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
     }
 }
