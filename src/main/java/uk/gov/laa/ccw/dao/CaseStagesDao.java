@@ -6,12 +6,13 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapping.CaseStagesDaoMapping;
+import uk.gov.laa.ccw.mapping.dao.CaseStagesDaoMapping;
 import uk.gov.laa.ccw.models.CaseStage;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * Dao class for the case stages.
@@ -54,10 +55,11 @@ public class CaseStagesDao {
             List<Map<String, Object>> queryResults = jdbcTemplate
                     .queryForList(SELECT_GET_CASE_STAGES_SQL, matterCodeOne);
 
-            return queryResults.stream().map(CaseStagesDaoMapping::mapAllCaseStages).toList();
+            return queryResults.stream()
+                    .map(CaseStagesDaoMapping::mapAllCaseStages)
+                    .collect(Collectors.toCollection(ArrayList::new));
         } catch (Exception ex) {
             throw new DatabaseReadException("Unable to retrieve case stages from database: " + ex);
         }
-
     }
 }
