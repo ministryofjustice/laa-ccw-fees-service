@@ -5,9 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.mapping.FeesDaoMapping;
-import uk.gov.laa.ccw.mapping.VatDaoMapping;
-import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.mapping.dao.VatDaoMapping;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.mapping;
+package uk.gov.laa.ccw.mapping.dao;
 
 import java.util.Map;
 

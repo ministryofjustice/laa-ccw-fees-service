@@ -4,10 +4,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.mapping.CaseStagesResponseMapping;
+import uk.gov.laa.ccw.mapping.api.CaseStagesResponseMapping;
 import uk.gov.laa.ccw.models.CaseStageRequest;
 import uk.gov.laa.ccw.models.CaseStages200Response;
-import uk.gov.laa.ccw.models.FeeRequest;
 import uk.gov.laa.ccw.services.CaseStagesService;
 
 @Slf4j

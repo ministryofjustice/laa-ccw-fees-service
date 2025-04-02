@@ -6,7 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapping.CaseStagesDaoMapping;
+import uk.gov.laa.ccw.mapping.dao.CaseStagesDaoMapping;
 import uk.gov.laa.ccw.models.CaseStage;
 
 import java.util.ArrayList;

@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.mapping;
+package uk.gov.laa.ccw.mapping.api;
 
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.CaseStages200ResponseCaseStage;
