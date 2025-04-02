@@ -9,9 +9,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.models.HttpError400Response;
-import uk.gov.laa.ccw.models.HttpError404Response;
-import uk.gov.laa.ccw.models.HttpError500Response;
+import uk.gov.laa.ccw.models.api.HttpError400Response;
+import uk.gov.laa.ccw.models.api.HttpError404Response;
+import uk.gov.laa.ccw.models.api.HttpError500Response;
 
 import static org.springframework.http.ResponseEntity.internalServerError;
 

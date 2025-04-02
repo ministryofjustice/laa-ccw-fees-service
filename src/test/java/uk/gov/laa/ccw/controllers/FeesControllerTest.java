@@ -11,7 +11,7 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.models.Fee;
-import uk.gov.laa.ccw.models.FeeRequest;
+import uk.gov.laa.ccw.models.api.FeeRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
 

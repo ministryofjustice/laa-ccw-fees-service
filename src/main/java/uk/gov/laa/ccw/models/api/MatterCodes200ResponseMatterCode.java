@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.models;
+package uk.gov.laa.ccw.models.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

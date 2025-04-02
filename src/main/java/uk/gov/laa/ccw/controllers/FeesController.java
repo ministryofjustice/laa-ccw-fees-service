@@ -6,8 +6,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.models.Fee;
-import uk.gov.laa.ccw.models.Fee200Response;
-import uk.gov.laa.ccw.models.FeeRequest;
+import uk.gov.laa.ccw.models.api.Fee200Response;
+import uk.gov.laa.ccw.models.api.FeeRequest;
 import uk.gov.laa.ccw.services.FeesService;
 
 @Slf4j

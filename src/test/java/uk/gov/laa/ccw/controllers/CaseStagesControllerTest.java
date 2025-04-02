@@ -12,8 +12,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.CaseStage;
-import uk.gov.laa.ccw.models.CaseStageRequest;
-import uk.gov.laa.ccw.models.FeeRequest;
+import uk.gov.laa.ccw.models.api.CaseStageRequest;
 import uk.gov.laa.ccw.services.CaseStagesService;
 
 import java.util.List;

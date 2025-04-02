@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.models;
+package uk.gov.laa.ccw.models.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,12 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee200Response {
+public class CaseStageRequest {
     private String matterCode1;
     private String matterCode2;
-    private String locationCode;
-    private String caseStage;
-    private Double amount;
-    private Double vat;
-    private Double total;
 }
