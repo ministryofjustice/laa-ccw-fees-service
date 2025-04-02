@@ -13,21 +13,36 @@ import java.text.DecimalFormat;
 
 import static org.springframework.http.ResponseEntity.badRequest;
 
+/**
+ * Controller for handling the fees requests.
+ */
 @Slf4j
 @RestController
 public class FeesCalculatorController {
 
+    /**
+     * Doubles a given number.
+     *
+     * @param number the number
+     * @return the result
+     */
     @PostMapping("/v1/fees/{number}")
-    String doubleANumber(@PathVariable(value = "number") String number) {
+    String doubleGivenNumber(@PathVariable(value = "number") String number) {
         log.info("Supplied value is {}", number);
         float numberAsFloat = Float.parseFloat(number);
         DecimalFormat currencyFormat = new DecimalFormat("###0.00");
         return currencyFormat.format(numberAsFloat * 2);
     }
 
+    /**
+     * Handles NumberFormatException.
+     *
+     * @param exception the number format exception
+     * @return the Bad Request response
+     */
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     @ExceptionHandler(NumberFormatException.class)
-    public ResponseEntity<String> shouldBeANumber(NumberFormatException exception) {
+    public ResponseEntity<String> handleNumberFormatException(NumberFormatException exception) {
         String message = "Should be supplied a number:" + exception.getMessage();
         log.error(message);
         return badRequest().body(message);
