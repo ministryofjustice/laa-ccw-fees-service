@@ -16,7 +16,7 @@ import uk.gov.laa.ccw.services.FeesService;
 public class FeesController {
     private final FeesService service;
 
-    @GetMapping("/v1/fees")
+    @GetMapping("/v1/fees/calculate")
     public Fee200Response getFees(@RequestBody FeeRequest request) {
         log.info("calculating fees");
         Fee result = service.calculateFees(request.getLocationCode(), request.getCaseStage());

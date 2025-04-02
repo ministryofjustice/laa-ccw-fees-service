@@ -52,7 +52,7 @@ public class FeesControllerTest {
                         .build()
                     );
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees")
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees/calculate")
                 .content(feeRequest)
                 .contentType("application/json"))
                 .andExpect(status().isOk())
