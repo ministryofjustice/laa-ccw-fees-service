@@ -13,8 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeRecord {
-    private String providerLocation;
+    private String levelCodeType;
     private String levelCode;
-    private String caseStage;
     private Double amount;
 }

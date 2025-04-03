@@ -11,6 +11,8 @@ import uk.gov.laa.ccw.models.api.FeeRequest;
 import uk.gov.laa.ccw.services.FeesService;
 import uk.gov.laa.ccw.services.validators.FeesValidator;
 
+import java.util.ArrayList;
+
 /**
  * Controller for handling the fees requests.
  */
@@ -29,10 +31,18 @@ public class FeesController {
     @GetMapping("/v1/fees/calculate")
     public Fee200Response getFees(@RequestBody FeeRequest request) {
 
+        if (request.getLevelCodes() == null) {
+            request.setLevelCodes(new ArrayList<>());
+        }
+
         validator.validateRequest(request);
 
         log.info("calculating fees");
-        Fee result = service.calculateFees(request.getLocationCode(), request.getCaseStage());
+        Fee result = service.calculateFees(
+                request.getLocationCode(),
+                request.getCaseStage(),
+                request.getLevelCodes());
+
         return Fee200Response.builder()
                 .locationCode(request.getLocationCode())
                 .matterCode1(request.getMatterCode1())

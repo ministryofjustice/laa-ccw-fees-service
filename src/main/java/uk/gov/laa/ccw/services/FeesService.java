@@ -7,6 +7,7 @@ import uk.gov.laa.ccw.dao.FeesDao;
 import uk.gov.laa.ccw.dao.VatRatesDao;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.models.api.FeeRequestLevelCode;
 
 import java.util.List;
 
@@ -30,19 +31,35 @@ public class FeesService {
      * @return the fee
      */
     public Fee calculateFees(String location,
-                             String caseStage) {
+                             String caseStage,
+                             List<FeeRequestLevelCode> levelCodes) {
 
-        log.info("get fees for location {}", location);
-        List<FeeRecord> feesForLocation = feesDao.fetchFeesForLocation(location);
+        log.info("get fees for location {} and case stage {}", location, caseStage);
+        List<FeeRecord> feesForLocationAndCastStage = feesDao.fetchFeesForLocationAndCaseStage(location, caseStage);
 
-        log.info("get fees for case stage {}", caseStage);
-        List<FeeRecord> feesForCaseStages = feesForLocation
-                .stream()
-                .filter(c -> c.getCaseStage().contentEquals(caseStage))
-                .toList();
         Double totalFees = 0.0;
-        for (FeeRecord f : feesForCaseStages) {
-            totalFees += f.getAmount();
+        for (FeeRecord f : feesForLocationAndCastStage) {
+
+            switch (f.getLevelCodeType()) {
+                case "O":
+                case "OM":
+                    List<FeeRequestLevelCode> levelCodesOfSameCode =
+                            levelCodes.stream()
+                                .filter(l -> l.getLevelCode().contentEquals(f.getLevelCode()))
+                                .toList();
+
+                    if (!levelCodesOfSameCode.isEmpty()) {
+                        if (f.getLevelCodeType().contentEquals("O")) {
+                            totalFees += f.getAmount();
+                        } else {
+                            totalFees += levelCodesOfSameCode.getFirst().getFee();
+                        }
+                    }
+                    break;
+                default:
+                    totalFees += f.getAmount();
+                    break;
+            }
         }
 
         Double vat = vatRatesDao.fetchVat();

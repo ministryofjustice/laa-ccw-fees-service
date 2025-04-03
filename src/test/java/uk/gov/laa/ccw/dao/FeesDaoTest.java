@@ -6,11 +6,13 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import uk.gov.laa.ccw.Helpers.FeesHelper;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.models.FeeRecord;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -30,22 +32,49 @@ public class FeesDaoTest {
     @Test
     void shouldFetchFeesForLocation() {
 
-        when(jdbcTemplate.queryForList(anyString(), anyString()))
-                .thenReturn(FeesHelper.createFeesTestData()
-                        .stream()
-                        .filter(f -> f.get("PROVIDER_LOCATION").toString().contentEquals("LOC1"))
-                        .collect(Collectors.toList()));
+        when(jdbcTemplate.queryForList(anyString(), anyString(), anyString()))
+                .thenReturn(createFeesTestData());
 
-        List<FeeRecord> dataReturned = classUnderTest.fetchFeesForLocation("LOC1");
-        assertEquals(4, dataReturned.size());
+        List<FeeRecord> dataReturned = classUnderTest.fetchFeesForLocationAndCaseStage(
+                "LOC1", "CS1");
+
+        assertEquals(5, dataReturned.size());
     }
 
     @Test
     void shouldThrowExceptionIfFeesNotReadCorrectly() {
 
-        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString(), anyString());
+        doThrow(new DataAccessException(""){})
+                .when(jdbcTemplate).queryForList(anyString(), anyString(), anyString());
 
         assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.fetchFeesForLocation("LOC1"));
+                () -> classUnderTest.fetchFeesForLocationAndCaseStage("LOC1", "CS2"));
     }
+
+    private List<Map<String, Object>> createFeesTestData() {
+        List<Map<String, Object>> dataSet = new ArrayList<Map<String, Object>>();
+        Map<String, Object> rowSet = new HashMap<String, Object>();
+        rowSet.put("AMOUNT", "16.0");
+        rowSet.put("LEVEL_CODE", "LV1");
+        rowSet.put("TYPE", "A");
+        dataSet.add(rowSet);
+        rowSet = new HashMap<String, Object>();
+        rowSet.put("AMOUNT", "32.0");
+        rowSet.put("LEVEL_CODE", "LV2");
+        rowSet.put("TYPE", "A");
+        dataSet.add(rowSet);
+        rowSet = new HashMap<String, Object>();
+        rowSet.put("AMOUNT", "64.0");
+        rowSet.put("LEVEL_CODE", "LV3");
+        rowSet.put("TYPE", "O");
+        dataSet.add(rowSet);
+        rowSet = new HashMap<String, Object>();
+        rowSet.put("AMOUNT", "128.0");
+        rowSet.put("LEVEL_CODE", "LV1");
+        rowSet.put("TYPE", "OM");
+        dataSet.add(rowSet);
+        dataSet.add(rowSet);
+        return dataSet;
+    }
+
 }

@@ -17,8 +17,9 @@ import uk.gov.laa.ccw.models.api.FeeRequest;
 import uk.gov.laa.ccw.services.FeesService;
 import uk.gov.laa.ccw.services.validators.FeesValidator;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import java.util.ArrayList;
+
+import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -65,12 +66,13 @@ public class FeesControllerTest {
                         .matterCode2("MT2")
                         .locationCode("LOC1")
                         .caseStage("CASE1")
+                        .levelCodes(new ArrayList<>())
                         .build());
 
         String returnedContent =
             "{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT2\",\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\",\"amount\":2331.0,\"vat\":134.0,\"total\":1234.0}";
 
-        when(feesService.calculateFees("LOC1", "CASE1"))
+        when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(
                     Fee.builder()
                         .total(1234.00)

@@ -19,8 +19,10 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class FeesDao {
-    private static final String GET_FEES_SQL =
-            "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM CCW.FIXED_FEES WHERE PROVIDER_LOCATION = ?";
+    private static final String GET_FEES_BY_LOCATION_CASE_STAGE_SQL =
+            "SELECT FF.AMOUNT,FF.LEVEL_CODE,LC.TYPE FROM "+
+            "CCW.FIXED_FEES FF, CCW.LEVEL_CODES LC WHERE "+
+            "FF.PROVIDER_LOCATION = ? AND FF.CASE_STAGE = ? AND FF.LEVEL_CODE = LC.LEVEL_CODE_ID";
 
     private final JdbcTemplate jdbcTemplate;
 
@@ -30,13 +32,17 @@ public class FeesDao {
      * @param providerLocation the provider location
      * @return the list of matter codes
      */
-    public List<FeeRecord> fetchFeesForLocation(String providerLocation) {
+    public List<FeeRecord> fetchFeesForLocationAndCaseStage(
+            String providerLocation,
+            String caseStage) {
         log.info("fetch fees from database for {}", providerLocation);
         List<FeeRecord> feeData = new ArrayList<>();
         List<Map<String, Object>> queryResults = new ArrayList<>();
 
         try {
-            queryResults = jdbcTemplate.queryForList(GET_FEES_SQL, providerLocation);
+            queryResults = jdbcTemplate.queryForList(GET_FEES_BY_LOCATION_CASE_STAGE_SQL,
+                    providerLocation,
+                    caseStage);
 
             feeData = queryResults.stream().map(FeesDaoMapping::mapAllFees).toList();
         } catch (Exception ex) {

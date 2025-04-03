@@ -163,45 +163,46 @@ VALUES
 
 INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE)
 VALUES
-    ('IMMSTAD', 'Immigration standard fee','A'),
-    ('IMMBO02', 'HO interview fee','O'),
-    ('IMMBO03', 'CMRH Oral','O'),
-    ('IMMBO04', 'CMRH Telephone','O'),
-    ('IMMBO05', 'Substantive hearing','O'),
-    ('IMMBO06', 'Adjourned hearing','O'),
-    ('IMMBO07', 'Detention travel and waiting','OM'),
-    ('IMMBO08', 'JR form filling costs','OM'),
-    ('IMMBO09', 'NRM advice','O')
+    ('_IMSTD', 'Immigration standard fee','A'),
+    ('_IMHOI', 'HO interview fee','O'),
+    ('_IMORL', 'CMRH Oral','O'),
+    ('_IMTEL', 'CMRH Telephone','O'),
+    ('_IMSUH', 'Substantive hearing','O'),
+    ('_IMADJ', 'Adjourned hearing','O'),
+    ('_IMDET', 'Detention travel and waiting','OM'),
+    ('_IMJRF', 'JR form filling costs','OM'),
+    ('_IMNRM', 'NRM advice','O')
 ;
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
 VALUES
-    ('IMM01'),
-    ('IMM02'),
-    ('IMM03')
+    ('_IMM01'),
+    ('_IMM02'),
+    ('_IMM03')
 ;
 
 INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
 VALUES
-    ('IALB', 'IMM01'),
-    ('IACF', 'IMM02'),
-    ('IMLB', 'IMM03')
+    ('IALB', '_IMM01'),
+    ('IACF', '_IMM02'),
+    ('IMLB', '_IMM03')
 ;
 
 INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION)
 VALUES
-    (  413.00, 'IMM01', 'IMMSTAD', 'NA'),
-    (  266.00, 'IMM01', 'IMMBO02', 'NA'),
-    (    0.00, 'IMM01', 'IMMBO07', 'NA'),
-    (    0.00, 'IMM01', 'IMMBO08', 'NA'),
-    (  150.00, 'IMM01', 'IMMBO09', 'NA'),
-    ( 1009.00, 'IMM02', 'IMMSTAD', 'NA'),
-    (  166.00, 'IMM02', 'IMMBO03', 'NA'),
-    (   90.00, 'IMM02', 'IMMBO04', 'NA'),
-    (  302.00, 'IMM02', 'IMMBO05', 'NA'),
-    (  161.00, 'IMM02', 'IMMBO06', 'NA'),
-    (  150.00, 'IMM02', 'IMMBO09', 'NA'),
-    (  234.00, 'IMM03', 'IMMSTAD', 'NA'),
-    (  266.00, 'IMM03', 'IMMBO02', 'NA'),
-    (  150.00, 'IMM03', 'IMMBO09', 'NA')
+    (  413.00, '_IMM01', '_IMSTD', 'NA'),
+    (  266.00, '_IMM01', '_IMHOI', 'NA'),
+    (    0.00, '_IMM01', '_IMJRF', 'NA'),
+    (  150.00, '_IMM01', '_IMNRM', 'NA'),
+    ( 1009.00, '_IMM02', '_IMSTD', 'NA'),
+    (  166.00, '_IMM02', '_IMORL', 'NA'),
+    (   90.00, '_IMM02', '_IMTEL', 'NA'),
+    (  302.00, '_IMM02', '_IMSUH', 'NA'),
+    (  161.00, '_IMM02', '_IMADJ', 'NA'),
+    (    0.00, '_IMM02', '_IMJRF', 'NA'),
+    (  150.00, '_IMM02', '_IMNRM', 'NA'),
+    (  234.00, '_IMM03', '_IMSTD', 'NA'),
+    (  266.00, '_IMM03', '_IMHOI', 'NA'),
+    (    0.00, '_IMM03', '_IMJRF', 'NA'),
+    (  150.00, '_IMM03', '_IMNRM', 'NA')
 ;
