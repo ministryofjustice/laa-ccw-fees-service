@@ -38,7 +38,7 @@ public class MatterCodesService {
      * @return the list of matter two codes.
      */
     public List<MatterCode> getAllMatterTwosForMatterCodeOne(String matterCodeOne) {
-        log.info("return matter codes for given matter code one from dao to controller");
+        log.info("return matter codes twos for given matter code one from dao to controller");
 
         matterCodesRepository
                 .findById(matterCodeOne)
