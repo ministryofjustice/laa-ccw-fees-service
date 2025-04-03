@@ -48,7 +48,7 @@ public class MatterCodesServiceTest {
     @Test
     void shouldFetchMatterCodesForSpecificMatterCodeOne() {
 
-        String matterCodeOne = "CODE1";
+        String matterCodeOne = "mt1A";
         when(matterCodesRepository.findById(matterCodeOne)).thenReturn(Optional.of(MatterCodesOneEntity.builder().matterCodeId("mt1A").build()));
         MatterCodesTwoEntity mt2AEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2A").build();
         MatterCodesTwoEntity mt2BEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2B").build();
