@@ -14,3 +14,8 @@ TODO
 
 ### Run application (via Docker)
 - `docker compose up`
+
+### Actuator Endpoints
+- http://localhost:8085/actuator
+- http://localhost:8085/actuator/health
+- http://localhost:8085/actuator/info
