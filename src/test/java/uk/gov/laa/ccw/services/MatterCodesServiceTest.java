@@ -6,8 +6,7 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
-import uk.gov.laa.ccw.mapper.dao.MatterCodesOneMapper;
-import uk.gov.laa.ccw.mapper.dao.MatterCodesTwoMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
@@ -15,8 +14,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -26,10 +23,7 @@ public class MatterCodesServiceTest {
     private MatterCodesRepository matterCodesRepository;
 
     @Mock
-    private MatterCodesOneMapper matterCodesOneMapper;
-
-    @Mock
-    private MatterCodesTwoMapper matterCodesTwoMapper;
+    private MatterCodeMapper matterCodeMapper;
 
     @InjectMocks
     private MatterCodesService classUnderTest;
@@ -39,8 +33,8 @@ public class MatterCodesServiceTest {
         MatterCodesOneEntity mt1AEntity = MatterCodesOneEntity.builder().matterCodeId("mt1A").build();
         MatterCodesOneEntity mt1BEntity = MatterCodesOneEntity.builder().matterCodeId("mt1B").build();
         when(matterCodesRepository.findAll()).thenReturn(List.of(mt1AEntity, mt1BEntity));
-        when(matterCodesOneMapper.toMatterCode(mt1AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1A").build());
-        when(matterCodesOneMapper.toMatterCode(mt1BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1B").build());
+        when(matterCodeMapper.toMatterCode(mt1AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1A").build());
+        when(matterCodeMapper.toMatterCode(mt1BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1B").build());
 
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes();
@@ -58,8 +52,8 @@ public class MatterCodesServiceTest {
         MatterCodesTwoEntity mt2BEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2B").build();
         when(matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne))
                 .thenReturn(List.of(mt2AEntity, mt2BEntity));
-        when(matterCodesTwoMapper.toMatterCode(mt2AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2A").build());
-        when(matterCodesTwoMapper.toMatterCode(mt2BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2B").build());
+        when(matterCodeMapper.toMatterCode(mt2AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2A").build());
+        when(matterCodeMapper.toMatterCode(mt2BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2B").build());
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterTwosForMatterCodeOne(matterCodeOne);
         assertEquals(2, dataReturned.size());

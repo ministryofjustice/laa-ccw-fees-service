@@ -9,7 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The entity class for Matter Codes One.
+ * The entity class for Matter Codes Two.
  */
 @Data
 @Builder

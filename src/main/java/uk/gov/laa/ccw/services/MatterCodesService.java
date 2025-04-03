@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapper.dao.MatterCodesOneMapper;
-import uk.gov.laa.ccw.mapper.dao.MatterCodesTwoMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
@@ -20,8 +19,7 @@ import java.util.List;
 public class MatterCodesService {
 
     private final MatterCodesRepository matterCodesRepository;
-    private final MatterCodesOneMapper matterCodesOneMapper;
-    private final MatterCodesTwoMapper matterCodesTwoMapper;
+    private final MatterCodeMapper matterCodeMapper;
 
     /**
      * Gets all the matters codes.
@@ -31,7 +29,7 @@ public class MatterCodesService {
     public List<MatterCode> getAllMatterCodes() {
         log.info("return matter codes from dao to controller");
 
-        return matterCodesRepository.findAll().stream().map(matterCodesOneMapper::toMatterCode).toList();
+        return matterCodesRepository.findAll().stream().map(matterCodeMapper::toMatterCode).toList();
     }
 
     /**
@@ -47,6 +45,6 @@ public class MatterCodesService {
                 .orElseThrow(() -> new MatterCodeNotFoundException("Unable to find Matter Code " + matterCodeOne));
 
         return matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne)
-                .stream().map(matterCodesTwoMapper::toMatterCode).toList();
+                .stream().map(matterCodeMapper::toMatterCode).toList();
     }
 }
