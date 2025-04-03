@@ -1,6 +1,7 @@
-package uk.gov.laa.ccw.validators;
+package uk.gov.laa.ccw.services.validators;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 
@@ -9,21 +10,23 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest()
 public class MatterCodesValidatorTest {
+    @InjectMocks
+    private MatterCodesValidator classUnderTest;
+
     @Test
     void shouldAllowValidRequest() {
-        assertDoesNotThrow(() -> MatterCodesValidator.validateRequest("law1"));
+        assertDoesNotThrow(() -> classUnderTest.validateRequest("law1"));
     }
 
     @Test
     void shouldThrowMissingDataExceptionWhenLawTypeBlank() {
         assertThrows(MissingDataException.class,
-                () -> MatterCodesValidator.validateRequest(""));
+                () -> classUnderTest.validateRequest(""));
     }
 
     @Test
     void shouldThrowMissingDataExceptionWhenLawTypeNull() {
         assertThrows(MissingDataException.class,
-                () -> MatterCodesValidator.validateRequest(null));
+                () -> classUnderTest.validateRequest(null));
     }
-
 }

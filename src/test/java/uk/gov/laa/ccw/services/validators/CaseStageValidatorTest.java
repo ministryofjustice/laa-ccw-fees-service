@@ -1,6 +1,7 @@
-package uk.gov.laa.ccw.validators;
+package uk.gov.laa.ccw.services.validators;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.api.CaseStageRequest;
@@ -11,6 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 @SpringBootTest()
 public class CaseStageValidatorTest {
 
+    @InjectMocks
+    private CaseStageValidator classUnderTest;
+
     @Test
     void shouldAllowValidRequest() {
         CaseStageRequest request = CaseStageRequest.builder()
@@ -18,7 +22,7 @@ public class CaseStageValidatorTest {
                 .matterCode2("mt2")
                 .build();
 
-        assertDoesNotThrow(() -> CaseStageValidator.validateRequest(request));
+        assertDoesNotThrow(() -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -29,7 +33,7 @@ public class CaseStageValidatorTest {
                 .build();
 
         assertThrows(MissingDataException.class,
-                () -> CaseStageValidator.validateRequest(request));
+                () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -40,7 +44,7 @@ public class CaseStageValidatorTest {
                 .build();
 
         assertThrows(MissingDataException.class,
-                () -> CaseStageValidator.validateRequest(request));
+                () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -51,7 +55,7 @@ public class CaseStageValidatorTest {
                 .build();
 
         assertThrows(MissingDataException.class,
-                () -> CaseStageValidator.validateRequest(request));
+                () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -62,7 +66,7 @@ public class CaseStageValidatorTest {
                 .build();
 
         assertThrows(MissingDataException.class,
-                () -> CaseStageValidator.validateRequest(request));
+                () -> classUnderTest.validateRequest(request));
     }
 
 }

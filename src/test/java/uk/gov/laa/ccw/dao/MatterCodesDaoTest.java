@@ -7,7 +7,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.MatterCode;
 
 import java.util.ArrayList;
@@ -81,14 +80,5 @@ public class MatterCodesDaoTest {
 
         assertThrows(DatabaseReadException.class,
                 () -> classUnderTest.fetchMatterCodeTwos("CODE2"));
-    }
-
-    @Test
-    void shouldThrowExceptionIfMatterCode1NotFound() {
-
-        doThrow(new MatterCodeNotFoundException(""){}).when(jdbcTemplate).queryForList(anyString(), anyString());
-
-        assertThrows(MatterCodeNotFoundException.class,
-                () -> classUnderTest.fetchMatterCodeTwos("CODE3"));
     }
 }

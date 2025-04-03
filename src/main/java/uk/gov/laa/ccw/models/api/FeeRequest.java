@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * The model class for Fees Request.
  */
@@ -17,4 +19,5 @@ public class FeeRequest {
     private String matterCode2;
     private String locationCode;
     private String caseStage;
+    private List<FeeRequestLevelCode> levelCodes;
 }

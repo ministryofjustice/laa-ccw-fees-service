@@ -10,12 +10,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.api.FeeRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
+import uk.gov.laa.ccw.services.validators.FeesValidator;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -28,6 +32,29 @@ public class FeesControllerTest {
 
     @MockitoBean
     FeesService feesService; // This is required, despite the sonarlint suggestions
+
+    @MockitoBean
+    FeesValidator validator; // This is required, despite the sonarlint suggestions
+
+    @Test
+    void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
+
+        doThrow(new MissingDataException(""){}).when(validator).validateRequest(any(FeeRequest.class));
+
+        ObjectWriter objectWriter = new ObjectMapper().writer();
+        String feeRequest = objectWriter.writeValueAsString(
+                FeeRequest.builder()
+                        .matterCode1("MT1")
+                        .matterCode2("MT2")
+                        .locationCode("LOC1")
+                        .caseStage("CASE1")
+                        .build());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees/calculate")
+                        .content(feeRequest)
+                        .contentType("application/json"))
+                        .andExpect(status().is4xxClientError());
+    }
 
     @Test
     void shouldReturnFees() throws Exception {

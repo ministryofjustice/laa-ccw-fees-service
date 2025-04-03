@@ -1,6 +1,7 @@
-package uk.gov.laa.ccw.validators;
+package uk.gov.laa.ccw.services.validators;
 
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.api.FeeRequest;
@@ -10,15 +11,19 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest()
 public class FeesValidatorTest {
+
+    @InjectMocks
+    private FeesValidator classUnderTest;
+
     @Test
     void shouldAllowValidRequest() {
         FeeRequest request = FeeRequest.builder()
-                                .matterCode1("matterCode1")
-                                .matterCode2("matterCode2")
-                                .caseStage("caseStage")
-                                .locationCode("locationCode")
-                                .build();
-        assertDoesNotThrow(() -> FeesValidator.validateRequest(request));
+                .matterCode1("matterCode1")
+                .matterCode2("matterCode2")
+                .caseStage("caseStage")
+                .locationCode("locationCode")
+                .build();
+        assertDoesNotThrow(() -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -29,7 +34,7 @@ public class FeesValidatorTest {
                 .caseStage("caseStage")
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -40,7 +45,7 @@ public class FeesValidatorTest {
                 .caseStage("caseStage")
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -51,7 +56,7 @@ public class FeesValidatorTest {
                 .caseStage("")
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -62,7 +67,7 @@ public class FeesValidatorTest {
                 .caseStage("casestage")
                 .locationCode("")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -73,7 +78,7 @@ public class FeesValidatorTest {
                 .caseStage("caseStage")
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -84,7 +89,7 @@ public class FeesValidatorTest {
                 .caseStage("caseStage")
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -95,7 +100,7 @@ public class FeesValidatorTest {
                 .caseStage(null)
                 .locationCode("locationCode")
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
     @Test
@@ -106,7 +111,7 @@ public class FeesValidatorTest {
                 .caseStage("casestage")
                 .locationCode(null)
                 .build();
-        assertThrows(MissingDataException.class, () -> FeesValidator.validateRequest(request));
+        assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }
 
 }

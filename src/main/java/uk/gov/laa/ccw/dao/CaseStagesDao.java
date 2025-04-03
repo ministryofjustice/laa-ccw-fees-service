@@ -5,7 +5,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.mapping.dao.CaseStagesDaoMapping;
 import uk.gov.laa.ccw.models.CaseStage;
 
@@ -21,9 +20,6 @@ import java.util.stream.Collectors;
 @Repository
 @RequiredArgsConstructor
 public class CaseStagesDao {
-    private static final String SELECT_CONFIRM_MATTER_CODE_1_SQL =
-            "SELECT MATTER_CODE_ID FROM CCW.MATTER_CODES_1 WHERE MATTER_CODE_ID = ?";
-
     private static final String SELECT_GET_CASE_STAGES_SQL =
             "SELECT CS.CASE_STAGE_ID, CS.DESCRIPTION FROM "
                     + "CCW.CASE_STAGES CS, CCW.CASE_STAGES_COMBINATIONS CSC WHERE "
@@ -39,17 +35,6 @@ public class CaseStagesDao {
      */
     public List<CaseStage> fetchCaseStages(String matterCodeOne) {
         log.info("fetch case stages from database for {}", matterCodeOne);
-
-        try {
-            if (jdbcTemplate.queryForList(SELECT_CONFIRM_MATTER_CODE_1_SQL, matterCodeOne).isEmpty()) {
-                throw new MatterCodeNotFoundException("Unable to find Matter Code " + matterCodeOne);
-            }
-        } catch (Exception ex) {
-            if (ex instanceof MatterCodeNotFoundException) {
-                throw ex;
-            }
-            throw new DatabaseReadException("Unable to retrieve Matter Codes from database: " + ex);
-        }
 
         try {
             List<Map<String, Object>> queryResults = jdbcTemplate

@@ -8,9 +8,10 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
+import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.services.MatterCodesService;
+import uk.gov.laa.ccw.services.validators.MatterCodesValidator;
 
 import java.util.List;
 
@@ -28,6 +29,18 @@ public class MatterCodesControllerTest {
 
     @MockitoBean
     MatterCodesService matterCodesService; // This is required, despite the sonarlint suggestions
+
+    @MockitoBean
+    MatterCodesValidator validatorService;
+
+    @Test
+    void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
+
+        doThrow(new MissingDataException(""){}).when(validatorService).validateRequest(anyString());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/FAM"))
+                .andExpect(status().is4xxClientError());
+    }
 
     @Test
     void shouldReturnAllMatterCode1() throws Exception {
@@ -77,14 +90,6 @@ public class MatterCodesControllerTest {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/CODE1/matter-code-2"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(returnedContent));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNoMatterCode1ForMatterCode2() throws Exception {
-        doThrow(new MatterCodeNotFoundException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
-                .andExpect(status().is4xxClientError());
     }
 
     @Test

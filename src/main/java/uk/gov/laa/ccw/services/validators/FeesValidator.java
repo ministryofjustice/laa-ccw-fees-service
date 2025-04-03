@@ -1,10 +1,16 @@
-package uk.gov.laa.ccw.validators;
+package uk.gov.laa.ccw.services.validators;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.api.FeeRequest;
 
-public class FeesValidator  {
-    public static void validateRequest(FeeRequest request) throws MissingDataException {
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class FeesValidator {
+    public void validateRequest(FeeRequest request) throws MissingDataException {
         if (request.getMatterCode1() == null || request.getMatterCode1().isEmpty()) {
             throw new MissingDataException("No matter code 1 provided");
         }
@@ -19,4 +25,5 @@ public class FeesValidator  {
         }
 
     }
+
 }

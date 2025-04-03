@@ -6,7 +6,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.dao.CaseStagesDao;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.CaseStage;
 
 import java.util.ArrayList;
@@ -113,13 +112,4 @@ public class CaseStagesServiceTest {
         assertThrows(DatabaseReadException.class,
                 () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
     }
-
-    @Test
-    void shouldThrowExceptionWhenDaoThrowsMatterCodeNotFoundException() {
-        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesDao).fetchCaseStages(anyString());
-
-        assertThrows(MatterCodeNotFoundException.class,
-                () -> classUnderTest.getAllCaseStagesForMatterCodes("CODE1", "CODE2"));
-    }
-
 }

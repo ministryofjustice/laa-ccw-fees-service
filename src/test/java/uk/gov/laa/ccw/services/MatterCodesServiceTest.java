@@ -4,10 +4,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
 import uk.gov.laa.ccw.dao.MatterCodesDao;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.MatterCode;
 
 import java.util.ArrayList;
@@ -70,14 +68,6 @@ public class MatterCodesServiceTest {
         doThrow(new DatabaseReadException(""){}).when(matterCodesDao).fetchMatterCodeTwos(anyString());
 
         assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.getAllMatterTwosForMatterCodeOne("CODE1"));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenDaoThrowsMatterCodeNotFoundException() {
-        doThrow(new MatterCodeNotFoundException(""){}).when(matterCodesDao).fetchMatterCodeTwos(anyString());
-
-        assertThrows(MatterCodeNotFoundException.class,
                 () -> classUnderTest.getAllMatterTwosForMatterCodeOne("CODE1"));
     }
 
