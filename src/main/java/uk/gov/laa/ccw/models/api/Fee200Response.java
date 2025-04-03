@@ -17,7 +17,7 @@ public class Fee200Response {
     private String matterCode2;
     private String locationCode;
     private String caseStage;
-    private Double amount;
-    private Double vat;
-    private Double total;
+    private String amount;
+    private String vat;
+    private String total;
 }

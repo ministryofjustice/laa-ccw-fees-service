@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.api.FeeRequest;
 
+import java.util.ArrayList;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -24,6 +26,9 @@ public class FeesValidator {
             throw new MissingDataException("No case stage provided");
         }
 
+        if (request.getLevelCodes() == null) {
+            request.setLevelCodes(new ArrayList<>());
+        }
     }
 
 }
