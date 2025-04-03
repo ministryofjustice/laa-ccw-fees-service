@@ -21,9 +21,6 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class MatterCodesDao {
 
-    private static final String SELECT_ALL_MATTER_CODE_1_SQL =
-            "SELECT MATTER_CODE_ID, DESCRIPTION FROM CCW.MATTER_CODES_1";
-
     private static final String SELECT_CONFIRM_MATTER_CODE_1_SQL =
             "SELECT MATTER_CODE_ID FROM CCW.MATTER_CODES_1 WHERE MATTER_CODE_ID = ?";
 
@@ -33,23 +30,6 @@ public class MatterCodesDao {
                     + "MT2.MATTER_CODE_ID = MCC.MATTER_CODE_2 AND MCC.MATTER_CODE_1 = ?";
 
     private final JdbcTemplate jdbcTemplate;
-
-    /**
-     * Fetches all the matter codes.
-     *
-     * @return the list of matter codes
-     */
-    public List<MatterCode> fetchAllMatterCodes() {
-        log.info("fetch all Matter Codes from database");
-
-        try {
-            List<Map<String, Object>> queryResults = jdbcTemplate.queryForList(SELECT_ALL_MATTER_CODE_1_SQL);
-
-            return queryResults.stream().map(MatterCodesDaoMapping::mapAllMatterCodes).toList();
-        } catch (Exception ex) {
-            throw new DatabaseReadException("Unable to retrieve Matter Codes from database: " + ex);
-        }
-    }
 
     /**
      * Fetches all the matter two codes for the given matter code one.
