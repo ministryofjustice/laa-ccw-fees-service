@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapping.api.MatterCodesResponseMapping;
 import uk.gov.laa.ccw.models.api.MatterCodes200Response;
 import uk.gov.laa.ccw.services.MatterCodesService;
+import uk.gov.laa.ccw.validators.MatterCodesValidator;
 
 /**
  * Controller for handling the matter codes requests.
@@ -24,12 +25,14 @@ public class MatterCodesController {
      *
      * @return the matter codes
      */
-    @GetMapping("/v1/matter-codes")
-    public MatterCodes200Response getAllMatterCodeOnes() {
+    @GetMapping("/v1/matter-codes/{id}")
+    public MatterCodes200Response getAllMatterCodeOnes(@PathVariable(value = "id") String id) {
+        MatterCodesValidator.validateRequest(id);
+
         log.info("retrieve all matter codes");
         return MatterCodes200Response.builder()
                 .matterCodes(
-                        service.getAllMatterCodes()
+                        service.getAllMatterCodes(id)
                                 .stream()
                                 .map(MatterCodesResponseMapping::map)
                                 .toList())
@@ -44,6 +47,7 @@ public class MatterCodesController {
      */
     @GetMapping("/v1/matter-codes/{id}/matter-code-2")
     public MatterCodes200Response getMatterCodeTwosForMatterCodeOne(@PathVariable(value = "id") String id) {
+        MatterCodesValidator.validateRequest(id);
         log.info("retrieve all matter code twos for matter code {}", id);
         return MatterCodes200Response.builder()
                 .matterCodes(

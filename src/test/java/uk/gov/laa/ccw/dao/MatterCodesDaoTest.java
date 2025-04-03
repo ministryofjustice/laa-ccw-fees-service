@@ -29,7 +29,7 @@ public class MatterCodesDaoTest {
     @InjectMocks
     private MatterCodesDao classUnderTest;
 
-    private List<Map<String, Object>> setupMatterCodeQueryDataset() {
+    private List<Map<String, Object>> setupMatterCodeForFAMQueryDataset() {
         List<Map<String, Object>> dataSet = new ArrayList<Map<String, Object>>();
         Map<String, Object> rowSet = new HashMap<String, Object>();
         rowSet.put("MATTER_CODE_ID", "mt1");
@@ -45,9 +45,9 @@ public class MatterCodesDaoTest {
     void shouldFetchAllMatterCodes() {
 
         when(jdbcTemplate.queryForList(anyString(),anyString()))
-                .thenReturn(setupMatterCodeQueryDataset());
+                .thenReturn(setupMatterCodeForFAMQueryDataset());
 
-        List<MatterCode> dataReturned = classUnderTest.fetchAllMatterCodes();
+        List<MatterCode> dataReturned = classUnderTest.fetchAllMatterCodes("FAM");
         assertEquals(2, dataReturned.size());
         assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
         assertEquals("", dataReturned.get(1).getDescription());
@@ -59,14 +59,14 @@ public class MatterCodesDaoTest {
         doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString(),anyString());
 
         assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.fetchAllMatterCodes());
+                () -> classUnderTest.fetchAllMatterCodes("FAM"));
     }
 
     @Test
     void shouldFetchMatterCode2ForOneMatterCode() {
 
         when(jdbcTemplate.queryForList(anyString(), anyString()))
-                .thenReturn(setupMatterCodeQueryDataset());
+                .thenReturn(setupMatterCodeForFAMQueryDataset());
 
         List<MatterCode> dataReturned = classUnderTest.fetchMatterCodeTwos("CODE1");
         assertEquals(2, dataReturned.size());

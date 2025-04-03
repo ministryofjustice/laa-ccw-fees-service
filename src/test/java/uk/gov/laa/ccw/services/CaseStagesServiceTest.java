@@ -8,7 +8,6 @@ import uk.gov.laa.ccw.dao.CaseStagesDao;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.models.CaseStage;
-import uk.gov.laa.ccw.models.MatterCode;
 
 import java.util.ArrayList;
 import java.util.List;

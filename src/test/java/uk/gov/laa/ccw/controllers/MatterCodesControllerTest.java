@@ -42,19 +42,19 @@ public class MatterCodesControllerTest {
                         .build()
         );
         String returnedContent = "{\"matterCodes\":[{\"matterCode\":\"1\",\"description\":\"description\"},{\"matterCode\":\"2\",\"description\":\"description\"}]}";
-        when(matterCodesService.getAllMatterCodes())
+        when(matterCodesService.getAllMatterCodes("FAM"))
                 .thenReturn(matterCodes);
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/FAM"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(returnedContent));
     }
 
     @Test
     void shouldThrowExceptionWhenNoMatterCode1() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterCodes();
+        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterCodes("FAM");
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/FAM"))
                 .andExpect(status().is5xxServerError());
     }
 

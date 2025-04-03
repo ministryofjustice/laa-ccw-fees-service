@@ -43,10 +43,10 @@ public class MatterCodesServiceTest {
     @Test
     void shouldFetchAllMatterCodes() {
 
-        when(matterCodesDao.fetchAllMatterCodes())
+        when(matterCodesDao.fetchAllMatterCodes("FAM"))
                 .thenReturn(setupMatterCodeDataset());
 
-        List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes();
+        List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes("FAM");
         assertEquals(2, dataReturned.size());
         assertEquals("mt1", dataReturned.get(0).getMatterCodeId());
         assertEquals("mt2", dataReturned.get(1).getMatterCodeId());

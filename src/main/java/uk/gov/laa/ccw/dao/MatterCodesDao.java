@@ -39,11 +39,11 @@ public class MatterCodesDao {
      *
      * @return the list of matter codes
      */
-    public List<MatterCode> fetchAllMatterCodes() {
+    public List<MatterCode> fetchAllMatterCodes(String LawType) {
         log.info("fetch all Matter Codes from database");
 
         try {
-            List<Map<String, Object>> queryResults = jdbcTemplate.queryForList(SELECT_ALL_MATTER_CODE_1_SQL, "FAM");
+            List<Map<String, Object>> queryResults = jdbcTemplate.queryForList(SELECT_ALL_MATTER_CODE_1_SQL, LawType);
 
             return queryResults.stream().map(MatterCodesDaoMapping::mapAllMatterCodes).toList();
         } catch (Exception ex) {
