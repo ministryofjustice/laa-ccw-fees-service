@@ -4,8 +4,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapper.MatterCodesOneMapper;
-import uk.gov.laa.ccw.mapper.MatterCodesTwoMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodesOneMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodesTwoMapper;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 

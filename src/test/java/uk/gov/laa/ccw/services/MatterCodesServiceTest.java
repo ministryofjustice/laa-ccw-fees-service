@@ -3,26 +3,19 @@ package uk.gov.laa.ccw.services;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.dao.DataAccessException;
-import uk.gov.laa.ccw.dao.MatterCodesDao;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapper.MatterCodesOneMapper;
-import uk.gov.laa.ccw.mapper.MatterCodesTwoMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodesOneMapper;
+import uk.gov.laa.ccw.mapper.dao.MatterCodesTwoMapper;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
