@@ -13,8 +13,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 public class CaseStagesMapperTest {
 
-    @InjectMocks
-    private CaseStagesMapper caseStagesMapper = new CaseStagesMapperImpl();
+    private final CaseStagesMapper caseStagesMapper = new CaseStagesMapperImpl();
 
     @Test
     void shouldMapToCaseStage() {

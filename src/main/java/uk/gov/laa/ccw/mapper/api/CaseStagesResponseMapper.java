@@ -17,6 +17,7 @@ public interface CaseStagesResponseMapper {
      * @param caseStage the case stage
      * @return the CaseStages200ResponseCaseStage
      */
+    @Mapping(target = "caseStage", source = "caseStageId")
     @Mapping(target = "description", defaultValue = "")
     CaseStages200ResponseCaseStage toCaseStages200ResponseCaseStage(CaseStage caseStage);
 
