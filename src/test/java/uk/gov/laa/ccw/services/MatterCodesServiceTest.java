@@ -34,10 +34,9 @@ public class MatterCodesServiceTest {
     void shouldFetchAllMatterCodes() {
         MatterCodesOneEntity mt1AEntity = MatterCodesOneEntity.builder().matterCodeId("mt1A").build();
         MatterCodesOneEntity mt1BEntity = MatterCodesOneEntity.builder().matterCodeId("mt1B").build();
-        when(matterCodesRepository.findAll()).thenReturn(List.of(mt1AEntity, mt1BEntity));
+        when(matterCodesRepository.findByLawType("FAM")).thenReturn(List.of(mt1AEntity, mt1BEntity));
         when(matterCodeMapper.toMatterCode(mt1AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1A").build());
         when(matterCodeMapper.toMatterCode(mt1BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1B").build());
-
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes("FAM");
         assertEquals(2, dataReturned.size());

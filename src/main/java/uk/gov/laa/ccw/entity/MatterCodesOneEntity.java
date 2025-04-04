@@ -22,4 +22,6 @@ public class MatterCodesOneEntity {
     private String matterCodeId;
 
     private String description;
+
+    private String lawType;
 }

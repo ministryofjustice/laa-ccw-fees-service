@@ -25,14 +25,14 @@ public class MatterCodesController {
      *
      * @return the matter codes
      */
-    @GetMapping("/v1/matter-codes/{id}")
-    public MatterCodes200Response getAllMatterCodeOnes(@PathVariable(value = "id") String id) {
-        MatterCodesValidator.validateRequest(id);
+    @GetMapping("/v1/matter-codes/{lawType}")
+    public MatterCodes200Response getAllMatterCodeOnes(@PathVariable(value = "lawType") String lawType) {
+        MatterCodesValidator.validateRequest(lawType);
 
         log.info("retrieve all matter codes");
         return MatterCodes200Response.builder()
                 .matterCodes(
-                        service.getAllMatterCodes(id)
+                        service.getAllMatterCodes(lawType)
                                 .stream()
                                 .map(MatterCodesResponseMapping::map)
                                 .toList())
