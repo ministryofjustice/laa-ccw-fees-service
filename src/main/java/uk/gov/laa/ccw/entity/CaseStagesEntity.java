@@ -10,20 +10,18 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The entity class for Matter Codes One.
+ * The entity class for Case Stages.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "MATTER_CODES_1")
-public class MatterCodesOneEntity {
+@Table(name = "CASE_STAGES")
+public class CaseStagesEntity {
     @Id
-    @Column(name = "MATTER_CODE_ID")
-    private String matterCodeId;
+    @Column(name = "CASE_STAGE_ID")
+    private String caseStageId;
 
     private String description;
-
-    private String lawType;
 }

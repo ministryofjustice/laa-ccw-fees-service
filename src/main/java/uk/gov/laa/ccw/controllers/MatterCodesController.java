@@ -5,7 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.laa.ccw.mapping.api.MatterCodesResponseMapping;
+import uk.gov.laa.ccw.mapper.api.MatterCodesResponseMapper;
 import uk.gov.laa.ccw.models.api.MatterCodes200Response;
 import uk.gov.laa.ccw.services.MatterCodesService;
 import uk.gov.laa.ccw.validators.MatterCodesValidator;
@@ -19,6 +19,8 @@ import uk.gov.laa.ccw.validators.MatterCodesValidator;
 public class MatterCodesController {
 
     private final MatterCodesService service;
+
+    private final MatterCodesResponseMapper mapper;
 
     /**
      * Gets all the matter code ones.
@@ -34,7 +36,7 @@ public class MatterCodesController {
                 .matterCodes(
                         service.getAllMatterCodes(lawType)
                                 .stream()
-                                .map(MatterCodesResponseMapping::map)
+                                .map(mapper::toMatterCodes200ResponseMatterCode)
                                 .toList())
                 .build();
     }
@@ -53,7 +55,7 @@ public class MatterCodesController {
                 .matterCodes(
                         service.getAllMatterTwosForMatterCodeOne(id)
                                 .stream()
-                                .map(MatterCodesResponseMapping::map)
+                                .map(mapper::toMatterCodes200ResponseMatterCode)
                                 .toList())
                 .build();
     }

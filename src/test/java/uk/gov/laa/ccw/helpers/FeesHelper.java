@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.Helpers;
+package uk.gov.laa.ccw.helpers;
 
 import java.util.ArrayList;
 import java.util.HashMap;

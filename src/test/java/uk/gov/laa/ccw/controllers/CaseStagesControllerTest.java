@@ -11,8 +11,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
+import uk.gov.laa.ccw.mapper.api.CaseStagesResponseMapper;
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.models.api.CaseStageRequest;
+import uk.gov.laa.ccw.models.api.CaseStages200ResponseCaseStage;
 import uk.gov.laa.ccw.services.CaseStagesService;
 
 import java.util.List;
@@ -32,21 +34,20 @@ public class CaseStagesControllerTest {
     @MockitoBean
     CaseStagesService caseStagesService; // This is required, despite the sonarlint suggestions
 
+    @MockitoBean
+    CaseStagesResponseMapper caseStagesResponseMapper; // This is required, despite the sonarlint suggestions
+
     @Test
     void shouldReturnCaseStagesForMatterCodes() throws Exception {
-        List<CaseStage> caseStages = List.of(
-                CaseStage.builder()
-                        .caseStageId("1")
-                        .description("description")
-                        .build(),
-                CaseStage.builder()
-                        .caseStageId("2")
-                        .description("description")
-                        .build()
-        );
+        CaseStage caseStageOne = CaseStage.builder().caseStageId("1").description("description").build();
+        CaseStage caseStageTwo = CaseStage.builder().caseStageId("2").description("description").build();
 
         when(caseStagesService.getAllCaseStagesForMatterCodes(anyString(), anyString()))
-                .thenReturn(caseStages);
+                .thenReturn(List.of(caseStageOne, caseStageTwo));
+        when(caseStagesResponseMapper.toCaseStages200ResponseCaseStage(caseStageOne))
+                .thenReturn(CaseStages200ResponseCaseStage.builder().caseStage("1").description("description").build());
+        when(caseStagesResponseMapper.toCaseStages200ResponseCaseStage(caseStageTwo))
+                .thenReturn(CaseStages200ResponseCaseStage.builder().caseStage("2").description("description").build());
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
@@ -76,8 +77,8 @@ public class CaseStagesControllerTest {
                         .build());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                    .content(caseStageRequest)
-                    .contentType("application/json"))
+                        .content(caseStageRequest)
+                        .contentType("application/json"))
                 .andExpect(status().is4xxClientError())
                 .andExpect(content().string("{\"error\":\"No matter code 1 provided\"}"));
     }
@@ -135,7 +136,8 @@ public class CaseStagesControllerTest {
 
     @Test
     void shouldThrowExceptionWhenNoMatterCode1ForCaseStages() throws Exception {
-        doThrow(new MatterCodeNotFoundException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
+        doThrow(new MatterCodeNotFoundException("") {
+        }).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
@@ -145,14 +147,15 @@ public class CaseStagesControllerTest {
                         .build());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                .content(caseStageRequest)
-                .contentType("application/json"))
+                        .content(caseStageRequest)
+                        .contentType("application/json"))
                 .andExpect(status().is4xxClientError());
     }
 
     @Test
     void shouldThrowExceptionNotCaseStagesWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
+        doThrow(new DatabaseReadException("") {
+        }).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
@@ -162,8 +165,8 @@ public class CaseStagesControllerTest {
                         .build());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                .content(caseStageRequest)
-                .contentType("application/json"))
+                        .content(caseStageRequest)
+                        .contentType("application/json"))
                 .andExpect(status().is5xxServerError());
     }
 }

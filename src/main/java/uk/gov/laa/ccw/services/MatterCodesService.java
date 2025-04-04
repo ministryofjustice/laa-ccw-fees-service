@@ -3,7 +3,6 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
@@ -39,10 +38,6 @@ public class MatterCodesService {
      */
     public List<MatterCode> getAllMatterTwosForMatterCodeOne(String matterCodeOne) {
         log.info("return matter codes twos for given matter code one from dao to controller");
-
-        matterCodesRepository
-                .findById(matterCodeOne)
-                .orElseThrow(() -> new MatterCodeNotFoundException("Unable to find Matter Code " + matterCodeOne));
 
         return matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne)
                 .stream().map(matterCodeMapper::toMatterCode).toList();
