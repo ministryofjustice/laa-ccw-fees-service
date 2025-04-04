@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
@@ -34,12 +33,11 @@ public class MatterCodesServiceTest {
     void shouldFetchAllMatterCodes() {
         MatterCodesOneEntity mt1AEntity = MatterCodesOneEntity.builder().matterCodeId("mt1A").build();
         MatterCodesOneEntity mt1BEntity = MatterCodesOneEntity.builder().matterCodeId("mt1B").build();
-        when(matterCodesRepository.findAll()).thenReturn(List.of(mt1AEntity, mt1BEntity));
+        when(matterCodesRepository.findByLawType("FAM")).thenReturn(List.of(mt1AEntity, mt1BEntity));
         when(matterCodeMapper.toMatterCode(mt1AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1A").build());
         when(matterCodeMapper.toMatterCode(mt1BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1B").build());
 
-
-        List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes();
+        List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes("FAM");
         assertEquals(2, dataReturned.size());
         assertEquals("mt1A", dataReturned.get(0).getMatterCodeId());
         assertEquals("mt1B", dataReturned.get(1).getMatterCodeId());

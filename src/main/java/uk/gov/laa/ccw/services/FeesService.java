@@ -48,10 +48,13 @@ public class FeesService {
         Double vat = vatRatesDao.fetchVat();
         log.info("add in vat of {}%", vat);
 
+        Double vatAmount = (vat / 100.0) * totalFees;
+        Double totalPlusVat = totalFees + vatAmount;
+
         return Fee.builder()
                 .amount(totalFees)
-                .vat(vat)
-                .total(totalFees * (1.0 + (vat / 100.0)))
+                .vat(vatAmount)
+                .total(totalPlusVat)
                 .build();
     }
 }

@@ -10,6 +10,7 @@ import uk.gov.laa.ccw.mapping.api.CaseStagesResponseMapping;
 import uk.gov.laa.ccw.models.api.CaseStageRequest;
 import uk.gov.laa.ccw.models.api.CaseStages200Response;
 import uk.gov.laa.ccw.services.CaseStagesService;
+import uk.gov.laa.ccw.validators.CaseStageValidator;
 
 /**
  * Controller for handling the case stages requests.
@@ -29,7 +30,7 @@ public class CaseStagesController {
     @GetMapping("/v1/case-stages")
     public CaseStages200Response getCaseStagesForMatterCodes(@RequestBody CaseStageRequest request) {
 
-        validateRequest(request);
+        CaseStageValidator.validateRequest(request);
 
         log.info("retrieve all case stages for matter code 1 {} and matter code 2 {}",
                 request.getMatterCode1(), request.getMatterCode2());
@@ -42,23 +43,5 @@ public class CaseStagesController {
                         .toList())
                 .build();
 
-    }
-
-    private void validateRequest(CaseStageRequest request) throws MissingDataException {
-        if (request.getMatterCode1() == null) {
-            throw new MissingDataException("No matter code 1 provided");
-        }
-
-        if (request.getMatterCode1().isEmpty()) {
-            throw new MissingDataException("Matter code 1 cannot be blank");
-        }
-
-        if (request.getMatterCode2() == null) {
-            throw new MissingDataException("No matter code 2 provided");
-        }
-
-        if (request.getMatterCode2().isEmpty()) {
-            throw new MissingDataException("Matter code 2 cannot be blank");
-        }
     }
 }

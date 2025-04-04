@@ -19,12 +19,14 @@ public class FeesDaoMapping {
         FeeRecord.FeeRecordBuilder builder = FeeRecord.builder();
         if (queryData.get("PROVIDER_LOCATION") != null) {
             builder.providerLocation(queryData.get("PROVIDER_LOCATION").toString());
+        } else {
+            builder.providerLocation("");
         }
 
         if (queryData.get("LEVEL_CODE") != null) {
             builder.levelCode(queryData.get("LEVEL_CODE").toString());
         } else {
-            builder.levelCode(queryData.get("LEVEL_CODE").toString());
+            builder.levelCode("");
         }
 
         if (queryData.get("CASE_STAGE") != null) {
@@ -34,7 +36,7 @@ public class FeesDaoMapping {
         }
 
         if (queryData.get("AMOUNT") != null) {
-            builder.caseStage(queryData.get("AMOUNT").toString());
+            builder.amount(Double.valueOf(queryData.get("AMOUNT").toString()));
         } else {
             builder.amount(0.00);
         }
