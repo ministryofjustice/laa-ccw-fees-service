@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.entity.CaseStagesEntity;
-import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
+import uk.gov.laa.ccw.mapper.dao.CaseStageMapper;
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
@@ -23,7 +23,7 @@ public class CaseStagesServiceTest {
     private CaseStagesRepository caseStagesRepository;
 
     @Mock
-    private CaseStagesMapper caseStagesMapper;
+    private CaseStageMapper caseStageMapper;
 
     @InjectMocks
     private CaseStagesService classUnderTest;
@@ -106,13 +106,13 @@ public class CaseStagesServiceTest {
         caseStagesEntities.add(cs1Entity);
         caseStagesEntities.add(cs2Entity);
 
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
+        when(caseStageMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
+        when(caseStageMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
 
         if (addInFPL10) {
             CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
             caseStagesEntities.add(fpl10Entity);
-            when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+            when(caseStageMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
         }
 
         when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne)).thenReturn(caseStagesEntities);

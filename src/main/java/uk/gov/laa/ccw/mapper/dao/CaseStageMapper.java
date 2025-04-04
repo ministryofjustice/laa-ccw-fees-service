@@ -6,10 +6,10 @@ import uk.gov.laa.ccw.entity.CaseStagesEntity;
 import uk.gov.laa.ccw.models.CaseStage;
 
 /**
- * Mapper class for case stages.
+ * Mapper class for case stage.
  */
 @Mapper(componentModel = "spring")
-public interface CaseStagesMapper {
+public interface CaseStageMapper {
 
     /**
      * Maps the given case stages entity to case stage.

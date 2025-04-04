@@ -21,6 +21,7 @@ public class MatterCodeMapperTest {
         MatterCodesOneEntity matterCodesOneEntity = MatterCodesOneEntity.builder()
                 .matterCodeId("mt1")
                 .build();
+
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesOneEntity);
 
         assertNotNull(result);
@@ -33,11 +34,12 @@ public class MatterCodeMapperTest {
         MatterCodesTwoEntity matterCodesTwoEntity = MatterCodesTwoEntity.builder()
                 .matterCodeId("mt2")
                 .build();
+
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesTwoEntity);
 
         assertNotNull(result);
-        assertEquals("mt2", result.getMatterCodeId(), matterCodesTwoEntity.getMatterCodeId());
-        assertEquals("", result.getDescription(), matterCodesTwoEntity.getDescription());
+        assertEquals("mt2", result.getMatterCodeId());
+        assertEquals("", result.getDescription());
     }
 
 }

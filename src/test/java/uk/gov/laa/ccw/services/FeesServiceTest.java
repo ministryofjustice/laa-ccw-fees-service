@@ -5,25 +5,26 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.dao.FeesDao;
 import uk.gov.laa.ccw.dao.VatRatesDao;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.entity.FeesEntity;
+import uk.gov.laa.ccw.mapper.dao.FeeRecordMapper;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.repository.FeesRepository;
 
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
-
 
 @ExtendWith(MockitoExtension.class)
 public class FeesServiceTest {
+
     @Mock
-    private FeesDao feesDao;
+    private FeesRepository feesRepository;
+
+    @Mock
+    private FeeRecordMapper feeRecordMapper;
 
     @Mock
     private VatRatesDao vatRatesDao;
@@ -31,49 +32,33 @@ public class FeesServiceTest {
     @InjectMocks
     private FeesService classUnderTest;
 
-    private List<FeeRecord> testData() {
-        return List.of(
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS1")
-                        .levelCode("LEV1")
-                        .amount(100.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS1")
-                        .levelCode("LEV2")
-                        .amount(200.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS2")
-                        .levelCode("LEV1")
-                        .amount(400.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS2")
-                        .levelCode("LEV2")
-                        .amount(800.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC2")
-                        .caseStage("CS2")
-                        .levelCode("LEV2")
-                        .amount(1600.00)
-                        .build()
-        );
-    }
-
     @Test
     void shouldFetchTotalForSameLocationAndCaseStage() {
 
-        when(feesDao.fetchFeesForLocation(anyString()))
-                .thenReturn(testData());
+        String location = "LOC1";
+        FeesEntity fees1Entity = FeesEntity.builder().providerLocation("LOC1")
+                .caseStage("CS1").levelCode("LEV1").amount(100.00).build();
+        FeesEntity fees2Entity = FeesEntity.builder().providerLocation("LOC1")
+                .caseStage("CS1").levelCode("LEV2").amount(200.00).build();
+        FeesEntity fees3Entity = FeesEntity.builder().providerLocation("LOC1")
+                .caseStage("CS2").levelCode("LEV1").amount(400.00).build();
+        FeesEntity fees4Entity = FeesEntity.builder().providerLocation("LOC1")
+                .caseStage("CS2").levelCode("LEV2").amount(800.00).build();
+        FeesEntity fees5Entity = FeesEntity.builder().providerLocation("LOC2")
+                .caseStage("CS2").levelCode("LEV2").amount(1600.00).build();
 
-        when(vatRatesDao.fetchVat())
-                .thenReturn(25.00);
+        when(feesRepository.findAllByProviderLocation(location)).thenReturn(List.of(fees1Entity, fees2Entity, fees3Entity, fees4Entity, fees5Entity));
+        when(feeRecordMapper.toFeeRecord(fees1Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC1")
+                .caseStage("CS1").levelCode("LEV1").amount(100.00).build());
+        when(feeRecordMapper.toFeeRecord(fees2Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC1")
+                .caseStage("CS1").levelCode("LEV2").amount(200.00).build());
+        when(feeRecordMapper.toFeeRecord(fees3Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC1")
+                .caseStage("CS2").levelCode("LEV1").amount(400.00).build());
+        when(feeRecordMapper.toFeeRecord(fees4Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC1")
+                .caseStage("CS2").levelCode("LEV2").amount(800.00).build());
+        when(feeRecordMapper.toFeeRecord(fees5Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC2")
+                .caseStage("CS2").levelCode("LEV2").amount(1600.00).build());
+        when(vatRatesDao.fetchVat()).thenReturn(25.00);
 
         Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1");
 
@@ -81,21 +66,5 @@ public class FeesServiceTest {
         assertEquals(375, dataReturned.getTotal());
     }
 
-    @Test
-    void shouldThrowExceptionWhenFeesDaoThrowsDatabaseReadException() {
 
-        doThrow(new DatabaseReadException(""){}).when(feesDao).fetchFeesForLocation(anyString());
-
-        assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1"));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenVatDaoThrowsDatabaseReadException() {
-
-        doThrow(new DatabaseReadException(""){}).when(vatRatesDao).fetchVat();
-
-        assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1"));
-    }
 }

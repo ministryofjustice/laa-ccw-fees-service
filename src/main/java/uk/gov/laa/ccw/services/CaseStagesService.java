@@ -3,7 +3,7 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
+import uk.gov.laa.ccw.mapper.dao.CaseStageMapper;
 import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
@@ -18,7 +18,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class CaseStagesService {
     private final CaseStagesRepository caseStagesRepository;
-    private final CaseStagesMapper caseStagesMapper;
+    private final CaseStageMapper caseStageMapper;
 
     /**
      * Gets all the case stages for the given matter code one and matter code two.
@@ -32,7 +32,7 @@ public class CaseStagesService {
         log.info("get case stages");
 
         List<CaseStage> caseStages = caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne)
-                .stream().map(caseStagesMapper::toCaseStage).toList();
+                .stream().map(caseStageMapper::toCaseStage).toList();
 
         Optional<CaseStage> caseStage = caseStages.stream()
                 .filter(c -> c.getCaseStageId().contentEquals("FPL10"))
