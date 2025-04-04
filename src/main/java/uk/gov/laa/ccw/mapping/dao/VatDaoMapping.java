@@ -13,11 +13,11 @@ public class VatDaoMapping {
      * @param queryData the query data
      * @return the VAT
      */
-    public static Double map(Map<String, Object> queryData) {
+    public static double map(Map<String, Object> queryData) {
         if (queryData.get("RATE_PERCENTAGE") == null) {
             return 0.0;
         }
 
-        return Double.valueOf(queryData.get("RATE_PERCENTAGE").toString());
+        return Double.parseDouble(queryData.get("RATE_PERCENTAGE").toString());
     }
 }

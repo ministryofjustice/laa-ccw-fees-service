@@ -5,12 +5,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.dao.VatRatesDao;
 import uk.gov.laa.ccw.entity.FeesEntity;
+import uk.gov.laa.ccw.entity.VatEntity;
 import uk.gov.laa.ccw.mapper.dao.FeeRecordMapper;
+import uk.gov.laa.ccw.mapper.dao.VatMapper;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
 import uk.gov.laa.ccw.repository.FeesRepository;
+import uk.gov.laa.ccw.repository.VatRepository;
 
 import java.util.List;
 
@@ -27,7 +29,10 @@ public class FeesServiceTest {
     private FeeRecordMapper feeRecordMapper;
 
     @Mock
-    private VatRatesDao vatRatesDao;
+    private VatRepository vatRepository;
+
+    @Mock
+    private VatMapper vatMapper;
 
     @InjectMocks
     private FeesService classUnderTest;
@@ -46,6 +51,7 @@ public class FeesServiceTest {
                 .caseStage("CS2").levelCode("LEV2").amount(800.00).build();
         FeesEntity fees5Entity = FeesEntity.builder().providerLocation("LOC2")
                 .caseStage("CS2").levelCode("LEV2").amount(1600.00).build();
+        VatEntity vatEntity = VatEntity.builder().ratePercentage(25.00).build();
 
         when(feesRepository.findAllByProviderLocation(location)).thenReturn(List.of(fees1Entity, fees2Entity, fees3Entity, fees4Entity, fees5Entity));
         when(feeRecordMapper.toFeeRecord(fees1Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC1")
@@ -58,7 +64,8 @@ public class FeesServiceTest {
                 .caseStage("CS2").levelCode("LEV2").amount(800.00).build());
         when(feeRecordMapper.toFeeRecord(fees5Entity)).thenReturn(FeeRecord.builder().providerLocation("LOC2")
                 .caseStage("CS2").levelCode("LEV2").amount(1600.00).build());
-        when(vatRatesDao.fetchVat()).thenReturn(25.00);
+        when(vatRepository.findAll()).thenReturn(List.of(vatEntity));
+        when(vatMapper.toVat(vatEntity)).thenReturn(25.00);
 
         Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1");
 

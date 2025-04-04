@@ -3,11 +3,13 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.dao.VatRatesDao;
 import uk.gov.laa.ccw.mapper.dao.FeeRecordMapper;
+import uk.gov.laa.ccw.mapper.dao.VatMapper;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.models.Vat;
 import uk.gov.laa.ccw.repository.FeesRepository;
+import uk.gov.laa.ccw.repository.VatRepository;
 
 import java.util.List;
 
@@ -21,7 +23,8 @@ public class FeesService {
 
     private final FeesRepository feesRepository;
     private final FeeRecordMapper feeRecordMapper;
-    private final VatRatesDao vatRatesDao;
+    private final VatRepository vatRepository;
+    private final VatMapper vatMapper;
 
     /**
      * Calculates the fee for a given location and case stage.
@@ -50,7 +53,8 @@ public class FeesService {
             totalFees += f.getAmount();
         }
 
-        Double vat = vatRatesDao.fetchVat();
+
+        Double vat = vatRepository.findAll().stream().map(vatMapper::toVat).toList().getFirst();
         log.info("add in vat of {}%", vat);
 
         Double vatAmount = (vat / 100.0) * totalFees;
