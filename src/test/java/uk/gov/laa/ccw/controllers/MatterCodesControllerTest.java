@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.services.MatterCodesService;
@@ -64,14 +64,6 @@ public class MatterCodesControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNoMatterCode1() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterCodes("FAM");
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/FAM"))
-                .andExpect(status().is5xxServerError());
-    }
-
-    @Test
     void shouldReturnMatterCode2ForMatterCode1() throws Exception {
         List<MatterCode> matterCodes = List.of(
                 MatterCode.builder()
@@ -93,10 +85,11 @@ public class MatterCodesControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
+    void shouldThrowExceptionWhenNoMatterCode1ForMatterCode2() throws Exception {
+        doThrow(new MatterCodeNotFoundException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
-                .andExpect(status().is5xxServerError());
+                .andExpect(status().is4xxClientError());
     }
+
 }

@@ -21,6 +21,7 @@ public class MatterCodesController {
     private final MatterCodesService service;
 
     private final MatterCodesValidator validator;
+
     /**
      * Gets all the matter code ones.
      *

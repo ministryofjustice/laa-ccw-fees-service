@@ -2,14 +2,27 @@ package uk.gov.laa.ccw.mapping.api;
 
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
-import uk.gov.laa.ccw.models.api.*;
+import uk.gov.laa.ccw.models.api.FeeCalculate200Response;
+import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
+import uk.gov.laa.ccw.models.api.FeeListAvailable200Response;
+import uk.gov.laa.ccw.models.api.FeeListAvailable200ResponseFee;
+import uk.gov.laa.ccw.models.api.FeeListAvailableRequest;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
+/**
+ * Mapping class between Fee and FeeCalculate200Response.
+ */
 public class FeeResponseMapping {
+
+    /**
+     * Maps the given fee calculate request to a MatterCodes200ResponseMatterCode.
+     *
+     * @param fee the fee
+     * @param feeRequest the fee request
+     * @return the FeeCalculate200Response
+     */
     public static FeeCalculate200Response mapToFeeCalculateResponse(Fee fee, FeeCalculateRequest feeRequest) {
         DecimalFormat df = new DecimalFormat("#0.00");
 
@@ -24,7 +37,15 @@ public class FeeResponseMapping {
                 .build();
     }
 
-    public static FeeListAvailable200Response mapToListAvailableResponse(List<FeeRecord> fees, FeeListAvailableRequest feeRequest) {
+    /**
+     * Maps the given fees and fees list available to a FeeListAvailable200Response.
+     *
+     * @param fees the fee
+     * @param feeRequest the fee list available request
+     * @return the FeeCalculate200Response
+     */
+    public static FeeListAvailable200Response mapToListAvailableResponse(List<FeeRecord> fees,
+                                                                         FeeListAvailableRequest feeRequest) {
         DecimalFormat df = new DecimalFormat("#0.00");
 
         return FeeListAvailable200Response.builder()
@@ -32,7 +53,7 @@ public class FeeResponseMapping {
                 .matterCode2(feeRequest.getMatterCode2())
                 .caseStage(feeRequest.getCaseStage())
                 .locationCode(feeRequest.getLocationCode())
-                .fees(  fees.stream()
+                .fees(fees.stream()
                         .map(f ->
                                 FeeListAvailable200ResponseFee
                                         .builder()
@@ -41,7 +62,7 @@ public class FeeResponseMapping {
                                         .levelCode(f.getLevelCode())
                                         .type(f.getLevelCodeType())
                                         .build()
-                            )
+                        )
                         .toList())
                 .build();
     }

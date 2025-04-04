@@ -2,6 +2,7 @@ package uk.gov.laa.ccw;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -17,6 +18,9 @@ public class Application implements CommandLineRunner {
 
     @Autowired
     JdbcTemplate jdbcTemplate;
+
+    @Value("${spring.profiles.active:}")
+    private String activeProfile;
 
     /**
      * The application main method.
@@ -35,6 +39,8 @@ public class Application implements CommandLineRunner {
      */
     @Override
     public void run(String... strings) {
-        DataAccessUtilities.initialiseDatabase(jdbcTemplate);
+        if (activeProfile.contains("local")) {
+            DataAccessUtilities.initialiseDatabase(jdbcTemplate);
+        }
     }
 }

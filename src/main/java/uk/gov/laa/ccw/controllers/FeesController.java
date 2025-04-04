@@ -26,6 +26,7 @@ import java.util.List;
 public class FeesController {
     private final FeesService service;
     private final FeesValidator validator;
+
     /**
      * Calculates the fee for a given request.
      *
@@ -46,6 +47,12 @@ public class FeesController {
         return FeeResponseMapping.mapToFeeCalculateResponse(result, request);
     }
 
+    /**
+     * Get the list of available fees.
+     *
+     * @param request the fee list available request
+     * @return the fee list
+     */
     @GetMapping("/v1/fees/list-available")
     public FeeListAvailable200Response getListOfFees(@RequestBody FeeListAvailableRequest request) {
 

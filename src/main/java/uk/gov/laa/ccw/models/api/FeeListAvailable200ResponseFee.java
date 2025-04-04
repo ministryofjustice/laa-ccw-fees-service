@@ -5,6 +5,9 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * The model class for Fee List Available 200 response fee.
+ */
 @Data
 @Builder
 @AllArgsConstructor

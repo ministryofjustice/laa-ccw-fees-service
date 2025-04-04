@@ -20,9 +20,9 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class FeesDao {
     private static final String GET_FEES_BY_LOCATION_CASE_STAGE_SQL =
-            "SELECT FF.AMOUNT,FF.LEVEL_CODE,LC.TYPE,LC.DESCRIPTION FROM "+
-            "CCW.FIXED_FEES FF, CCW.LEVEL_CODES LC WHERE "+
-            "FF.PROVIDER_LOCATION = ? AND FF.CASE_STAGE = ? AND FF.LEVEL_CODE = LC.LEVEL_CODE_ID";
+            "SELECT FF.AMOUNT,FF.LEVEL_CODE,LC.TYPE,LC.DESCRIPTION FROM "
+                    + "CCW.FIXED_FEES FF, CCW.LEVEL_CODES LC WHERE "
+                    + "FF.PROVIDER_LOCATION = ? AND FF.CASE_STAGE = ? AND FF.LEVEL_CODE = LC.LEVEL_CODE_ID";
 
     private final JdbcTemplate jdbcTemplate;
 

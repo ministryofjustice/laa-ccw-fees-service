@@ -22,6 +22,13 @@ public class FeesService {
     private final FeesDao feesDao;
     private final VatRatesDao vatRatesDao;
 
+    /**
+     * Gets the fees for the given location and case stage.
+     *
+     * @param location the location
+     * @param caseStage the case stage
+     * @return the fee record
+     */
     public List<FeeRecord> getFeesForLocationAndCaseStage(
                             String location,
                             String caseStage) {

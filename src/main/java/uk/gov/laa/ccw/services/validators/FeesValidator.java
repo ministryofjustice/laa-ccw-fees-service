@@ -9,15 +9,19 @@ import uk.gov.laa.ccw.models.api.FeeListAvailableRequest;
 
 import java.util.ArrayList;
 
+/**
+ * Validator class for fees.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class FeesValidator {
+
     private void validateCoreFields(
-                    String matterCode1,
-                    String matterCode2,
-                    String locationCode,
-                    String caseStage){
+            String matterCode1,
+            String matterCode2,
+            String locationCode,
+            String caseStage) {
         if (matterCode1 == null || matterCode1.isEmpty()) {
             throw new MissingDataException("No matter code 1 provided");
         }
@@ -32,23 +36,33 @@ public class FeesValidator {
         }
     }
 
+    /**
+     * Validates the fee calculator request.
+     *
+     * @param request the fee calculator request
+     */
     public void validateFeeCalculateRequest(FeeCalculateRequest request) throws MissingDataException {
-        validateCoreFields( request.getMatterCode1(),
-                            request.getMatterCode2(),
-                            request.getLocationCode(),
-                            request.getCaseStage()
-                            );
+        validateCoreFields(request.getMatterCode1(),
+                request.getMatterCode2(),
+                request.getLocationCode(),
+                request.getCaseStage()
+        );
 
         if (request.getLevelCodes() == null) {
             request.setLevelCodes(new ArrayList<>());
         }
     }
 
+    /**
+     * Validates the fee list available request.
+     *
+     * @param request the fee list available request
+     */
     public void validateFeeListAvailableRequest(FeeListAvailableRequest request) throws MissingDataException {
-        validateCoreFields( request.getMatterCode1(),
-                            request.getMatterCode2(),
-                            request.getLocationCode(),
-                            request.getCaseStage()
+        validateCoreFields(request.getMatterCode1(),
+                request.getMatterCode2(),
+                request.getLocationCode(),
+                request.getCaseStage()
         );
     }
 
