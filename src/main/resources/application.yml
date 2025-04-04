@@ -16,6 +16,14 @@ spring:
       validation-timeout: 500
       maximum-pool-size: 25
 
+  # to ensure that db scripts are not run
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    properties:
+      hibernate:
+        default_schema: ccw
 # used by actuator info endpoint
 info:
   app:

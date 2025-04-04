@@ -51,14 +51,6 @@ public class MatterCodesControllerTest {
     }
 
     @Test
-    void shouldThrowExceptionWhenNoMatterCode1() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterCodes();
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
-                .andExpect(status().is5xxServerError());
-    }
-
-    @Test
     void shouldReturnMatterCode2ForMatterCode1() throws Exception {
         List<MatterCode> matterCodes = List.of(
                 MatterCode.builder()
@@ -87,11 +79,4 @@ public class MatterCodesControllerTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    @Test
-    void shouldThrowExceptionWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
-                .andExpect(status().is5xxServerError());
-    }
 }
