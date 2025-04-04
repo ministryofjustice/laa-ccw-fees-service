@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.mapping.api.CaseStagesResponseMapping;
+import uk.gov.laa.ccw.mapper.api.CaseStagesResponseMapper;
 import uk.gov.laa.ccw.models.api.CaseStageRequest;
 import uk.gov.laa.ccw.models.api.CaseStages200Response;
 import uk.gov.laa.ccw.services.CaseStagesService;
@@ -19,6 +19,8 @@ import uk.gov.laa.ccw.services.CaseStagesService;
 @RestController
 public class CaseStagesController {
     private final CaseStagesService caseService;
+
+    private final CaseStagesResponseMapper mapper;
 
     /**
      * Gets the case stages for the given request.
@@ -38,7 +40,7 @@ public class CaseStagesController {
                 .caseStages(
                     caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
                         .stream()
-                        .map(CaseStagesResponseMapping::map)
+                        .map(mapper::toCaseStages200ResponseCaseStage)
                         .toList())
                 .build();
 

@@ -7,15 +7,14 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
+import uk.gov.laa.ccw.mapper.api.MatterCodesResponseMapper;
 import uk.gov.laa.ccw.models.MatterCode;
+import uk.gov.laa.ccw.models.api.MatterCodes200ResponseMatterCode;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -29,21 +28,21 @@ public class MatterCodesControllerTest {
     @MockitoBean
     MatterCodesService matterCodesService; // This is required, despite the sonarlint suggestions
 
+    @MockitoBean
+    MatterCodesResponseMapper matterCodesResponseMapper;
+
     @Test
     void shouldReturnAllMatterCode1() throws Exception {
-        List<MatterCode> matterCodes = List.of(
-                MatterCode.builder()
-                        .matterCodeId("1")
-                        .description("description")
-                        .build(),
-                MatterCode.builder()
-                        .matterCodeId("2")
-                        .description("description")
-                        .build()
-        );
+        MatterCode matterCodeOne = MatterCode.builder().matterCodeId("1").description("description").build();
+        MatterCode matterCodeTwo = MatterCode.builder().matterCodeId("2").description("description").build();
+
         String returnedContent = "{\"matterCodes\":[{\"matterCode\":\"1\",\"description\":\"description\"},{\"matterCode\":\"2\",\"description\":\"description\"}]}";
         when(matterCodesService.getAllMatterCodes())
-                .thenReturn(matterCodes);
+                .thenReturn(List.of(matterCodeOne, matterCodeTwo));
+        when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeOne))
+                .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("1").description("description").build());
+        when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeTwo))
+                .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("2").description("description").build());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
                 .andExpect(status().isOk())
@@ -52,31 +51,20 @@ public class MatterCodesControllerTest {
 
     @Test
     void shouldReturnMatterCode2ForMatterCode1() throws Exception {
-        List<MatterCode> matterCodes = List.of(
-                MatterCode.builder()
-                        .matterCodeId("1")
-                        .description("description")
-                        .build(),
-                MatterCode.builder()
-                        .matterCodeId("2")
-                        .description("description")
-                        .build()
-        );
+        MatterCode matterCodeOne = MatterCode.builder().matterCodeId("1").description("description").build();
+        MatterCode matterCodeTwo = MatterCode.builder().matterCodeId("2").description("description").build();
+
         String returnedContent = "{\"matterCodes\":[{\"matterCode\":\"1\",\"description\":\"description\"},{\"matterCode\":\"2\",\"description\":\"description\"}]}";
         when(matterCodesService.getAllMatterTwosForMatterCodeOne(anyString()))
-                .thenReturn(matterCodes);
+                .thenReturn(List.of(matterCodeOne, matterCodeTwo));
+        when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeOne))
+                .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("1").description("description").build());
+        when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeTwo))
+                .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("2").description("description").build());
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/CODE1/matter-code-2"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(returnedContent));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNoMatterCode1ForMatterCode2() throws Exception {
-        doThrow(new MatterCodeNotFoundException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
-                .andExpect(status().is4xxClientError());
     }
 
 }

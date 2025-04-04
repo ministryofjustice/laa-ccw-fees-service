@@ -5,7 +5,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
@@ -13,7 +12,6 @@ import uk.gov.laa.ccw.models.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
 import java.util.List;
-import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
@@ -49,7 +47,6 @@ public class MatterCodesServiceTest {
     void shouldFetchMatterCodesForSpecificMatterCodeOne() {
 
         String matterCodeOne = "mt1A";
-        when(matterCodesRepository.findById(matterCodeOne)).thenReturn(Optional.of(MatterCodesOneEntity.builder().matterCodeId("mt1A").build()));
         MatterCodesTwoEntity mt2AEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2A").build();
         MatterCodesTwoEntity mt2BEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2B").build();
         when(matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne))

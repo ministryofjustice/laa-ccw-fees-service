@@ -5,12 +5,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.dao.FeesDao;
 import uk.gov.laa.ccw.dao.VatRatesDao;
 import uk.gov.laa.ccw.exceptions.DatabaseReadException;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
+
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

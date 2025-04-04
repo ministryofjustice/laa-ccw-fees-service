@@ -11,7 +11,7 @@ import uk.gov.laa.ccw.models.MatterCode;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(MockitoExtension.class)
-class MatterCodeMapperTest {
+public class MatterCodeMapperTest {
 
     @InjectMocks
     private MatterCodeMapper matterCodeMapper = new MatterCodeMapperImpl();
