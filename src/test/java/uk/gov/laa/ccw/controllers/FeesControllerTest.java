@@ -40,7 +40,7 @@ public class FeesControllerTest {
     @Test
     void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
 
-        doThrow(new MissingDataException(""){}).when(validator).validateRequest(any(FeeCalculateRequest.class));
+        doThrow(new MissingDataException(""){}).when(validator).validateFeeCalculateRequest(any(FeeCalculateRequest.class));
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String feeRequest = objectWriter.writeValueAsString(

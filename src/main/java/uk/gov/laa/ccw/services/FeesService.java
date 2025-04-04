@@ -22,6 +22,13 @@ public class FeesService {
     private final FeesDao feesDao;
     private final VatRatesDao vatRatesDao;
 
+    public List<FeeRecord> getFeesForLocationAndCaseStage(
+                            String location,
+                            String caseStage) {
+
+        log.info("get fees for location {} and case stage {}", location, caseStage);
+        return feesDao.fetchFeesForLocationAndCaseStage(location, caseStage);
+    }
 
     /**
      * Calculates the fee for a given location and case stage.
@@ -34,11 +41,10 @@ public class FeesService {
                              String caseStage,
                              List<FeeCalculateRequestLevelCode> levelCodes) {
 
-        log.info("get fees for location {} and case stage {}", location, caseStage);
-        List<FeeRecord> feesForLocationAndCastStage = feesDao.fetchFeesForLocationAndCaseStage(location, caseStage);
+        List<FeeRecord> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
         Double totalFees = 0.0;
-        for (FeeRecord f : feesForLocationAndCastStage) {
+        for (FeeRecord f : feesForLocationAndCaseStage) {
 
             switch (f.getLevelCodeType()) {
                 case "O":

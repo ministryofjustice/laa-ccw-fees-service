@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
+import uk.gov.laa.ccw.models.api.FeeListAvailableRequest;
 
 import java.util.ArrayList;
 
@@ -12,23 +13,43 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class FeesValidator {
-    public void validateRequest(FeeCalculateRequest request) throws MissingDataException {
-        if (request.getMatterCode1() == null || request.getMatterCode1().isEmpty()) {
+    private void validateCoreFields(
+                    String matterCode1,
+                    String matterCode2,
+                    String locationCode,
+                    String caseStage){
+        if (matterCode1 == null || matterCode1.isEmpty()) {
             throw new MissingDataException("No matter code 1 provided");
         }
-        if (request.getMatterCode2() == null || request.getMatterCode2().isEmpty()) {
+        if (matterCode2 == null || matterCode2.isEmpty()) {
             throw new MissingDataException("No matter code 2 provided");
         }
-        if (request.getLocationCode() == null || request.getLocationCode().isEmpty()) {
+        if (locationCode == null || locationCode.isEmpty()) {
             throw new MissingDataException("No provider location provided");
         }
-        if (request.getCaseStage() == null || request.getCaseStage().isEmpty()) {
+        if (caseStage == null || caseStage.isEmpty()) {
             throw new MissingDataException("No case stage provided");
         }
+    }
+
+    public void validateFeeCalculateRequest(FeeCalculateRequest request) throws MissingDataException {
+        validateCoreFields( request.getMatterCode1(),
+                            request.getMatterCode2(),
+                            request.getLocationCode(),
+                            request.getCaseStage()
+                            );
 
         if (request.getLevelCodes() == null) {
             request.setLevelCodes(new ArrayList<>());
         }
+    }
+
+    public void validateFeeListAvailableRequest(FeeListAvailableRequest request) throws MissingDataException {
+        validateCoreFields( request.getMatterCode1(),
+                            request.getMatterCode2(),
+                            request.getLocationCode(),
+                            request.getCaseStage()
+        );
     }
 
 }

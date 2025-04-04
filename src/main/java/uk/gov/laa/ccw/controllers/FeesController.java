@@ -7,10 +7,15 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapping.api.FeeResponseMapping;
 import uk.gov.laa.ccw.models.Fee;
+import uk.gov.laa.ccw.models.FeeRecord;
 import uk.gov.laa.ccw.models.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
+import uk.gov.laa.ccw.models.api.FeeListAvailable200Response;
+import uk.gov.laa.ccw.models.api.FeeListAvailableRequest;
 import uk.gov.laa.ccw.services.FeesService;
 import uk.gov.laa.ccw.services.validators.FeesValidator;
+
+import java.util.List;
 
 /**
  * Controller for handling the fees requests.
@@ -30,7 +35,7 @@ public class FeesController {
     @GetMapping("/v1/fees/calculate")
     public FeeCalculate200Response getFees(@RequestBody FeeCalculateRequest request) {
 
-        validator.validateRequest(request);
+        validator.validateFeeCalculateRequest(request);
 
         log.info("calculating fees");
         Fee result = service.calculateFees(
@@ -38,20 +43,19 @@ public class FeesController {
                 request.getCaseStage(),
                 request.getLevelCodes());
 
-        return FeeResponseMapping.map(result, request);
+        return FeeResponseMapping.mapToFeeCalculateResponse(result, request);
     }
 
-    @GetMapping("/v1/fees/calculate2")
-    public FeeCalculate200Response getListOfFees(@RequestBody FeeCalculateRequest request) {
+    @GetMapping("/v1/fees/list-available")
+    public FeeListAvailable200Response getListOfFees(@RequestBody FeeListAvailableRequest request) {
 
-        validator.validateRequest(request);
+        validator.validateFeeListAvailableRequest(request);
 
-        log.info("calculating fees");
-        Fee result = service.calculateFees(
+        log.info("get list of fees");
+        List<FeeRecord> result = service.getFeesForLocationAndCaseStage(
                 request.getLocationCode(),
-                request.getCaseStage(),
-                request.getLevelCodes());
+                request.getCaseStage());
 
-        return FeeResponseMapping.map(result, request);
+        return FeeResponseMapping.mapToListAvailableResponse(result, request);
     }
 }
