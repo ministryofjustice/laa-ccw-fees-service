@@ -7,7 +7,7 @@ import uk.gov.laa.ccw.dao.FeesDao;
 import uk.gov.laa.ccw.dao.VatRatesDao;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
-import uk.gov.laa.ccw.models.api.FeeRequestLevelCode;
+import uk.gov.laa.ccw.models.api.FeeCalculateRequestLevelCode;
 
 import java.util.List;
 
@@ -32,7 +32,7 @@ public class FeesService {
      */
     public Fee calculateFees(String location,
                              String caseStage,
-                             List<FeeRequestLevelCode> levelCodes) {
+                             List<FeeCalculateRequestLevelCode> levelCodes) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
         List<FeeRecord> feesForLocationAndCastStage = feesDao.fetchFeesForLocationAndCaseStage(location, caseStage);
@@ -43,7 +43,7 @@ public class FeesService {
             switch (f.getLevelCodeType()) {
                 case "O":
                 case "OM":
-                    List<FeeRequestLevelCode> levelCodesOfSameCode =
+                    List<FeeCalculateRequestLevelCode> levelCodesOfSameCode =
                             levelCodes.stream()
                                 .filter(l -> l.getLevelCode().contentEquals(f.getLevelCode()))
                                 .toList();

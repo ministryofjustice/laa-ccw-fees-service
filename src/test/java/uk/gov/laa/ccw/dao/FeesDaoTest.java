@@ -38,7 +38,7 @@ public class FeesDaoTest {
         List<FeeRecord> dataReturned = classUnderTest.fetchFeesForLocationAndCaseStage(
                 "LOC1", "CS1");
 
-        assertEquals(5, dataReturned.size());
+        assertEquals(4, dataReturned.size());
     }
 
     @Test
@@ -57,22 +57,25 @@ public class FeesDaoTest {
         rowSet.put("AMOUNT", "16.0");
         rowSet.put("LEVEL_CODE", "LV1");
         rowSet.put("TYPE", "A");
+        rowSet.put("DESCRIPTION", "LEVEL 1");
         dataSet.add(rowSet);
         rowSet = new HashMap<String, Object>();
         rowSet.put("AMOUNT", "32.0");
         rowSet.put("LEVEL_CODE", "LV2");
         rowSet.put("TYPE", "A");
+        rowSet.put("DESCRIPTION", "LEVEL 2");
         dataSet.add(rowSet);
         rowSet = new HashMap<String, Object>();
         rowSet.put("AMOUNT", "64.0");
         rowSet.put("LEVEL_CODE", "LV3");
         rowSet.put("TYPE", "O");
+        rowSet.put("DESCRIPTION", "LEVEL 3");
         dataSet.add(rowSet);
         rowSet = new HashMap<String, Object>();
         rowSet.put("AMOUNT", "128.0");
-        rowSet.put("LEVEL_CODE", "LV1");
+        rowSet.put("LEVEL_CODE", "LV4");
         rowSet.put("TYPE", "OM");
-        dataSet.add(rowSet);
+        rowSet.put("DESCRIPTION", "LEVEL 4");
         dataSet.add(rowSet);
         return dataSet;
     }

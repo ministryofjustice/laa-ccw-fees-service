@@ -16,4 +16,5 @@ public class FeeRecord {
     private String levelCodeType;
     private String levelCode;
     private Double amount;
+    private String description;
 }

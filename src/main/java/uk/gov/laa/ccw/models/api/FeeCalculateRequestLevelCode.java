@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeeRequestLevelCode {
+public class FeeCalculateRequestLevelCode {
     private String levelCode;
     private Double fee;
 }

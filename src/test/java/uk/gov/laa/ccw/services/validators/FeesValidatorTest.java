@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.models.api.FeeRequest;
+import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
 
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -17,7 +17,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldAllowValidRequest() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("matterCode2")
                 .caseStage("caseStage")
@@ -28,7 +28,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenMatterCode1Blank() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("")
                 .matterCode2("matterCode2")
                 .caseStage("caseStage")
@@ -39,7 +39,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenMatterCode2Blank() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("")
                 .caseStage("caseStage")
@@ -50,7 +50,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenCaseStageBlank() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("matterCode2")
                 .caseStage("")
@@ -61,7 +61,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenLocationCodeBlank() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("mattercode2")
                 .caseStage("casestage")
@@ -72,7 +72,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenMatterCode1Null() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1(null)
                 .matterCode2("matterCode2")
                 .caseStage("caseStage")
@@ -83,7 +83,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenMatterCode2Null() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2(null)
                 .caseStage("caseStage")
@@ -94,7 +94,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenCaseStageNull() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("matterCode2")
                 .caseStage(null)
@@ -105,7 +105,7 @@ public class FeesValidatorTest {
 
     @Test
     void shouldThrowMissingDataExceptionWhenLocationCodeNull() {
-        FeeRequest request = FeeRequest.builder()
+        FeeCalculateRequest request = FeeCalculateRequest.builder()
                 .matterCode1("matterCode1")
                 .matterCode2("mattercode2")
                 .caseStage("casestage")

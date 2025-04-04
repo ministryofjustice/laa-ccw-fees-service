@@ -24,6 +24,12 @@ public class FeesDaoMapping {
             builder.levelCode("");
         }
 
+        if (queryData.get("DESCRIPTION") != null) {
+            builder.description(queryData.get("DESCRIPTION").toString());
+        } else {
+            builder.description("");
+        }
+
         if (queryData.get("TYPE") != null) {
             builder.levelCodeType(queryData.get("TYPE").toString());
         } else {

@@ -12,7 +12,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.models.Fee;
-import uk.gov.laa.ccw.models.api.FeeRequest;
+import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
 import uk.gov.laa.ccw.services.validators.FeesValidator;
@@ -40,11 +40,11 @@ public class FeesControllerTest {
     @Test
     void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
 
-        doThrow(new MissingDataException(""){}).when(validator).validateRequest(any(FeeRequest.class));
+        doThrow(new MissingDataException(""){}).when(validator).validateRequest(any(FeeCalculateRequest.class));
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String feeRequest = objectWriter.writeValueAsString(
-                FeeRequest.builder()
+                FeeCalculateRequest.builder()
                         .matterCode1("MT1")
                         .matterCode2("MT2")
                         .locationCode("LOC1")
@@ -61,7 +61,7 @@ public class FeesControllerTest {
     void shouldReturnFees() throws Exception {
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String feeRequest = objectWriter.writeValueAsString(
-                FeeRequest.builder()
+                FeeCalculateRequest.builder()
                         .matterCode1("MT1")
                         .matterCode2("MT2")
                         .locationCode("LOC1")
@@ -70,7 +70,7 @@ public class FeesControllerTest {
                         .build());
 
         String returnedContent =
-            "{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT2\",\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\",\"amount\":2331.0,\"vat\":134.0,\"total\":1234.0}";
+            "{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT2\",\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\",\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}";
 
         when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(

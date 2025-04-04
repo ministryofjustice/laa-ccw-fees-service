@@ -14,10 +14,10 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeeRequest {
+public class FeeCalculateRequest {
     private String matterCode1;
     private String matterCode2;
     private String locationCode;
     private String caseStage;
-    private List<FeeRequestLevelCode> levelCodes;
+    private List<FeeCalculateRequestLevelCode> levelCodes;
 }

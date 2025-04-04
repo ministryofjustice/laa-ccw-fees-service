@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee200Response {
+public class FeeCalculate200Response {
     private String matterCode1;
     private String matterCode2;
     private String locationCode;

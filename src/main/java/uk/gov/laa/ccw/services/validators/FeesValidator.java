@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.models.api.FeeRequest;
+import uk.gov.laa.ccw.models.api.FeeCalculateRequest;
 
 import java.util.ArrayList;
 
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @Service
 @RequiredArgsConstructor
 public class FeesValidator {
-    public void validateRequest(FeeRequest request) throws MissingDataException {
+    public void validateRequest(FeeCalculateRequest request) throws MissingDataException {
         if (request.getMatterCode1() == null || request.getMatterCode1().isEmpty()) {
             throw new MissingDataException("No matter code 1 provided");
         }
