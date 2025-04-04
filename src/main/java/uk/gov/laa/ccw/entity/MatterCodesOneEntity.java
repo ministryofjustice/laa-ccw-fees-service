@@ -1,5 +1,6 @@
 package uk.gov.laa.ccw.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "MATTER_CODES_1")
 public class MatterCodesOneEntity {
     @Id
+    @Column(name = "MATTER_CODE_ID")
     private String matterCodeId;
 
     private String description;
