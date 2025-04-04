@@ -37,14 +37,14 @@ public class MatterCodesControllerTest {
         MatterCode matterCodeTwo = MatterCode.builder().matterCodeId("2").description("description").build();
 
         String returnedContent = "{\"matterCodes\":[{\"matterCode\":\"1\",\"description\":\"description\"},{\"matterCode\":\"2\",\"description\":\"description\"}]}";
-        when(matterCodesService.getAllMatterCodes())
+        when(matterCodesService.getAllMatterCodes("FAM"))
                 .thenReturn(List.of(matterCodeOne, matterCodeTwo));
         when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeOne))
                 .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("1").description("description").build());
         when(matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCodeTwo))
                 .thenReturn(MatterCodes200ResponseMatterCode.builder().matterCode("2").description("description").build());
 
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes"))
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/FAM"))
                 .andExpect(status().isOk())
                 .andExpect(content().string(returnedContent));
     }

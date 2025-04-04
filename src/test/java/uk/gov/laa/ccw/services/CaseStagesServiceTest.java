@@ -11,7 +11,6 @@ import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;

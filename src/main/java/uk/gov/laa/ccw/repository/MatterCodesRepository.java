@@ -14,6 +14,8 @@ import java.util.List;
 @Repository
 public interface MatterCodesRepository extends JpaRepository<MatterCodesOneEntity, String> {
 
+    List<MatterCodesOneEntity> findByLawType(String lawType);
+
     @NativeQuery(value = "SELECT MT2.MATTER_CODE_ID, MT2.DESCRIPTION FROM "
             +  "CCW.MATTER_CODES_2 MT2, CCW.MATTER_CODES_COMBINATIONS MCC WHERE "
             +  "MT2.MATTER_CODE_ID = MCC.MATTER_CODE_2 AND MCC.MATTER_CODE_1 = ?")

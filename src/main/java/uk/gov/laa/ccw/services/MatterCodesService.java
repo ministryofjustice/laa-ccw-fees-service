@@ -25,10 +25,10 @@ public class MatterCodesService {
      *
      * @return the list of matter codes.
      */
-    public List<MatterCode> getAllMatterCodes() {
+    public List<MatterCode> getAllMatterCodes(String lawType) {
         log.info("return matter codes from dao to controller");
 
-        return matterCodesRepository.findAll().stream().map(matterCodeMapper::toMatterCode).toList();
+        return matterCodesRepository.findByLawType(lawType).stream().map(matterCodeMapper::toMatterCode).toList();
     }
 
     /**
