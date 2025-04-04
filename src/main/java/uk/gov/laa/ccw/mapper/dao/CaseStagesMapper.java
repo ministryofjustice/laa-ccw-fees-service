@@ -12,7 +12,7 @@ import uk.gov.laa.ccw.models.CaseStage;
 public interface CaseStagesMapper {
 
     /**
-     * Maps the given case stages entity to case stages.
+     * Maps the given case stages entity to case stage.
      *
      * @param entity the case stages entity
      * @return the case stages

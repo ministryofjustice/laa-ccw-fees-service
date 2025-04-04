@@ -11,6 +11,7 @@ import uk.gov.laa.ccw.models.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -28,37 +29,13 @@ public class CaseStagesServiceTest {
     @InjectMocks
     private CaseStagesService classUnderTest;
 
-    private List<CaseStage> setupData(Boolean addInFPL10) {
-        List<CaseStage> dataSet = new ArrayList<>();
-        CaseStage rowSet;
-        if (addInFPL10) {
-            rowSet = CaseStage.builder()
-                    .caseStageId("FPL10")
-                    .build();
-            dataSet.add(rowSet);
-        }
-        rowSet = CaseStage.builder()
-                .caseStageId("cs1")
-                .build();
-        dataSet.add(rowSet);
-        rowSet = CaseStage.builder()
-                .caseStageId("cs2")
-                .build();
-        dataSet.add(rowSet);
-        return dataSet;
-    }
-
     @Test
     void shouldFetchCaseStagesForMatterCodeOneAndMatterCodeTwo() {
 
         String matterCodeOne = "CODE1";
         String matterCodeTwo = "CODE2";
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne))
-                .thenReturn(List.of(cs1Entity, cs2Entity));
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
+
+        setUpMockData(matterCodeOne, false);
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo);
         assertEquals(2, dataReturned.size());
@@ -71,14 +48,8 @@ public class CaseStagesServiceTest {
 
         String matterCodeOne = "CODE1";
         String matterCodeTwo = "CODE2";
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne))
-                .thenReturn(List.of(cs1Entity, cs2Entity, fpl10Entity));
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
-        when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+
+        setUpMockData(matterCodeOne, true);
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo);
         assertEquals(2, dataReturned.size());
@@ -91,14 +62,8 @@ public class CaseStagesServiceTest {
 
         String matterCodeOne = "FAMA";
         String matterCodeTwo = "CODE2";
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne))
-                .thenReturn(List.of(cs1Entity, cs2Entity, fpl10Entity));
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
-        when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+
+        setUpMockData(matterCodeOne, true);
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo);
         assertEquals(2, dataReturned.size());
@@ -111,14 +76,8 @@ public class CaseStagesServiceTest {
 
         String matterCodeOne = "CODE1";
         String matterCodeTwo = "FPET";
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne))
-                .thenReturn(List.of(cs1Entity, cs2Entity, fpl10Entity));
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
-        when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+
+        setUpMockData(matterCodeOne, true);
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo);
         assertEquals(2, dataReturned.size());
@@ -131,20 +90,33 @@ public class CaseStagesServiceTest {
 
         String matterCodeOne = "FAMA";
         String matterCodeTwo = "FPET";
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne))
-                .thenReturn(List.of(cs1Entity, cs2Entity, fpl10Entity));
-        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
-        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
-        when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+
+        setUpMockData(matterCodeOne, true);
 
         List<CaseStage> dataReturned = classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo);
         assertEquals(3, dataReturned.size());
         assertEquals("cs1", dataReturned.get(0).getCaseStageId());
         assertEquals("cs2", dataReturned.get(1).getCaseStageId());
         assertEquals("FPL10", dataReturned.get(2).getCaseStageId());
+    }
+
+    private void setUpMockData(String matterCodeOne, boolean addInFPL10) {
+        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
+        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
+        List<CaseStagesEntity> caseStagesEntities = new ArrayList<>();
+        caseStagesEntities.add(cs1Entity);
+        caseStagesEntities.add(cs2Entity);
+
+        when(caseStagesMapper.toCaseStage(cs1Entity)).thenReturn(CaseStage.builder().caseStageId("cs1").build());
+        when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
+
+        if (addInFPL10) {
+            CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
+            caseStagesEntities.add(fpl10Entity);
+            when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
+        }
+
+        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne)).thenReturn(caseStagesEntities);
     }
 
 }
