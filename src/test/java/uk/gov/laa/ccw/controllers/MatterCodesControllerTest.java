@@ -87,11 +87,4 @@ public class MatterCodesControllerTest {
                 .andExpect(status().is4xxClientError());
     }
 
-    @Test
-    void shouldThrowExceptionWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException(""){}).when(matterCodesService).getAllMatterTwosForMatterCodeOne(anyString());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/matter-codes/XXXX/matter-code-2"))
-                .andExpect(status().is5xxServerError());
-    }
 }

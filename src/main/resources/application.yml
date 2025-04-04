@@ -7,10 +7,42 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:file:~/ccwDb;MODE=Oracle
-    username: sa
-    password:
-    driver-class-name: org.h2.Driver
-  sql:
-    init:
-      mode: embedded
+    url: 'jdbc:postgresql://${DB_SERVER}/${DB_NAME}?sslmode=prefer'
+    username: ${DB_USER}
+    password: ${DB_PASSWORD}
+    hikari:
+      pool-name: FEES-CALCULATOR-DB-CP
+      connection-timeout: 1000
+      validation-timeout: 500
+      maximum-pool-size: 25
+
+  # to ensure that db scripts are not run
+  jpa:
+    hibernate:
+      ddl-auto: none
+    generate-ddl: false
+    properties:
+      hibernate:
+        default_schema: ccw
+# used by actuator info endpoint
+info:
+  app:
+    name: LAA CCW Fees Calculator Service
+    description: Fees service calculator for Claim for Controlled Work
+    version: 0.0.1
+
+management:
+  # specify actuator endpoints to enable
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+  # show detailed health status
+  endpoint:
+    health:
+      show-details: always
+
+  info:
+    env:
+      enabled: true
