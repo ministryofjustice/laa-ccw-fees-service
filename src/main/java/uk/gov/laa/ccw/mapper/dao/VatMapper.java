@@ -1,9 +1,7 @@
 package uk.gov.laa.ccw.mapper.dao;
 
 import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
 import uk.gov.laa.ccw.entity.VatEntity;
-import uk.gov.laa.ccw.models.Vat;
 
 /**
  * Mapper class for vat.

@@ -7,7 +7,6 @@ import uk.gov.laa.ccw.mapper.dao.FeeRecordMapper;
 import uk.gov.laa.ccw.mapper.dao.VatMapper;
 import uk.gov.laa.ccw.models.Fee;
 import uk.gov.laa.ccw.models.FeeRecord;
-import uk.gov.laa.ccw.models.Vat;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRepository;
 

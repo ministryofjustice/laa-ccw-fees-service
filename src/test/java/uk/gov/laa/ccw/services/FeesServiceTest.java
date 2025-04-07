@@ -73,5 +73,4 @@ public class FeesServiceTest {
         assertEquals(375, dataReturned.getTotal());
     }
 
-
 }
