@@ -72,13 +72,13 @@ VALUES
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
 VALUES
-    ('FPL01'),
-    ('FPL02'),
-    ('FPL04'),
-    ('FPL08'),
-    ('FPL10'),
-    ('FPL11'),
-    ('FPL13')
+    ('FPL01', 'Level 1'),
+    ('FPL02', 'Level 1 + Level 2 children + Settlement fee children'),
+    ('FPL04', 'Level 1 + Level 2 children'),
+    ('FPL08', 'Level 1 + Level 2 children + Level 2 finance'),
+    ('FPL10', 'Div pet fee'),
+    ('FPL11', 'Level 2 children + Settlement fee children'),
+    ('FPL13', 'Level 2 children')
 ;
 
 INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
