@@ -5,51 +5,62 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
+import uk.gov.laa.ccw.entity.VatRateEntity;
+import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
+import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
+import uk.gov.laa.ccw.model.VatRate;
+import uk.gov.laa.ccw.repository.VatRateRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 public class VatRatesDaoTest {
     @Mock
-    private JdbcTemplate jdbcTemplate;
+    private VatRateRepository repository;
+
+    @Mock
+    private VatRateMapper mapper;
 
     @InjectMocks
     private VatRatesDao classUnderTest;
 
+    private final double VAT_RATE = 25.00;
+
+    VatRate getMockVatRate() {
+        return VatRate.builder()
+                .ratePercentage(VAT_RATE)
+                .build();
+    }
+
+    VatRateEntity getMockVatRateEntity() {
+        return VatRateEntity.builder()
+                .ratePercentage(VAT_RATE)
+                .build();
+    }
+
     @Test
     void shouldFetchVat() {
-        List<Map<String, Object>> vatDataSet = new ArrayList<Map<String, Object>>();
-        Map<String, Object> rowSet = new HashMap<String, Object>();
-        rowSet.put("RATE_PERCENTAGE", "12.34");
-        vatDataSet.add(rowSet);
 
-        when(jdbcTemplate.queryForList(anyString()))
-                .thenReturn(vatDataSet
-                        .stream()
-                        .toList());
+        when(repository.findAll())
+                .thenReturn(List.of(getMockVatRateEntity()));
+        when(mapper.toVatRate(getMockVatRateEntity()))
+                .thenReturn(getMockVatRate());
 
         Double dataReturned = classUnderTest.fetchVat();
-        assertEquals(12.34, dataReturned);
+        assertEquals(VAT_RATE, dataReturned);
     }
 
     @Test
     void shouldThrowExceptionIfVatNotReadCorrectly() {
 
-        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString());
+        doThrow(new VatRateNotFoundException(""){}).when(repository).findAll();
 
-        assertThrows(DatabaseReadException.class,
+        assertThrows(VatRateNotFoundException.class,
                 () -> classUnderTest.fetchVat());
     }
 

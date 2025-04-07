@@ -2,8 +2,8 @@ package uk.gov.laa.ccw.mapper.api;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.models.api.MatterCodes200ResponseMatterCode;
+import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.model.api.MatterCodes200ResponseMatterCode;
 
 /**
  * Mapper class between MatterCode and MatterCodes200ResponseMatterCode.

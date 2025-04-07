@@ -5,12 +5,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.mapper.api.CaseStagesResponseMapper;
-import uk.gov.laa.ccw.models.api.CaseStageRequest;
-import uk.gov.laa.ccw.models.api.CaseStages200Response;
+import uk.gov.laa.ccw.model.api.CaseStageRequest;
+import uk.gov.laa.ccw.model.api.CaseStages200Response;
 import uk.gov.laa.ccw.services.CaseStagesService;
-import uk.gov.laa.ccw.validators.CaseStageValidator;
+import uk.gov.laa.ccw.services.validators.CaseStageValidator;
 
 /**
  * Controller for handling the case stages requests.
@@ -20,8 +19,8 @@ import uk.gov.laa.ccw.validators.CaseStageValidator;
 @RestController
 public class CaseStagesController {
     private final CaseStagesService caseService;
-
-    private final CaseStagesResponseMapper mapper;
+    private final CaseStageValidator caseValidatorService;
+    private final CaseStagesResponseMapper caseStagesResponseMapper;
 
     /**
      * Gets the case stages for the given request.
@@ -32,17 +31,17 @@ public class CaseStagesController {
     @GetMapping("/v1/case-stages")
     public CaseStages200Response getCaseStagesForMatterCodes(@RequestBody CaseStageRequest request) {
 
-        CaseStageValidator.validateRequest(request);
+        caseValidatorService.validateRequest(request);
 
         log.info("retrieve all case stages for matter code 1 {} and matter code 2 {}",
                 request.getMatterCode1(), request.getMatterCode2());
 
         return CaseStages200Response.builder()
                 .caseStages(
-                    caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
-                        .stream()
-                        .map(mapper::toCaseStages200ResponseCaseStage)
-                        .toList())
+                        caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
+                                .stream()
+                                .map(caseStagesResponseMapper::toCaseStages200ResponseCaseStage)
+                                .toList())
                 .build();
 
     }

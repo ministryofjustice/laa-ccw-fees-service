@@ -1,4 +1,4 @@
-INSERT INTO CCW.VAT_RATES(RATE_PERCENTAGE) VALUES(20.00);
+INSERT INTO CCW.VAT_RATES(VAT_RATE_ID,RATE_PERCENTAGE) VALUES(1,20.00);
 
 INSERT INTO CCW.LAW_TYPES(LAW_TYPE_ID,DESCRIPTION)
 VALUES
@@ -94,40 +94,40 @@ VALUES
     ('FAMD', 'FPL13')
 ;
 
-INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION)
+INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FEE_ID)
 VALUES
-    ( 86.00, 'FPL01', 'LVL1', 'LDN'),
-    ( 86.00, 'FPL02', 'LVL1', 'LDN'),
-    (230.00, 'FPL02', 'LVL2CH', 'LDN'),
-    (138.00, 'FPL02', 'SFC', 'LDN'),
-    ( 86.00, 'FPL04', 'LVL1', 'LDN'),
-    (230.00, 'FPL04', 'LVL2CH', 'LDN'),
-    ( 86.00, 'FPL08', 'LVL1', 'LDN'),
-    (230.00, 'FPL08', 'LVL2CH', 'LDN'),
-    (241.00, 'FPL08', 'LVL2FI', 'LDN'),
-    (145.00, 'FPL08', 'SFF', 'LDN'),
-    (146.00, 'FPL10', 'DPF', 'LDN'),
-    (230.00, 'FPL11', 'LVL2CH', 'LDN'),
-    (138.00, 'FPL11', 'SFC', 'LDN'),
-    (230.00, 'FPL13', 'LVL2CH', 'LDN')
+    ( 86.00, 'FPL01', 'LVL1', 'LDN', 100),
+    ( 86.00, 'FPL02', 'LVL1', 'LDN', 101),
+    (230.00, 'FPL02', 'LVL2CH', 'LDN',102),
+    (138.00, 'FPL02', 'SFC', 'LDN',103),
+    ( 86.00, 'FPL04', 'LVL1', 'LDN',104),
+    (230.00, 'FPL04', 'LVL2CH', 'LDN',105),
+    ( 86.00, 'FPL08', 'LVL1', 'LDN',106),
+    (230.00, 'FPL08', 'LVL2CH', 'LDN',107),
+    (241.00, 'FPL08', 'LVL2FI', 'LDN',108),
+    (145.00, 'FPL08', 'SFF', 'LDN',109),
+    (146.00, 'FPL10', 'DPF', 'LDN',110),
+    (230.00, 'FPL11', 'LVL2CH', 'LDN',111),
+    (138.00, 'FPL11', 'SFC', 'LDN',112),
+    (230.00, 'FPL13', 'LVL2CH', 'LDN',113)
 ;
 
-INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION)
+INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FEE_ID)
 VALUES
-    ( 86.00, 'FPL01', 'LVL1', 'NLDN'),
-    ( 86.00, 'FPL02', 'LVL1', 'NLDN'),
-    (199.00, 'FPL02', 'LVL2CH', 'NLDN'),
-    (119.00, 'FPL02', 'SFC', 'NLDN'),
-    ( 86.00, 'FPL04', 'LVL1', 'NLDN'),
-    (199.00, 'FPL04', 'LVL2CH', 'NLDN'),
-    ( 86.00, 'FPL08', 'LVL1', 'NLDN'),
-    (199.00, 'FPL08', 'LVL2CH', 'NLDN'),
-    (208.00, 'FPL08', 'LVL2FI', 'NLDN'),
-    (125.00, 'FPL08', 'SFF', 'NLDN'),
-    (146.00, 'FPL10', 'DPF', 'NLDN'),
-    (199.00, 'FPL11', 'LVL2CH', 'NLDN'),
-    (119.00, 'FPL11', 'SFC', 'NLDN'),
-    (199.00, 'FPL13', 'LVL2CH', 'NLDN')
+    ( 86.00, 'FPL01', 'LVL1', 'NLDN',200),
+    ( 86.00, 'FPL02', 'LVL1', 'NLDN',201),
+    (199.00, 'FPL02', 'LVL2CH', 'NLDN',202),
+    (119.00, 'FPL02', 'SFC', 'NLDN',203),
+    ( 86.00, 'FPL04', 'LVL1', 'NLDN',204),
+    (199.00, 'FPL04', 'LVL2CH', 'NLDN',205),
+    ( 86.00, 'FPL08', 'LVL1', 'NLDN',206),
+    (199.00, 'FPL08', 'LVL2CH', 'NLDN',207),
+    (208.00, 'FPL08', 'LVL2FI', 'NLDN',208),
+    (125.00, 'FPL08', 'SFF', 'NLDN',209),
+    (146.00, 'FPL10', 'DPF', 'NLDN',210),
+    (199.00, 'FPL11', 'LVL2CH', 'NLDN',211),
+    (119.00, 'FPL11', 'SFC', 'NLDN',212),
+    (199.00, 'FPL13', 'LVL2CH', 'NLDN',213)
 ;
 ---------------- immigration law --------------------
 INSERT INTO CCW.LAW_TYPES(LAW_TYPE_ID,DESCRIPTION)
@@ -163,45 +163,46 @@ VALUES
 
 INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE)
 VALUES
-    ('IMMSTAD', 'Immigration standard fee','A'),
-    ('IMMBO02', 'HO interview fee','O'),
-    ('IMMBO03', 'CMRH Oral','O'),
-    ('IMMBO04', 'CMRH Telephone','O'),
-    ('IMMBO05', 'Substantive hearing','O'),
-    ('IMMBO06', 'Adjourned hearing','O'),
-    ('IMMBO07', 'Detention travel and waiting','OM'),
-    ('IMMBO08', 'JR form filling costs','OM'),
-    ('IMMBO09', 'NRM advice','O')
+    ('_IMSTD', 'Immigration standard fee','A'),
+    ('_IMHOI', 'HO interview fee','O'),
+    ('_IMORL', 'CMRH Oral','O'),
+    ('_IMTEL', 'CMRH Telephone','O'),
+    ('_IMSUH', 'Substantive hearing','O'),
+    ('_IMADJ', 'Adjourned hearing','O'),
+    ('_IMDET', 'Detention travel and waiting','OM'),
+    ('_IMJRF', 'JR form filling costs','OM'),
+    ('_IMNRM', 'NRM advice','O')
 ;
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
 VALUES
-    ('IMM01'),
-    ('IMM02'),
-    ('IMM03')
+    ('_IMM01'),
+    ('_IMM02'),
+    ('_IMM03')
 ;
 
 INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
 VALUES
-    ('IALB', 'IMM01'),
-    ('IACF', 'IMM02'),
-    ('IMLB', 'IMM03')
+    ('IALB', '_IMM01'),
+    ('IACF', '_IMM02'),
+    ('IMLB', '_IMM03')
 ;
 
-INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION)
+INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FEE_ID)
 VALUES
-    (  413.00, 'IMM01', 'IMMSTAD', 'NA'),
-    (  266.00, 'IMM01', 'IMMBO02', 'NA'),
-    (    0.00, 'IMM01', 'IMMBO07', 'NA'),
-    (    0.00, 'IMM01', 'IMMBO08', 'NA'),
-    (  150.00, 'IMM01', 'IMMBO09', 'NA'),
-    ( 1009.00, 'IMM02', 'IMMSTAD', 'NA'),
-    (  166.00, 'IMM02', 'IMMBO03', 'NA'),
-    (   90.00, 'IMM02', 'IMMBO04', 'NA'),
-    (  302.00, 'IMM02', 'IMMBO05', 'NA'),
-    (  161.00, 'IMM02', 'IMMBO06', 'NA'),
-    (  150.00, 'IMM02', 'IMMBO09', 'NA'),
-    (  234.00, 'IMM03', 'IMMSTAD', 'NA'),
-    (  266.00, 'IMM03', 'IMMBO02', 'NA'),
-    (  150.00, 'IMM03', 'IMMBO09', 'NA')
+    (  413.00, '_IMM01', '_IMSTD', 'NA',300),
+    (  266.00, '_IMM01', '_IMHOI', 'NA',301),
+    (    0.00, '_IMM01', '_IMJRF', 'NA',302),
+    (  150.00, '_IMM01', '_IMNRM', 'NA',303),
+    ( 1009.00, '_IMM02', '_IMSTD', 'NA',304),
+    (  166.00, '_IMM02', '_IMORL', 'NA',305),
+    (   90.00, '_IMM02', '_IMTEL', 'NA',306),
+    (  302.00, '_IMM02', '_IMSUH', 'NA',307),
+    (  161.00, '_IMM02', '_IMADJ', 'NA',308),
+    (    0.00, '_IMM02', '_IMJRF', 'NA',309),
+    (  150.00, '_IMM02', '_IMNRM', 'NA',310),
+    (  234.00, '_IMM03', '_IMSTD', 'NA',311),
+    (  266.00, '_IMM03', '_IMHOI', 'NA',312),
+    (    0.00, '_IMM03', '_IMJRF', 'NA',313),
+    (  150.00, '_IMM03', '_IMNRM', 'NA',314)
 ;
