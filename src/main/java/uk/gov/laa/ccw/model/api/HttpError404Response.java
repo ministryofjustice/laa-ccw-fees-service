@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.models;
+package uk.gov.laa.ccw.model.api;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,14 +6,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The model class for Fee.
+ * The model class for HTTP 404 error response.
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee {
-    private Double amount;
-    private Double vat;
-    private Double total;
+public class HttpError404Response {
+    public String error;
 }

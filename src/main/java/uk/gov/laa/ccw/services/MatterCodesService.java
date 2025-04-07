@@ -3,9 +3,8 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
-import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.repository.MatterCodesRepository;
+import uk.gov.laa.ccw.dao.MatterCodeDao;
+import uk.gov.laa.ccw.model.MatterCode;
 
 import java.util.List;
 
@@ -17,8 +16,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatterCodesService {
 
-    private final MatterCodesRepository matterCodesRepository;
-    private final MatterCodeMapper matterCodeMapper;
+    private final MatterCodeDao matterCodeDao;
 
     /**
      * Gets all the matters codes.
@@ -28,7 +26,7 @@ public class MatterCodesService {
     public List<MatterCode> getAllMatterCodes(String lawType) {
         log.info("return matter codes from dao to controller");
 
-        return matterCodesRepository.findByLawType(lawType).stream().map(matterCodeMapper::toMatterCode).toList();
+        return matterCodeDao.findMatterCodesByLawType(lawType);
     }
 
     /**
@@ -39,7 +37,6 @@ public class MatterCodesService {
     public List<MatterCode> getAllMatterTwosForMatterCodeOne(String matterCodeOne) {
         log.info("return matter codes twos for given matter code one from dao to controller");
 
-        return matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne)
-                .stream().map(matterCodeMapper::toMatterCode).toList();
+        return matterCodeDao.findMatterCodeTwosByMatterCodeOne(matterCodeOne);
     }
 }

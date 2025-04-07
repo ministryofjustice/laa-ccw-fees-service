@@ -7,10 +7,12 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.dao.FeesDao;
 import uk.gov.laa.ccw.dao.VatRatesDao;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.models.Fee;
-import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.exceptions.FeesException;
+import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -31,37 +33,22 @@ public class FeesServiceTest {
     @InjectMocks
     private FeesService classUnderTest;
 
-    private List<FeeRecord> testData() {
+    private List<FixedFee> testData() {
         return List.of(
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS1")
+                FixedFee.builder()
+                        .levelCodeType("A")
                         .levelCode("LEV1")
-                        .amount(100.00)
+                        .amount(32.00)
                         .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS1")
-                        .levelCode("LEV2")
-                        .amount(200.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS2")
+                FixedFee.builder()
+                        .levelCodeType("O")
                         .levelCode("LEV1")
-                        .amount(400.00)
+                        .amount(64.00)
                         .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC1")
-                        .caseStage("CS2")
-                        .levelCode("LEV2")
-                        .amount(800.00)
-                        .build(),
-                FeeRecord.builder()
-                        .providerLocation("LOC2")
-                        .caseStage("CS2")
-                        .levelCode("LEV2")
-                        .amount(1600.00)
+                FixedFee.builder()
+                        .levelCodeType("OM")
+                        .levelCode("LEV1")
+                        .amount(128.00)
                         .build()
         );
     }
@@ -69,33 +56,34 @@ public class FeesServiceTest {
     @Test
     void shouldFetchTotalForSameLocationAndCaseStage() {
 
-        when(feesDao.fetchFeesForLocation(anyString()))
+        when(feesDao.fetchFeesForLocationAndCaseStage(anyString(), anyString()))
                 .thenReturn(testData());
 
         when(vatRatesDao.fetchVat())
                 .thenReturn(25.00);
 
-        Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1");
+        Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>());
 
-        assertEquals(300, dataReturned.getAmount());
-        assertEquals(375, dataReturned.getTotal());
+        assertEquals(32, dataReturned.getAmount());
+        assertEquals(40, dataReturned.getTotal());
     }
 
     @Test
-    void shouldThrowExceptionWhenFeesDaoThrowsDatabaseReadException() {
+    void shouldThrowExceptionWhenFeesDaoThrowsException() {
 
-        doThrow(new DatabaseReadException(""){}).when(feesDao).fetchFeesForLocation(anyString());
+        doThrow(new FeesException(""){}).when(feesDao)
+                .fetchFeesForLocationAndCaseStage(anyString(), anyString());
 
-        assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1"));
+        assertThrows(FeesException.class,
+                () -> classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>()));
     }
 
     @Test
-    void shouldThrowExceptionWhenVatDaoThrowsDatabaseReadException() {
+    void shouldThrowExceptionWhenVatDaoThrowException() {
 
-        doThrow(new DatabaseReadException(""){}).when(vatRatesDao).fetchVat();
+        doThrow(new VatRateNotFoundException(""){}).when(vatRatesDao).fetchVat();
 
-        assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1"));
+        assertThrows(VatRateNotFoundException.class,
+                () -> classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>()));
     }
 }

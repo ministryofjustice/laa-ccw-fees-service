@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.models.api;
+package uk.gov.laa.ccw.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,12 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The model class for HTTP 400 error response.
+ * The model class for Matter Code.
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class HttpError400Response {
-    public String error;
+public class MatterCode {
+    private String matterCodeId;
+    private String description;
 }

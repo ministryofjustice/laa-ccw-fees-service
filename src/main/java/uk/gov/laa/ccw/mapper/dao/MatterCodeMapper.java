@@ -4,7 +4,7 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
-import uk.gov.laa.ccw.models.MatterCode;
+import uk.gov.laa.ccw.model.MatterCode;
 
 /**
  * Mapper class for matter code.

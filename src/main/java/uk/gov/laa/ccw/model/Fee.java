@@ -1,4 +1,4 @@
-package uk.gov.laa.ccw.models.api;
+package uk.gov.laa.ccw.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -6,17 +6,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The model class for Fee 200 response.
+ * The model class for Fee.
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee200Response {
-    private String matterCode1;
-    private String matterCode2;
-    private String locationCode;
-    private String caseStage;
+public class Fee {
     private Double amount;
     private Double vat;
     private Double total;

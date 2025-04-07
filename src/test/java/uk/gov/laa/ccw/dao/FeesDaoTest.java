@@ -5,14 +5,13 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.helpers.FeesHelper;
-import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.entity.FeeEntity;
+import uk.gov.laa.ccw.exceptions.FeesException;
+import uk.gov.laa.ccw.mapper.dao.FeeMapper;
+import uk.gov.laa.ccw.repository.FeeRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -23,7 +22,10 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class FeesDaoTest {
     @Mock
-    private JdbcTemplate jdbcTemplate;
+    private FeeRepository repository;
+
+    @Mock
+    private FeeMapper mapper;
 
     @InjectMocks
     private FeesDao classUnderTest;
@@ -31,22 +33,54 @@ public class FeesDaoTest {
     @Test
     void shouldFetchFeesForLocation() {
 
-        when(jdbcTemplate.queryForList(anyString(), anyString()))
-                .thenReturn(FeesHelper.createFeesTestData()
-                        .stream()
-                        .filter(f -> f.get("PROVIDER_LOCATION").toString().contentEquals("LOC1"))
-                        .collect(Collectors.toList()));
+        when(repository.findAllByProviderLocationAndCaseStage(anyString(), anyString()))
+                .thenReturn(
+                        List.of(
+                                FeeEntity.builder()
+                                        .feeId(1)
+                                        .amount(16.0)
+                                        .description("LEVEL 1")
+                                        .levelCodeType("A")
+                                        .levelCode("LV1")
+                                        .build(),
+                                FeeEntity.builder()
+                                        .feeId(2)
+                                        .amount(32.0)
+                                        .description("LEVEL 2")
+                                        .levelCodeType("A")
+                                        .levelCode("LV2")
+                                        .build(),
+                                FeeEntity.builder()
+                                        .feeId(3)
+                                        .amount(64.0)
+                                        .description("LEVEL 3")
+                                        .levelCodeType("O")
+                                        .levelCode("LV3")
+                                        .build(),
+                                FeeEntity.builder()
+                                        .feeId(4)
+                                        .amount(128.0)
+                                        .description("LEVEL 4")
+                                        .levelCodeType("OM")
+                                        .levelCode("LV4")
+                                        .build()
+                        )
+                );
 
-        List<FeeRecord> dataReturned = classUnderTest.fetchFeesForLocation("LOC1");
+        List<FixedFee> dataReturned = classUnderTest.fetchFeesForLocationAndCaseStage(
+                "LOC1", "CS1");
+
         assertEquals(4, dataReturned.size());
     }
 
     @Test
     void shouldThrowExceptionIfFeesNotReadCorrectly() {
 
-        doThrow(new DataAccessException(""){}).when(jdbcTemplate).queryForList(anyString(), anyString());
+        doThrow(new FeesException(""){})
+                .when(repository).findAllByProviderLocationAndCaseStage(anyString(), anyString());
 
-        assertThrows(DatabaseReadException.class,
-                () -> classUnderTest.fetchFeesForLocation("LOC1"));
+        assertThrows(FeesException.class,
+                () -> classUnderTest.fetchFeesForLocationAndCaseStage("LOC1", "CS2"));
     }
+
 }
