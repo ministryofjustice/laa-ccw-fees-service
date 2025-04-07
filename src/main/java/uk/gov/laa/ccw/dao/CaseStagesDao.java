@@ -8,7 +8,9 @@ import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
 import uk.gov.laa.ccw.model.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Dao class for the case stages.
@@ -30,7 +32,8 @@ public class CaseStagesDao {
         log.info("fetch case stages from database for {}", matterCodeOne);
 
         List<CaseStage> caseStages =  repository.findCaseStagesByMatterCodeOne(matterCodeOne).stream()
-                .map(caseStagesMapper::toCaseStage).toList();
+                .map(caseStagesMapper::toCaseStage)
+                .collect(Collectors.toCollection(ArrayList::new));
 
         if (caseStages.isEmpty()) {
             throw new CaseStagesNotFoundException("Unable to find case stage for matter codes " + matterCodeOne);
