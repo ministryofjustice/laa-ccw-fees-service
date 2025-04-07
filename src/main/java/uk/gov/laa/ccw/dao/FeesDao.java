@@ -2,15 +2,13 @@ package uk.gov.laa.ccw.dao;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.mapping.dao.FeesDaoMapping;
-import uk.gov.laa.ccw.models.FeeRecord;
+import uk.gov.laa.ccw.exceptions.FeesException;
+import uk.gov.laa.ccw.mapper.dao.FeeMapper;
+import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.repository.FeeRepository;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Dao class for fees.
@@ -19,10 +17,8 @@ import java.util.Map;
 @Repository
 @RequiredArgsConstructor
 public class FeesDao {
-    private static final String GET_FEES_SQL =
-            "SELECT AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION FROM CCW.FIXED_FEES WHERE PROVIDER_LOCATION = ?";
-
-    private final JdbcTemplate jdbcTemplate;
+    private final FeeRepository repository;
+    private final FeeMapper feeMapper;
 
     /**
      * Fetches the fees for a given location.
@@ -30,19 +26,23 @@ public class FeesDao {
      * @param providerLocation the provider location
      * @return the list of matter codes
      */
-    public List<FeeRecord> fetchFeesForLocation(String providerLocation) {
+    public List<FixedFee> fetchFeesForLocationAndCaseStage(
+            String providerLocation,
+            String caseStage) {
         log.info("fetch fees from database for {}", providerLocation);
-        List<FeeRecord> feeData = new ArrayList<>();
-        List<Map<String, Object>> queryResults = new ArrayList<>();
 
-        try {
-            queryResults = jdbcTemplate.queryForList(GET_FEES_SQL, providerLocation);
+        List<FixedFee> fixedFees =  repository.findAllByProviderLocationAndCaseStage(
+                        providerLocation, caseStage).stream()
+                .map(feeMapper::toFee).toList();
 
-            feeData = queryResults.stream().map(FeesDaoMapping::mapAllFees).toList();
-        } catch (Exception ex) {
-            throw new DatabaseReadException("Unable to retrieve fees from database: " + ex);
+        if (fixedFees.isEmpty()) {
+            throw new FeesException(
+                    "Unable to find fixed fees for location "
+                            + providerLocation
+                            + " and case stage "
+                            + caseStage);
         }
 
-        return feeData;
+        return fixedFees;
     }
 }

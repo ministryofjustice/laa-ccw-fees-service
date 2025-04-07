@@ -6,9 +6,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapper.api.MatterCodesResponseMapper;
-import uk.gov.laa.ccw.models.api.MatterCodes200Response;
+import uk.gov.laa.ccw.model.api.MatterCodes200Response;
 import uk.gov.laa.ccw.services.MatterCodesService;
-import uk.gov.laa.ccw.validators.MatterCodesValidator;
+import uk.gov.laa.ccw.services.validators.MatterCodesValidator;
 
 /**
  * Controller for handling the matter codes requests.
@@ -19,7 +19,7 @@ import uk.gov.laa.ccw.validators.MatterCodesValidator;
 public class MatterCodesController {
 
     private final MatterCodesService service;
-
+    private final MatterCodesValidator validator;
     private final MatterCodesResponseMapper mapper;
 
     /**
@@ -29,7 +29,7 @@ public class MatterCodesController {
      */
     @GetMapping("/v1/matter-codes/{lawType}")
     public MatterCodes200Response getAllMatterCodeOnes(@PathVariable(value = "lawType") String lawType) {
-        MatterCodesValidator.validateRequest(lawType);
+        validator.validateRequest(lawType);
 
         log.info("retrieve all matter codes");
         return MatterCodes200Response.builder()
@@ -49,7 +49,7 @@ public class MatterCodesController {
      */
     @GetMapping("/v1/matter-codes/{id}/matter-code-2")
     public MatterCodes200Response getMatterCodeTwosForMatterCodeOne(@PathVariable(value = "id") String id) {
-        MatterCodesValidator.validateRequest(id);
+        validator.validateRequest(id);
         log.info("retrieve all matter code twos for matter code {}", id);
         return MatterCodes200Response.builder()
                 .matterCodes(

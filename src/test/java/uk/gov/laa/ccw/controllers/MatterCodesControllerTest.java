@@ -8,8 +8,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.mapper.api.MatterCodesResponseMapper;
-import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.models.api.MatterCodes200ResponseMatterCode;
+import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.model.api.MatterCodes200ResponseMatterCode;
 import uk.gov.laa.ccw.services.MatterCodesService;
 
 import java.util.List;

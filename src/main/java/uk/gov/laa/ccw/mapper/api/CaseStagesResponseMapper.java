@@ -2,8 +2,8 @@ package uk.gov.laa.ccw.mapper.api;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
-import uk.gov.laa.ccw.models.CaseStage;
-import uk.gov.laa.ccw.models.api.CaseStages200ResponseCaseStage;
+import uk.gov.laa.ccw.model.CaseStage;
+import uk.gov.laa.ccw.model.api.CaseStages200ResponseCaseStage;
 
 /**
  * Mapper class between CaseStage and CaseStages200ResponseCaseStage.

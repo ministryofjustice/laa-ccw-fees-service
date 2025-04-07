@@ -3,8 +3,8 @@ package uk.gov.laa.ccw.mapper.api;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.models.MatterCode;
-import uk.gov.laa.ccw.models.api.MatterCodes200ResponseMatterCode;
+import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.model.api.MatterCodes200ResponseMatterCode;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
