@@ -10,7 +10,7 @@ import java.util.List;
 import java.util.Optional;
 
 /**
- * Controller for handling the fees requests.
+ * Service class for handling the case stages requests.
  */
 @Slf4j
 @Service

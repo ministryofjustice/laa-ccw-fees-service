@@ -13,7 +13,7 @@ import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 import uk.gov.laa.ccw.model.api.FeeListAvailable200Response;
 import uk.gov.laa.ccw.model.api.FeeListAvailableRequest;
 import uk.gov.laa.ccw.services.FeesService;
-import uk.gov.laa.ccw.services.validators.FeesValidator;
+import uk.gov.laa.ccw.services.validators.FeeCalculateValidator;
 
 import java.util.List;
 
@@ -25,7 +25,7 @@ import java.util.List;
 @RestController
 public class FeesController {
     private final FeesService service;
-    private final FeesValidator validator;
+    private final FeeCalculateValidator validator;
     private final FeeResponseMapper mapper;
 
     /**

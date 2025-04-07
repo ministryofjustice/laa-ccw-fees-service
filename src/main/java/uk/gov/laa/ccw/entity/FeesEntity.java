@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Entity
 @Table(name = "FIXED_FEES")
-public class FeeEntity {
+public class FeesEntity {
     @Id
     @Column(name = "FEE_ID")
     private int feeId;

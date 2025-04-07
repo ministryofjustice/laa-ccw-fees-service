@@ -15,7 +15,7 @@ import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
-import uk.gov.laa.ccw.services.validators.FeesValidator;
+import uk.gov.laa.ccw.services.validators.FeeCalculateValidator;
 
 import java.util.ArrayList;
 
@@ -35,7 +35,7 @@ public class FeesControllerTest {
     FeesService feesService; // This is required, despite the sonarlint suggestions
 
     @MockitoBean
-    FeesValidator validator; // This is required, despite the sonarlint suggestions
+    FeeCalculateValidator validator; // This is required, despite the sonarlint suggestions
 
     @Test
     void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {

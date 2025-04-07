@@ -11,10 +11,10 @@ import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest()
-public class FeesValidatorTest {
+public class FeeCalculateValidatorTest {
 
     @InjectMocks
-    private FeesValidator classUnderTest;
+    private FeeCalculateValidator classUnderTest;
 
     @Test
     void shouldAllowValidCalculateRequest() {

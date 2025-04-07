@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.model.FixedFee;
-import uk.gov.laa.ccw.repository.FeeRepository;
+import uk.gov.laa.ccw.repository.FeesRepository;
 
 import java.util.List;
 
@@ -17,7 +17,7 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class FeesDao {
-    private final FeeRepository repository;
+    private final FeesRepository repository;
     private final FeeMapper feeMapper;
 
     /**

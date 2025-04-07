@@ -6,10 +6,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapper.api.CaseStagesResponseMapper;
-import uk.gov.laa.ccw.model.api.CaseStageRequest;
 import uk.gov.laa.ccw.model.api.CaseStages200Response;
+import uk.gov.laa.ccw.model.api.CaseStagesRequest;
 import uk.gov.laa.ccw.services.CaseStagesService;
-import uk.gov.laa.ccw.services.validators.CaseStageValidator;
+import uk.gov.laa.ccw.services.validators.CaseStagesValidator;
 
 /**
  * Controller for handling the case stages requests.
@@ -19,7 +19,7 @@ import uk.gov.laa.ccw.services.validators.CaseStageValidator;
 @RestController
 public class CaseStagesController {
     private final CaseStagesService caseService;
-    private final CaseStageValidator caseValidatorService;
+    private final CaseStagesValidator caseValidatorService;
     private final CaseStagesResponseMapper caseStagesResponseMapper;
 
     /**
@@ -29,7 +29,7 @@ public class CaseStagesController {
      * @return the case stages
      */
     @GetMapping("/v1/case-stages")
-    public CaseStages200Response getCaseStagesForMatterCodes(@RequestBody CaseStageRequest request) {
+    public CaseStages200Response getCaseStagesForMatterCodes(@RequestBody CaseStagesRequest request) {
 
         caseValidatorService.validateRequest(request);
 

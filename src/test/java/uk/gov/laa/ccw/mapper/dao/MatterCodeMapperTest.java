@@ -22,6 +22,7 @@ class MatterCodeMapperTest {
                 .matterCodeId("mt1")
                 .description("desc")
                 .build();
+
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesOneEntity);
 
         assertNotNull(result);
@@ -35,6 +36,7 @@ class MatterCodeMapperTest {
                 .matterCodeId("mt2")
                 .description("desc")
                 .build();
+
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesTwoEntity);
 
         assertNotNull(result);
