@@ -20,24 +20,26 @@ class MatterCodeMapperTest {
     void shouldMapMatterCodesOneEntityToMatterCode() {
         MatterCodesOneEntity matterCodesOneEntity = MatterCodesOneEntity.builder()
                 .matterCodeId("mt1")
+                .description("desc")
                 .build();
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesOneEntity);
 
         assertNotNull(result);
         assertEquals("mt1", result.getMatterCodeId(), matterCodesOneEntity.getMatterCodeId());
-        assertEquals("", result.getDescription(), matterCodesOneEntity.getDescription());
+        assertEquals("desc", result.getDescription(), matterCodesOneEntity.getDescription());
     }
 
     @Test
     void shouldMapMatterCodesTwoEntityToMatterCode() {
         MatterCodesTwoEntity matterCodesTwoEntity = MatterCodesTwoEntity.builder()
                 .matterCodeId("mt2")
+                .description("desc")
                 .build();
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesTwoEntity);
 
         assertNotNull(result);
         assertEquals("mt2", result.getMatterCodeId(), matterCodesTwoEntity.getMatterCodeId());
-        assertEquals("", result.getDescription(), matterCodesTwoEntity.getDescription());
+        assertEquals("desc", result.getDescription(), matterCodesTwoEntity.getDescription());
     }
 
 }

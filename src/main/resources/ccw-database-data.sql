@@ -6,23 +6,23 @@ VALUES
 ;
 
 ------------------ family law -----------------------
-INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE)
+INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE, DESCRIPTION)
 VALUES
-    ('FAMA','FAM'),
-    ('FAMC','FAM'),
-    ('FAMD','FAM')
+    ('FAMA','FAM', 'Divorce/Judicial Seperation/Nullity'),
+    ('FAMC','FAM', 'Domestic Abuse'),
+    ('FAMD','FAM', 'Private Law Children only')
 ;
 
-INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
+INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID, DESCRIPTION)
 VALUES
-    ('FPET'),
-    ('FRES'),
-    ('FADV'),
-    ('FAPP'),
-    ('FREP'),
-    ('FCHG'),
-    ('FCHS'),
-    ('FOTH')
+    ('FPET', 'Client is the petitioner in Divorce/Judicial Separation/Nullity/Dissolution of Civil Partnership'),
+    ('FRES', 'Client is the respondent in Divorce/Judicial Separation/Nullity/Dissolution of Civil Partnership'),
+    ('FADV', 'Client is seeking advice only'),
+    ('FAPP', 'Client is or would be the applicant where proceedings issued'),
+    ('FREP', 'Client is or would be the respondent where proceedings issued'),
+    ('FCHG', 'Client is a child with a guardian'),
+    ('FCHS', 'Client is a child instructing solicitor directly'),
+    ('FOTH', 'Other')
 ;
 
 INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
@@ -70,15 +70,15 @@ VALUES
     ('DPF', 'Div pet fee','A')
 ;
 
-INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
+INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID, DESCRIPTION)
 VALUES
-    ('FPL01'),
-    ('FPL02'),
-    ('FPL04'),
-    ('FPL08'),
-    ('FPL10'),
-    ('FPL11'),
-    ('FPL13')
+    ('FPL01', 'Level 1'),
+    ('FPL02', 'Level 1 + Level 2 children + Settlement fee children'),
+    ('FPL04', 'Level 1 + Level 2 children'),
+    ('FPL08', 'Level 1 + Level 2 children + Level 2 finance'),
+    ('FPL10', 'Div pet fee'),
+    ('FPL11', 'Level 2 children + Settlement fee children'),
+    ('FPL13', 'Level 2 children')
 ;
 
 INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
