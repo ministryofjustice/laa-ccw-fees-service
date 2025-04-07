@@ -78,7 +78,7 @@ public class FeesService {
         Double vat = vatRatesDao.fetchVat();
         log.info("add in vat of {}%", vat);
 
-        Double vatAmount = vat/100.0;
+        Double vatAmount = vat / 100.0;
         vatAmount *= totalFees;
         Double totalPlusVat = totalFees + vatAmount;
 

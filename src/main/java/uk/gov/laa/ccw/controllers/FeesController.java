@@ -5,13 +5,13 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import uk.gov.laa.ccw.mapper.api.FeeResponseMapper;
 import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 import uk.gov.laa.ccw.model.api.FeeListAvailable200Response;
 import uk.gov.laa.ccw.model.api.FeeListAvailableRequest;
-import uk.gov.laa.ccw.mapper.api.FeeResponseMapper;
 import uk.gov.laa.ccw.services.FeesService;
 import uk.gov.laa.ccw.services.validators.FeesValidator;
 

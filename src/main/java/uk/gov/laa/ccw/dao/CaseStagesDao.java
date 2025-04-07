@@ -3,9 +3,9 @@ package uk.gov.laa.ccw.dao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccw.model.CaseStage;
 import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
+import uk.gov.laa.ccw.model.CaseStage;
 import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
 import java.util.List;

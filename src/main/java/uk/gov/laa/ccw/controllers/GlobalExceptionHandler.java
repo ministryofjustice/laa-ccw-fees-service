@@ -6,14 +6,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import uk.gov.laa.ccw.model.api.HttpError400Response;
-import uk.gov.laa.ccw.model.api.HttpError404Response;
-import uk.gov.laa.ccw.model.api.HttpError500Response;
 import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
 import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
+import uk.gov.laa.ccw.model.api.HttpError400Response;
+import uk.gov.laa.ccw.model.api.HttpError404Response;
+import uk.gov.laa.ccw.model.api.HttpError500Response;
 
 import static org.springframework.http.ResponseEntity.internalServerError;
 

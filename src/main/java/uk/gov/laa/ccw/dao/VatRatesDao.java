@@ -3,9 +3,9 @@ package uk.gov.laa.ccw.dao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
+import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.repository.VatRateRepository;
 
 /**

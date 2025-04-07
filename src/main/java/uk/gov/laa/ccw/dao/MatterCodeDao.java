@@ -3,9 +3,9 @@ package uk.gov.laa.ccw.dao;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
-import uk.gov.laa.ccw.model.MatterCode;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
+import uk.gov.laa.ccw.model.MatterCode;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
 import java.util.List;

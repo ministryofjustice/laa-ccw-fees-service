@@ -3,9 +3,9 @@ package uk.gov.laa.ccw.services.validators;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 import uk.gov.laa.ccw.model.api.FeeListAvailableRequest;
-import uk.gov.laa.ccw.exceptions.MissingDataException;
 
 import java.util.ArrayList;
 
