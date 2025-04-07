@@ -6,11 +6,11 @@ VALUES
 ;
 
 ------------------ family law -----------------------
-INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE)
+INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE, DESCRIPTION)
 VALUES
-    ('FAMA','FAM'),
-    ('FAMC','FAM'),
-    ('FAMD','FAM')
+    ('FAMA','FAM', 'Divorce/Judicial Seperation/Nullity'),
+    ('FAMC','FAM', 'Domestic Abuse'),
+    ('FAMD','FAM', 'Private Law Children only')
 ;
 
 INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
