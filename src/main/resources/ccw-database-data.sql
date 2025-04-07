@@ -13,16 +13,16 @@ VALUES
     ('FAMD','FAM', 'Private Law Children only')
 ;
 
-INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
+INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID, DESCRIPTION)
 VALUES
-    ('FPET'),
-    ('FRES'),
-    ('FADV'),
-    ('FAPP'),
-    ('FREP'),
-    ('FCHG'),
-    ('FCHS'),
-    ('FOTH')
+    ('FPET', 'Client is the petitioner in Divorce/Judicial Separation/Nullity/Dissolution of Civil Partnership'),
+    ('FRES', 'Client is the respondent in Divorce/Judicial Separation/Nullity/Dissolution of Civil Partnership'),
+    ('FADV', 'Client is seeking advice only'),
+    ('FAPP', 'Client is or would be the applicant where proceedings issued'),
+    ('FREP', 'Client is or would be the respondent where proceedings issued'),
+    ('FCHG', 'Client is a child with a guardian'),
+    ('FCHS', 'Client is a child instructing solicitor directly'),
+    ('FOTH', 'Other')
 ;
 
 INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
