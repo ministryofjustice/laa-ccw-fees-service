@@ -1,5 +1,6 @@
 package uk.gov.laa.ccw.entity;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
@@ -19,6 +20,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "FIXED_FEES")
 public class FeeEntity {
     @Id
+    @Column(name = "FEE_ID")
     private int feeId;
     private String levelCodeType;
     private String levelCode;
