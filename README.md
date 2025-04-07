@@ -10,7 +10,7 @@ TODO
 - `mvn clean install`
 
 ### Run application
-- `java -jar -Dspring.profiles.active=local target/ccw-fees-service-0.0.1-SNAPSHOT.jar`
+- `java -jar -Dspring.profiles.active=local target/laa-ccw-fees-service-0.0.1-SNAPSHOT.jar`
 
 ### Run application (via Docker)
 - `docker compose up`

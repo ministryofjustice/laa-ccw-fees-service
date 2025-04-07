@@ -9,16 +9,16 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.laa.ccw.exceptions.DatabaseReadException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.mapper.api.CaseStagesResponseMapper;
-import uk.gov.laa.ccw.models.CaseStage;
-import uk.gov.laa.ccw.models.api.CaseStageRequest;
-import uk.gov.laa.ccw.models.api.CaseStages200ResponseCaseStage;
+import uk.gov.laa.ccw.model.CaseStage;
+import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
+import uk.gov.laa.ccw.exceptions.MissingDataException;
+import uk.gov.laa.ccw.model.api.CaseStageRequest;
 import uk.gov.laa.ccw.services.CaseStagesService;
+import uk.gov.laa.ccw.services.validators.CaseStageValidator;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
@@ -35,19 +35,42 @@ public class CaseStagesControllerTest {
     CaseStagesService caseStagesService; // This is required, despite the sonarlint suggestions
 
     @MockitoBean
-    CaseStagesResponseMapper caseStagesResponseMapper; // This is required, despite the sonarlint suggestions
+    CaseStageValidator caseValidatorService;
+
+    @Test
+    void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
+
+        doThrow(new MissingDataException(""){}).when(caseValidatorService).validateRequest(any(CaseStageRequest.class));
+
+        ObjectWriter objectWriter = new ObjectMapper().writer();
+        String caseStageRequest = objectWriter.writeValueAsString(
+                CaseStageRequest.builder()
+                        .matterCode1(null)
+                        .matterCode2("CODE2")
+                        .build());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
+                        .content(caseStageRequest)
+                        .contentType("application/json"))
+
+                .andExpect(status().is4xxClientError());
+    }
 
     @Test
     void shouldReturnCaseStagesForMatterCodes() throws Exception {
-        CaseStage caseStageOne = CaseStage.builder().caseStageId("1").description("description").build();
-        CaseStage caseStageTwo = CaseStage.builder().caseStageId("2").description("description").build();
+        List<CaseStage> caseStages = List.of(
+                CaseStage.builder()
+                        .caseStageId("1")
+                        .description("description")
+                        .build(),
+                CaseStage.builder()
+                        .caseStageId("2")
+                        .description("description")
+                        .build()
+        );
 
         when(caseStagesService.getAllCaseStagesForMatterCodes(anyString(), anyString()))
-                .thenReturn(List.of(caseStageOne, caseStageTwo));
-        when(caseStagesResponseMapper.toCaseStages200ResponseCaseStage(caseStageOne))
-                .thenReturn(CaseStages200ResponseCaseStage.builder().caseStage("1").description("description").build());
-        when(caseStagesResponseMapper.toCaseStages200ResponseCaseStage(caseStageTwo))
-                .thenReturn(CaseStages200ResponseCaseStage.builder().caseStage("2").description("description").build());
+                .thenReturn(caseStages);
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
@@ -65,79 +88,10 @@ public class CaseStagesControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(content().string(returnedContent));
     }
-/*
-    @Test
-    void shouldReturn400ErrorForNullMatterCode1() throws Exception {
-
-        ObjectWriter objectWriter = new ObjectMapper().writer();
-        String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
-                        .matterCode1(null)
-                        .matterCode2("CODE2")
-                        .build());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                        .content(caseStageRequest)
-                        .contentType("application/json"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("{\"error\":\"No matter code 1 provided\"}"));
-    }
 
     @Test
-    void shouldReturn400ErrorForNullMatterCode2() throws Exception {
-
-        ObjectWriter objectWriter = new ObjectMapper().writer();
-        String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
-                        .matterCode1("CODE1")
-                        .matterCode2(null)
-                        .build());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                        .content(caseStageRequest)
-                        .contentType("application/json"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("{\"error\":\"No matter code 2 provided\"}"));
-    }
-*/
-    @Test
-    void shouldReturn400ErrorForBlankMatterCode1() throws Exception {
-
-        ObjectWriter objectWriter = new ObjectMapper().writer();
-        String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
-                        .matterCode1("")
-                        .matterCode2("CODE2")
-                        .build());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                        .content(caseStageRequest)
-                        .contentType("application/json"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("{\"error\":\"No matter code 1 provided\"}"));
-    }
-
-    @Test
-    void shouldReturn400ErrorForBlankMatterCode2() throws Exception {
-
-        ObjectWriter objectWriter = new ObjectMapper().writer();
-        String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
-                        .matterCode1("CODE1")
-                        .matterCode2("")
-                        .build());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                        .content(caseStageRequest)
-                        .contentType("application/json"))
-                .andExpect(status().is4xxClientError())
-                .andExpect(content().string("{\"error\":\"No matter code 2 provided\"}"));
-    }
-
-    @Test
-    void shouldThrowExceptionWhenNoMatterCode1ForCaseStages() throws Exception {
-        doThrow(new MatterCodeNotFoundException("") {
-        }).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
+    void shouldThrowExceptionNotCaseStagesWhenDatabaseError() throws Exception {
+        doThrow(new CaseStagesNotFoundException(""){}).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
@@ -150,23 +104,5 @@ public class CaseStagesControllerTest {
                         .content(caseStageRequest)
                         .contentType("application/json"))
                 .andExpect(status().is4xxClientError());
-    }
-
-    @Test
-    void shouldThrowExceptionNotCaseStagesWhenDatabaseError() throws Exception {
-        doThrow(new DatabaseReadException("") {
-        }).when(caseStagesService).getAllCaseStagesForMatterCodes(anyString(), anyString());
-
-        ObjectWriter objectWriter = new ObjectMapper().writer();
-        String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
-                        .matterCode1("CODE1")
-                        .matterCode2("CODE2")
-                        .build());
-
-        mockMvc.perform(MockMvcRequestBuilders.get("/v1/case-stages")
-                        .content(caseStageRequest)
-                        .contentType("application/json"))
-                .andExpect(status().is5xxServerError());
     }
 }
