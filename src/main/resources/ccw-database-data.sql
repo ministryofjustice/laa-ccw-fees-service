@@ -70,7 +70,7 @@ VALUES
     ('DPF', 'Div pet fee','A')
 ;
 
-INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
+INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID, DESCRIPTION)
 VALUES
     ('FPL01', 'Level 1'),
     ('FPL02', 'Level 1 + Level 2 children + Settlement fee children'),
