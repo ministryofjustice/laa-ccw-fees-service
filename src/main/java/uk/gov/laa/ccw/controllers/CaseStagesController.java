@@ -20,7 +20,7 @@ import uk.gov.laa.ccw.services.validators.CaseStageValidator;
 public class CaseStagesController {
     private final CaseStagesService caseService;
     private final CaseStageValidator caseValidatorService;
-    private final CaseStagesResponseMapper mapper;
+    private final CaseStagesResponseMapper caseStagesResponseMapper;
     /**
      * Gets the case stages for the given request.
      *
@@ -39,7 +39,7 @@ public class CaseStagesController {
                 .caseStages(
                         caseService.getAllCaseStagesForMatterCodes(request.getMatterCode1(), request.getMatterCode2())
                                 .stream()
-                                .map(mapper::toCaseStages200ResponseCaseStage)
+                                .map(caseStagesResponseMapper::toCaseStages200ResponseCaseStage)
                                 .toList())
                 .build();
 

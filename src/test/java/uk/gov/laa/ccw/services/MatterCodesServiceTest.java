@@ -5,6 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.laa.ccw.dao.MatterCodeDao;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
 import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 public class MatterCodesServiceTest {
 
     @Mock
-    private MatterCodesRepository matterCodesRepository;
+    private MatterCodeDao matterCodesDao;
 
     @Mock
     private MatterCodeMapper matterCodeMapper;
@@ -30,11 +31,9 @@ public class MatterCodesServiceTest {
 
     @Test
     void shouldFetchAllMatterCodes() {
-        MatterCodesOneEntity mt1AEntity = MatterCodesOneEntity.builder().matterCodeId("mt1A").build();
-        MatterCodesOneEntity mt1BEntity = MatterCodesOneEntity.builder().matterCodeId("mt1B").build();
-        when(matterCodesRepository.findByLawType("FAM")).thenReturn(List.of(mt1AEntity, mt1BEntity));
-        when(matterCodeMapper.toMatterCode(mt1AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1A").build());
-        when(matterCodeMapper.toMatterCode(mt1BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt1B").build());
+        MatterCode mt1AEntity = MatterCode.builder().matterCodeId("mt1A").build();
+        MatterCode mt1BEntity = MatterCode.builder().matterCodeId("mt1B").build();
+        when(matterCodesDao.findMatterCodesByLawType("FAM")).thenReturn(List.of(mt1AEntity, mt1BEntity));
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterCodes("FAM");
         assertEquals(2, dataReturned.size());
@@ -46,12 +45,10 @@ public class MatterCodesServiceTest {
     void shouldFetchMatterCodesForSpecificMatterCodeOne() {
 
         String matterCodeOne = "mt1A";
-        MatterCodesTwoEntity mt2AEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2A").build();
-        MatterCodesTwoEntity mt2BEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2B").build();
-        when(matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne))
+        MatterCode mt2AEntity = MatterCode.builder().matterCodeId("mt2A").build();
+        MatterCode mt2BEntity = MatterCode.builder().matterCodeId("mt2B").build();
+        when(matterCodesDao.findMatterCodeTwosByMatterCodeOne(matterCodeOne))
                 .thenReturn(List.of(mt2AEntity, mt2BEntity));
-        when(matterCodeMapper.toMatterCode(mt2AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2A").build());
-        when(matterCodeMapper.toMatterCode(mt2BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2B").build());
 
         List<MatterCode> dataReturned = classUnderTest.getAllMatterTwosForMatterCodeOne(matterCodeOne);
         assertEquals(2, dataReturned.size());

@@ -213,5 +213,4 @@ public class FeesValidatorTest {
                 .build();
         assertThrows(MissingDataException.class, () -> classUnderTest.validateFeeListAvailableRequest(request));
     }
-
 }
