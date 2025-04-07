@@ -12,9 +12,9 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.model.CaseStage;
 import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
-import uk.gov.laa.ccw.model.api.CaseStageRequest;
+import uk.gov.laa.ccw.model.api.CaseStagesRequest;
 import uk.gov.laa.ccw.services.CaseStagesService;
-import uk.gov.laa.ccw.services.validators.CaseStageValidator;
+import uk.gov.laa.ccw.services.validators.CaseStagesValidator;
 
 import java.util.List;
 
@@ -35,16 +35,16 @@ public class CaseStagesControllerTest {
     CaseStagesService caseStagesService; // This is required, despite the sonarlint suggestions
 
     @MockitoBean
-    CaseStageValidator caseValidatorService;
+    CaseStagesValidator caseValidatorService;
 
     @Test
     void shouldThrowMissingDataExceptionWhenValidationFails() throws Exception {
 
-        doThrow(new MissingDataException(""){}).when(caseValidatorService).validateRequest(any(CaseStageRequest.class));
+        doThrow(new MissingDataException(""){}).when(caseValidatorService).validateRequest(any(CaseStagesRequest.class));
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
+                CaseStagesRequest.builder()
                         .matterCode1(null)
                         .matterCode2("CODE2")
                         .build());
@@ -74,7 +74,7 @@ public class CaseStagesControllerTest {
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
+                CaseStagesRequest.builder()
                         .matterCode1("CODE1")
                         .matterCode2("CODE2")
                         .build());
@@ -95,7 +95,7 @@ public class CaseStagesControllerTest {
 
         ObjectWriter objectWriter = new ObjectMapper().writer();
         String caseStageRequest = objectWriter.writeValueAsString(
-                CaseStageRequest.builder()
+                CaseStagesRequest.builder()
                         .matterCode1("CODE1")
                         .matterCode2("CODE2")
                         .build());

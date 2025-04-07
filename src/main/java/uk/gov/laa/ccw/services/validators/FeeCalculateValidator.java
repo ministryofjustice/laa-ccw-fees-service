@@ -15,26 +15,7 @@ import java.util.ArrayList;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class FeesValidator {
-
-    private void validateCoreFields(
-            String matterCode1,
-            String matterCode2,
-            String locationCode,
-            String caseStage) {
-        if (matterCode1 == null || matterCode1.isEmpty()) {
-            throw new MissingDataException("No matter code 1 provided");
-        }
-        if (matterCode2 == null || matterCode2.isEmpty()) {
-            throw new MissingDataException("No matter code 2 provided");
-        }
-        if (locationCode == null || locationCode.isEmpty()) {
-            throw new MissingDataException("No provider location provided");
-        }
-        if (caseStage == null || caseStage.isEmpty()) {
-            throw new MissingDataException("No case stage provided");
-        }
-    }
+public class FeeCalculateValidator {
 
     /**
      * Validates the fee calculator request.
@@ -64,6 +45,25 @@ public class FeesValidator {
                 request.getLocationCode(),
                 request.getCaseStage()
         );
+    }
+
+    private void validateCoreFields(
+            String matterCode1,
+            String matterCode2,
+            String locationCode,
+            String caseStage) {
+        if (matterCode1 == null || matterCode1.isEmpty()) {
+            throw new MissingDataException("No matter code 1 provided");
+        }
+        if (matterCode2 == null || matterCode2.isEmpty()) {
+            throw new MissingDataException("No matter code 2 provided");
+        }
+        if (locationCode == null || locationCode.isEmpty()) {
+            throw new MissingDataException("No provider location provided");
+        }
+        if (caseStage == null || caseStage.isEmpty()) {
+            throw new MissingDataException("No case stage provided");
+        }
     }
 
 }

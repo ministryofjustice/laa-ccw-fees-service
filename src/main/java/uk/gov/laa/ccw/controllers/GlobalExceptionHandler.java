@@ -24,10 +24,10 @@ import static org.springframework.http.ResponseEntity.internalServerError;
 @ControllerAdvice
 public class GlobalExceptionHandler {
     /**
-     * Handles DatabaseReadException.
+     * Handles VatRateNotFoundException.
      *
-     * @param exception the database read exception
-     * @return the Internal Server Error response
+     * @param exception the vat rate not found exception
+     * @return the Not Found exception response
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(VatRateNotFoundException.class)
@@ -45,7 +45,7 @@ public class GlobalExceptionHandler {
      * Handles NumberFormatException.
      *
      * @param exception the number format exception
-     * @return the Bad Request response
+     * @return the Not Found exception response
      */
     @ResponseStatus(HttpStatus.NOT_FOUND)
     @ExceptionHandler(MatterCodeNotFoundException.class)

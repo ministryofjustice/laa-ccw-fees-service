@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CaseStageRequest {
+public class CaseStagesRequest {
     private String matterCode1;
     private String matterCode2;
 }
