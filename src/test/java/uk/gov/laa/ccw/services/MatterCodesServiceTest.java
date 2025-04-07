@@ -23,9 +23,6 @@ public class MatterCodesServiceTest {
     @Mock
     private MatterCodeDao matterCodesDao;
 
-    @Mock
-    private MatterCodeMapper matterCodeMapper;
-
     @InjectMocks
     private MatterCodesService classUnderTest;
 
