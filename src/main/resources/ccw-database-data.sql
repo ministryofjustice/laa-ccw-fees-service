@@ -164,13 +164,13 @@ VALUES
 INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE)
 VALUES
     ('_IMSTD', 'Immigration standard fee','A'),
-    ('_IMHOI', 'HO interview fee','O'),
-    ('_IMORL', 'CMRH Oral','O'),
-    ('_IMTEL', 'CMRH Telephone','O'),
+    ('_IMHOI', 'HO interview fee','OU'),
+    ('_IMORL', 'CMRH Oral','OU'),
+    ('_IMTEL', 'CMRH Telephone','OU'),
     ('_IMSUH', 'Substantive hearing','O'),
-    ('_IMADJ', 'Adjourned hearing','O'),
-    ('_IMDET', 'Detention travel and waiting','OM'),
-    ('_IMJRF', 'JR form filling costs','OM'),
+    ('_IMADJ', 'Adjourned hearing','OU'),
+    ('_IMDET', 'Detention travel and waiting','OF'),
+    ('_IMJRF', 'JR form filling costs','OF'),
     ('_IMNRM', 'NRM advice','O')
 ;
 
@@ -192,17 +192,31 @@ INSERT INTO CCW.FIXED_FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FEE_ID
 VALUES
     (  413.00, '_IMM01', '_IMSTD', 'NA',300),
     (  266.00, '_IMM01', '_IMHOI', 'NA',301),
-    (    0.00, '_IMM01', '_IMJRF', 'NA',302),
-    (  150.00, '_IMM01', '_IMNRM', 'NA',303),
-    ( 1009.00, '_IMM02', '_IMSTD', 'NA',304),
-    (  166.00, '_IMM02', '_IMORL', 'NA',305),
-    (   90.00, '_IMM02', '_IMTEL', 'NA',306),
-    (  302.00, '_IMM02', '_IMSUH', 'NA',307),
-    (  161.00, '_IMM02', '_IMADJ', 'NA',308),
-    (    0.00, '_IMM02', '_IMJRF', 'NA',309),
-    (  150.00, '_IMM02', '_IMNRM', 'NA',310),
-    (  234.00, '_IMM03', '_IMSTD', 'NA',311),
-    (  266.00, '_IMM03', '_IMHOI', 'NA',312),
-    (    0.00, '_IMM03', '_IMJRF', 'NA',313),
-    (  150.00, '_IMM03', '_IMNRM', 'NA',314)
+    (  166.00, '_IMM01', '_IMORL', 'NA',302),
+    (   90.00, '_IMM01', '_IMTEL', 'NA',303),
+    (  302.00, '_IMM01', '_IMSUH', 'NA',304),
+    (  161.00, '_IMM01', '_IMADJ', 'NA',305),
+    (    0.00, '_IMM01', '_IMDET', 'NA',306),
+    (    0.00, '_IMM01', '_IMJRF', 'NA',307),
+    (  150.00, '_IMM01', '_IMNRM', 'NA',308),
+
+    ( 1009.00, '_IMM02', '_IMSTD', 'NA',320),
+    (  266.00, '_IMM02', '_IMHOI', 'NA',321),
+    (  166.00, '_IMM02', '_IMORL', 'NA',322),
+    (   90.00, '_IMM02', '_IMTEL', 'NA',323),
+    (  302.00, '_IMM02', '_IMSUH', 'NA',324),
+    (  161.00, '_IMM02', '_IMADJ', 'NA',325),
+    (    0.00, '_IMM02', '_IMDET', 'NA',326),
+    (    0.00, '_IMM02', '_IMJRF', 'NA',327),
+    (  150.00, '_IMM02', '_IMNRM', 'NA',328),
+
+    (  234.00, '_IMM03', '_IMSTD', 'NA',340),
+    (  266.00, '_IMM03', '_IMHOI', 'NA',341),
+    (  166.00, '_IMM03', '_IMORL', 'NA',342),
+    (   90.00, '_IMM03', '_IMTEL', 'NA',343),
+    (  302.00, '_IMM03', '_IMSUH', 'NA',344),
+    (  161.00, '_IMM03', '_IMADJ', 'NA',345),
+    (    0.00, '_IMM03', '_IMDET', 'NA',346),
+    (    0.00, '_IMM03', '_IMJRF', 'NA',347),
+    (  150.00, '_IMM03', '_IMNRM', 'NA',348)
 ;

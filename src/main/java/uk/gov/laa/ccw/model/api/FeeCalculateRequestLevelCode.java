@@ -15,4 +15,5 @@ import lombok.NoArgsConstructor;
 public class FeeCalculateRequestLevelCode {
     private String levelCode;
     private Double fee;
+    private Double units;
 }
