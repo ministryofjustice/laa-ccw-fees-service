@@ -3,11 +3,14 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.dao.CaseStagesDao;
+import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
+import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
 import uk.gov.laa.ccw.model.CaseStage;
+import uk.gov.laa.ccw.repository.CaseStagesRepository;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * Service class for handling the case stages requests.
@@ -16,7 +19,8 @@ import java.util.Optional;
 @Service
 @RequiredArgsConstructor
 public class CaseStagesService {
-    private final CaseStagesDao caseStagesDao;
+    private final CaseStagesRepository repository;
+    private final CaseStagesMapper caseStagesMapper;
 
     /**
      * Gets all the case stages for the given matter code one and matter code two.
@@ -28,7 +32,14 @@ public class CaseStagesService {
     public List<CaseStage> getAllCaseStagesForMatterCodes(String matterCodeOne,
                                                           String matterCodeTwo) {
         log.info("get case stages");
-        List<CaseStage> caseStages = caseStagesDao.fetchCaseStages(matterCodeOne);
+
+        List<CaseStage> caseStages =  repository.findCaseStagesByMatterCodeOne(matterCodeOne).stream()
+                .map(caseStagesMapper::toCaseStage)
+                .collect(Collectors.toList());
+
+        if (caseStages.isEmpty()) {
+            throw new CaseStagesNotFoundException("Unable to find case stage for matter codes " + matterCodeOne);
+        }
 
         Optional<CaseStage> caseStage = caseStages.stream()
                 .filter(c -> c.getCaseStageId().contentEquals("FPL10"))
