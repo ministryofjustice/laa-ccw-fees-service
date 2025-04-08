@@ -19,7 +19,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeesService {
 
-    private static final String FEE_TYPE_AUTOMATIC = "A";
     private static final String FEE_TYPE_OPTIONAL = "O";
     private static final String FEE_TYPE_OPTIONAL_FIXED_AMOUNT = "OF";
     private static final String FEE_TYPE_OPTIONAL_PER_UNIT = "OU";
