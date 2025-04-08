@@ -135,21 +135,21 @@ VALUES
     ('IMM', 'Immigration')
 ;
 
-INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE)
+INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE, DESCRIPTION)
 VALUES
-    ('IALB', 'IMM'),
-    ('IACF', 'IMM'),
-    ('IMXC', 'IMM'),
-    ('IAXL', 'IMM'),
-    ('IMLB', 'IMM')
+    ('IALB', 'IMM', 'Asylum - Stage 1 (LH)'),
+    ('IACF', 'IMM', 'Asylum - Stage 2e (CLR)'),
+    ('IMXC', 'IMM', 'Immigration - CLR Work Not Subject to the Standard Fee Scheme'),
+    ('IAXL', 'IMM', 'Asylum - LH Work Not Subject to the Standard Fee Scheme'),
+    ('IMLB', 'IMM', 'Immigration - Stage 1 (LH)')
 ;
 
-INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID)
+INSERT INTO CCW.MATTER_CODES_2(MATTER_CODE_ID, DESCRIPTION)
 VALUES
-    ('IASY'),
-    ('IBAI'),
-    ('IUAS'),
-    ('IDOM')
+    ('IASY', 'Asylum Application'),
+    ('IBAI', 'Bail (Hourly Rates)'),
+    ('IUAS', 'Unaccompanied Asylum-Seeking Children (Hourly Rates)'),
+    ('IDOM', 'Domestic Violence')
 ;
 
 INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
