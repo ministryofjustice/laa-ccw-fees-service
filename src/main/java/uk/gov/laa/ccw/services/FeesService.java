@@ -19,6 +19,11 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FeesService {
 
+    private static final String FEE_TYPE_AUTOMATIC = "A";
+    private static final String FEE_TYPE_OPTIONAL = "O";
+    private static final String FEE_TYPE_OPTIONAL_FIXED_AMOUNT = "OF";
+    private static final String FEE_TYPE_OPTIONAL_PER_UNIT = "OU";
+
     private final FeesDao feesDao;
     private final VatRatesDao vatRatesDao;
 
@@ -54,18 +59,25 @@ public class FeesService {
         for (FixedFee f : feesForLocationAndCaseStage) {
 
             switch (f.getLevelCodeType()) {
-                case "O":
-                case "OM":
+                case FEE_TYPE_OPTIONAL:
+                case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
+                case FEE_TYPE_OPTIONAL_PER_UNIT:
                     List<FeeCalculateRequestLevelCode> levelCodesOfSameCode =
                             levelCodes.stream()
                                     .filter(l -> l.getLevelCode().contentEquals(f.getLevelCode()))
                                     .toList();
 
                     if (!levelCodesOfSameCode.isEmpty()) {
-                        if (f.getLevelCodeType().contentEquals("O")) {
-                            totalFees += f.getAmount();
-                        } else {
-                            totalFees += levelCodesOfSameCode.getFirst().getFee();
+                        switch (f.getLevelCodeType()) {
+                            case FEE_TYPE_OPTIONAL_PER_UNIT:
+                                totalFees += (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
+                                break;
+                            case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
+                                totalFees += levelCodesOfSameCode.getFirst().getFee();
+                                break;
+                            default:
+                                totalFees += f.getAmount();
+                                break;
                         }
                     }
                     break;

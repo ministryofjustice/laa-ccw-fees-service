@@ -11,6 +11,7 @@ import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
+import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +38,7 @@ public class FeesServiceTest {
         return List.of(
                 FixedFee.builder()
                         .levelCodeType("A")
-                        .levelCode("LEV1")
+                        .levelCode("LEV0")
                         .amount(32.00)
                         .build(),
                 FixedFee.builder()
@@ -46,15 +47,33 @@ public class FeesServiceTest {
                         .amount(64.00)
                         .build(),
                 FixedFee.builder()
-                        .levelCodeType("OM")
-                        .levelCode("LEV1")
+                        .levelCodeType("OF")
+                        .levelCode("LEV2")
                         .amount(128.00)
+                        .build(),
+                FixedFee.builder()
+                        .levelCodeType("OU")
+                        .levelCode("LEV3")
+                        .amount(58.00)
                         .build()
         );
     }
 
     @Test
     void shouldFetchTotalForSameLocationAndCaseStage() {
+        List<FeeCalculateRequestLevelCode> testLevelCodes = List.of(
+            FeeCalculateRequestLevelCode.builder()
+                    .levelCode("LEV1")
+                    .build(),
+            FeeCalculateRequestLevelCode.builder()
+                    .levelCode("LEV2")
+                    .fee(200.0)
+                    .build(),
+            FeeCalculateRequestLevelCode.builder()
+                    .levelCode("LEV3")
+                    .units(2.0)
+                    .build()
+        );
 
         when(feesDao.fetchFeesForLocationAndCaseStage(anyString(), anyString()))
                 .thenReturn(testData());
@@ -62,10 +81,10 @@ public class FeesServiceTest {
         when(vatRatesDao.fetchVat())
                 .thenReturn(25.00);
 
-        Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>());
+        Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1", testLevelCodes);
 
-        assertEquals(32, dataReturned.getAmount());
-        assertEquals(40, dataReturned.getTotal());
+        assertEquals(412, dataReturned.getAmount());
+        assertEquals(515, dataReturned.getTotal());
     }
 
     @Test
