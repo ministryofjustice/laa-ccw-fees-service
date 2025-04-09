@@ -6,7 +6,7 @@ metadata:
 spec:
   selector:
     matchLabels:
-      app: laa-ccw-fees-service # this needs to match the label in the service under metadata:labels:app
+      app: laa-ccw-fees-service-service # this needs to match the label in the service under metadata:labels:app
   namespaceSelector:
     matchNames:
       - ${NAMESPACE}
