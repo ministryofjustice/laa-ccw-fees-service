@@ -13,4 +13,5 @@ spec:
   endpoints:
     - port: http # this is the port name you grabbed from your running service
       interval: 60s
+      scrapeTimeout: 60s
       path: /actuator/prometheus # this is the endpoint exposed by springboot app
