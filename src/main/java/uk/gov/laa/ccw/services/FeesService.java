@@ -3,11 +3,16 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.dao.FeesDao;
-import uk.gov.laa.ccw.dao.VatRatesDao;
+import uk.gov.laa.ccw.exceptions.FeesException;
+import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
+import uk.gov.laa.ccw.mapper.dao.FeeMapper;
+import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
 import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+import uk.gov.laa.ccw.repository.FeesRepository;
+import uk.gov.laa.ccw.repository.VatRateRepository;
 
 import java.util.List;
 
@@ -23,8 +28,11 @@ public class FeesService {
     private static final String FEE_TYPE_OPTIONAL_FIXED_AMOUNT = "OF";
     private static final String FEE_TYPE_OPTIONAL_PER_UNIT = "OU";
 
-    private final FeesDao feesDao;
-    private final VatRatesDao vatRatesDao;
+    private final FeesRepository repository;
+    private final FeeMapper feeMapper;
+
+    private final VatRateRepository vatRateRepository;
+    private final VatRateMapper vatRateMapper;
 
     /**
      * Gets the fees for the given location and case stage.
@@ -38,7 +46,20 @@ public class FeesService {
             String caseStage) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
-        return feesDao.fetchFeesForLocationAndCaseStage(location, caseStage);
+        List<FixedFee> fixedFees =  repository.findAllByProviderLocationAndCaseStage(
+                        location, caseStage).stream()
+                .map(feeMapper::toFee).toList();
+
+        if (fixedFees.isEmpty()) {
+            throw new FeesException(
+                    "Unable to find fixed fees for location "
+                            + location
+                            + " and case stage "
+                            + caseStage);
+        }
+
+        return fixedFees;
+
     }
 
     /**
@@ -86,8 +107,12 @@ public class FeesService {
             }
         }
 
-        Double vat = vatRatesDao.fetchVat();
-        log.info("add in vat of {}%", vat);
+        VatRate vatRate = vatRateRepository.findAll().stream()
+                .map(vatRateMapper::toVatRate)
+                .findFirst()
+                .orElseThrow(() -> new VatRateNotFoundException("Unable to retrieve VAT rate from database"));
+
+        Double vat = vatRate.getRatePercentage();
 
         Double vatAmount = vat / 100.0;
         vatAmount *= totalFees;
