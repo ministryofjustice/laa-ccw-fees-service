@@ -53,7 +53,7 @@ public class InvoiceServiceTest {
                                 .build()
                         );
 
-        var result = classUnderTest.CreateInvoice("PROV1","OFF1", 0.00);
+        var result = classUnderTest.createInvoice("PROV1","OFF1", 0.00);
 
         assertEquals(24, result.getInvoiceNumber());
     }
@@ -66,7 +66,7 @@ public class InvoiceServiceTest {
 
         doThrow(new InvoiceException(""){}).when(invoiceRepository).save(any(InvoiceEntity.class));
 
-        assertThrows(InvoiceException.class, () -> classUnderTest.CreateInvoice("PROV1","OFF1", 0.00));
+        assertThrows(InvoiceException.class, () -> classUnderTest.createInvoice("PROV1","OFF1", 0.00));
     }
 
 }

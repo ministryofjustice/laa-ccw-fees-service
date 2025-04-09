@@ -11,6 +11,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Class represents an invoice stored in the INVOICES table.
+ */
 @Data
 @Builder
 @NoArgsConstructor

@@ -7,6 +7,9 @@ import uk.gov.laa.ccw.entity.InvoiceEntity;
 
 import java.util.Optional;
 
+/**
+ * Class represents an the JPA functionality for the Invoice table.
+ */
 @Repository
 public interface InvoiceRepository extends JpaRepository<InvoiceEntity, String> {
 

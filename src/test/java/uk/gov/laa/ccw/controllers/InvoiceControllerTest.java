@@ -66,7 +66,7 @@ public class InvoiceControllerTest {
         String returnedContent =
                 "{\"invoiceId\":\"INVOICE\",\"invoiceNumber\":\"2\"}";
 
-        when(invoiceService.CreateInvoice(anyString(), anyString(), anyDouble()))
+        when(invoiceService.createInvoice(anyString(), anyString(), anyDouble()))
             .thenReturn(
                     Invoice.builder()
                         .feeAmount(123.45)

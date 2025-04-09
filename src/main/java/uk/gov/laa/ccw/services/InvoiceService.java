@@ -13,6 +13,9 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 import java.util.UUID;
 
+/**
+ * Class to produce the invoice.
+ */
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -21,7 +24,10 @@ public class InvoiceService {
     private final InvoiceRepository invoiceRepository;
     private final InvoiceMapper invoiceMapper;
 
-    public Invoice CreateInvoice(String provider, String office, Double amount) {
+    /**
+     * Method to create Invoice.
+     */
+    public Invoice createInvoice(String provider, String office, Double amount) {
         log.info("create invoice");
 
         Invoice result = null;

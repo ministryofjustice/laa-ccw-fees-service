@@ -5,6 +5,10 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+/**
+ * Describes the api request for creating invoices.
+ *
+ */
 @Data
 @Builder
 @AllArgsConstructor

@@ -7,6 +7,9 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
+/**
+ * Method to represent an Invoice.
+ */
 @Data
 @Builder
 @AllArgsConstructor

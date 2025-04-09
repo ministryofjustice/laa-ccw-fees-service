@@ -12,6 +12,9 @@ import uk.gov.laa.ccw.model.api.InvoiceCreation200Response;
 import uk.gov.laa.ccw.services.InvoiceService;
 import uk.gov.laa.ccw.services.validators.InvoiceCreationValidator;
 
+/**
+ * Class to create an invoice, as the api controller.
+ */
 @Slf4j
 @RequiredArgsConstructor
 @RestController
@@ -21,13 +24,16 @@ public class InvoiceController {
     private final InvoiceCreationValidator validator;
     private final InvoiceResponseMapper invoiceResponseMapper;
 
+    /**
+     * Method to take invoice data and update invoice table.
+     */
     @PutMapping("/v1/invoices/create")
     public InvoiceCreation200Response createInvoice(@RequestBody InvoiceCreateRequest request) {
 
         validator.validateRequest(request);
 
         log.info("Creating invoice");
-        Invoice result = service.CreateInvoice(
+        Invoice result = service.createInvoice(
                 request.getProvider(),
                 request.getOffice(),
                 request.getAmount()
