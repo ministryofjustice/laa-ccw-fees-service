@@ -13,9 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class InvoiceCreation200Response {
-    private String provider;
-    private String office;
-    private Double amount;
     private String invoiceId;
     private String invoiceNumber;
 }

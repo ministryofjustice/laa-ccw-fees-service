@@ -9,7 +9,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -20,10 +20,10 @@ import java.util.Date;
 public class InvoiceEntity {
     @Id
     @Column(name = "INVOICE_ID")
-    private String InvoiceId;
+    private String invoiceId;
     private Double feeAmount;
     private String providerId;
     private String officeId;
     private Integer invoiceNumber;
-    private Date invoiceDate;
+    private LocalDateTime invoiceDate;
 }

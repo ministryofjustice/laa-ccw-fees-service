@@ -91,6 +91,6 @@ CREATE TABLE CCW.INVOICES
     PROVIDER_ID         VARCHAR(20)     NOT NULL,
     OFFICE_ID           VARCHAR(20)     NOT NULL,
     INVOICE_NUMBER      INTEGER         NOT NULL,
-    CREATION_DATE       DATE            NOT NULL,
+    INVOICE_DATE        DATE            NOT NULL,
     CONSTRAINT pk_invoice_id PRIMARY KEY (invoice_id)
 );
