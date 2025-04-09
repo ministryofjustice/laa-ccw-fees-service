@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: laa-ccw-fees-service-service
+  labels:
+    app: laa-ccw-fees-service-service
 spec:
   selector:
     app: laa-ccw-fees-service # this should match the pod label in deployment.yml
