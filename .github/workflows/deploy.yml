@@ -2,7 +2,7 @@ name: deploy
 
 on:
   push:
-    branches: [main]
+    branches: [BILL-118-set-up-prometheus-for-the-service]
 
 jobs:
   build-test:
