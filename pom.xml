@@ -24,6 +24,7 @@
     <commons-io.version>2.18.0</commons-io.version>
     <postgresql.version>42.7.5</postgresql.version>
     <mapstruct.version>1.6.3</mapstruct.version>
+    <micrometer.version>1.14.5</micrometer.version>
   </properties>
 
   <build>
@@ -99,6 +100,11 @@
     <dependency>
       <groupId>org.springframework.boot</groupId>
       <artifactId>spring-boot-starter-actuator</artifactId>
+    </dependency>
+    <dependency>
+      <groupId>io.micrometer</groupId>
+      <artifactId>micrometer-registry-prometheus</artifactId>
+      <version>${micrometer.version}</version>
     </dependency>
     <dependency>
       <groupId>commons-io</groupId>

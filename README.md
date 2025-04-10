@@ -19,3 +19,4 @@ TODO
 - http://localhost:8085/actuator
 - http://localhost:8085/actuator/health
 - http://localhost:8085/actuator/info
+- http://localhost:8085/actuator/metrics
