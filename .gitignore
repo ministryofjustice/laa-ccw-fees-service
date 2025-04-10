@@ -5,6 +5,7 @@ venv/
 env/
 target/
 .idea/
+*.iml
 .mvn/
 .DS_STORE
 .vscode
