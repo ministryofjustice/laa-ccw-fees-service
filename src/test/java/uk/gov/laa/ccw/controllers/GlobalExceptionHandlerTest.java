@@ -1,10 +1,7 @@
 package uk.gov.laa.ccw.controllers;
 
 import org.junit.jupiter.api.Test;
-import uk.gov.laa.ccw.exceptions.FeesException;
-import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
-import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
-import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
+import uk.gov.laa.ccw.exceptions.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
@@ -59,6 +56,19 @@ public class GlobalExceptionHandlerTest {
 
         // When
         var response = globalExceptionHandler.handleFeesException(exception);
+
+        // Then
+        assertEquals(INTERNAL_SERVER_ERROR, response.getStatusCode());
+        assertEquals("exception", response.getBody().getError());
+    }
+
+    @Test
+    void shouldHandleInvoiceException() {
+        // Given
+        var exception = new InvoiceException("exception");
+
+        // When
+        var response = globalExceptionHandler.handleInvoiceException(exception);
 
         // Then
         assertEquals(INTERNAL_SERVER_ERROR, response.getStatusCode());
