@@ -3,8 +3,10 @@ package uk.gov.laa.ccw.services;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.dao.MatterCodeDao;
+import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
+import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
 import java.util.List;
 
@@ -16,7 +18,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class MatterCodesService {
 
-    private final MatterCodeDao matterCodeDao;
+    private final MatterCodesRepository matterCodesRepository;
+    private final MatterCodeMapper matterCodeMapper;
 
     /**
      * Gets all the matters codes.
@@ -26,7 +29,14 @@ public class MatterCodesService {
     public List<MatterCode> getAllMatterCodes(String lawType) {
         log.info("return matter codes from dao to controller");
 
-        return matterCodeDao.findMatterCodesByLawType(lawType);
+        List<MatterCode> matterCodes =  matterCodesRepository.findByLawType(lawType).stream()
+                .map(matterCodeMapper::toMatterCode).toList();
+
+        if (matterCodes.isEmpty()) {
+            throw new MatterCodeNotFoundException("Unable to find Matter Code for law type " + lawType);
+        }
+
+        return matterCodes;
     }
 
     /**
@@ -37,6 +47,16 @@ public class MatterCodesService {
     public List<MatterCode> getAllMatterTwosForMatterCodeOne(String matterCodeOne) {
         log.info("return matter codes twos for given matter code one from dao to controller");
 
-        return matterCodeDao.findMatterCodeTwosByMatterCodeOne(matterCodeOne);
+        matterCodesRepository
+                .findById(matterCodeOne)
+                .orElseThrow(() -> new MatterCodeNotFoundException("Unable to find Matter Code " + matterCodeOne));
+
+        List<MatterCode> matterCodes =  matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne)
+                .stream().map(matterCodeMapper::toMatterCode).toList();
+
+        if (matterCodes.isEmpty()) {
+            throw new MatterCodeNotFoundException("Unable to find Matter Code 2 for matter code 1 " + matterCodeOne);
+        }
+        return matterCodes;
     }
 }

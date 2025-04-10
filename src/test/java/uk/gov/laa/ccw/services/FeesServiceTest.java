@@ -5,83 +5,69 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.dao.FeesDao;
-import uk.gov.laa.ccw.dao.VatRatesDao;
-import uk.gov.laa.ccw.model.Fee;
-import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.entity.FeesEntity;
+import uk.gov.laa.ccw.entity.VatRateEntity;
 import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
+import uk.gov.laa.ccw.mapper.dao.FeeMapper;
+import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
+import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+import uk.gov.laa.ccw.repository.FeesRepository;
+import uk.gov.laa.ccw.repository.VatRateRepository;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 
 @ExtendWith(MockitoExtension.class)
 public class FeesServiceTest {
     @Mock
-    private FeesDao feesDao;
+    private FeesRepository feesRepository;
 
     @Mock
-    private VatRatesDao vatRatesDao;
+    private FeeMapper feeMapper;
+
+    @Mock
+    private VatRateRepository vatRateRepository;
+
+    @Mock
+    private VatRateMapper vatRateMapper;
 
     @InjectMocks
     private FeesService classUnderTest;
 
-    private List<FixedFee> testData() {
-        return List.of(
-                FixedFee.builder()
-                        .levelCodeType("A")
-                        .levelCode("LEV0")
-                        .amount(32.00)
-                        .build(),
-                FixedFee.builder()
-                        .levelCodeType("O")
-                        .levelCode("LEV1")
-                        .amount(64.00)
-                        .build(),
-                FixedFee.builder()
-                        .levelCodeType("OF")
-                        .levelCode("LEV2")
-                        .amount(128.00)
-                        .build(),
-                FixedFee.builder()
-                        .levelCodeType("OU")
-                        .levelCode("LEV3")
-                        .amount(58.00)
-                        .build()
-        );
-    }
-
     @Test
     void shouldFetchTotalForSameLocationAndCaseStage() {
         List<FeeCalculateRequestLevelCode> testLevelCodes = List.of(
-            FeeCalculateRequestLevelCode.builder()
-                    .levelCode("LEV1")
-                    .build(),
-            FeeCalculateRequestLevelCode.builder()
-                    .levelCode("LEV2")
-                    .fee(200.0)
-                    .build(),
-            FeeCalculateRequestLevelCode.builder()
-                    .levelCode("LEV3")
-                    .units(2.0)
-                    .build()
+                FeeCalculateRequestLevelCode.builder()
+                        .levelCode("LEV1")
+                        .build(),
+                FeeCalculateRequestLevelCode.builder()
+                        .levelCode("LEV2")
+                        .fee(200.0)
+                        .build(),
+                FeeCalculateRequestLevelCode.builder()
+                        .levelCode("LEV3")
+                        .units(2.0)
+                        .build()
         );
 
-        when(feesDao.fetchFeesForLocationAndCaseStage(anyString(), anyString()))
-                .thenReturn(testData());
+        setUpMockData();
 
-        when(vatRatesDao.fetchVat())
-                .thenReturn(25.00);
+        VatRateEntity vatRateEntity = VatRateEntity.builder().ratePercentage(25.00).build();
+        when(vatRateRepository.findAll())
+                .thenReturn(List.of(vatRateEntity));
+        when(vatRateMapper.toVatRate(vatRateEntity))
+                .thenReturn(VatRate.builder().ratePercentage(25.00).build());
 
-        Fee dataReturned = classUnderTest.calculateFees("LOC1","CS1", testLevelCodes);
+        Fee dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
 
         assertEquals(412, dataReturned.getAmount());
         assertEquals(515, dataReturned.getTotal());
@@ -90,19 +76,58 @@ public class FeesServiceTest {
     @Test
     void shouldThrowExceptionWhenFeesDaoThrowsException() {
 
-        doThrow(new FeesException(""){}).when(feesDao)
-                .fetchFeesForLocationAndCaseStage(anyString(), anyString());
+        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+                .thenReturn(new ArrayList<>());
 
         assertThrows(FeesException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>()));
+                () -> classUnderTest.calculateFees("LOC1", "CS1", new ArrayList<>()));
     }
 
     @Test
     void shouldThrowExceptionWhenVatDaoThrowException() {
 
-        doThrow(new VatRateNotFoundException(""){}).when(vatRatesDao).fetchVat();
+       setUpMockData();
+
+       when(vatRateRepository.findAll()).thenReturn(new ArrayList<>());
 
         assertThrows(VatRateNotFoundException.class,
-                () -> classUnderTest.calculateFees("LOC1","CS1", new ArrayList<>()));
+                () -> classUnderTest.calculateFees("LOC1", "CS1", new ArrayList<>()));
+    }
+
+    void setUpMockData() {
+        FeesEntity feesEntity1 = FeesEntity.builder()
+                .levelCodeType("A")
+                .levelCode("LEV0")
+                .amount(32.00)
+                .build();
+        FeesEntity feesEntity2 = FeesEntity.builder()
+                .levelCodeType("O")
+                .levelCode("LEV1")
+                .amount(64.00)
+                .build();
+        FeesEntity feesEntity3 = FeesEntity.builder()
+                .levelCodeType("OF")
+                .levelCode("LEV2")
+                .amount(128.00)
+                .build();
+        FeesEntity feesEntity4 = FeesEntity.builder()
+                .levelCodeType("OU")
+                .levelCode("LEV3")
+                .amount(58.00)
+                .build();
+
+        List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4);
+
+        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+                .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
+
+        when(feeMapper.toFee(feesEntity1))
+                .thenReturn(FixedFee.builder().levelCodeType("A").levelCode("LEV0").amount(32.00).build());
+        when(feeMapper.toFee(feesEntity2))
+                .thenReturn(FixedFee.builder().levelCodeType("O").levelCode("LEV1").amount(64.00).build());
+        when(feeMapper.toFee(feesEntity3))
+                .thenReturn(FixedFee.builder().levelCodeType("OF").levelCode("LEV2").amount(128.00).build());
+        when(feeMapper.toFee(feesEntity4))
+                .thenReturn(FixedFee.builder().levelCodeType("OU").levelCode("LEV3").amount(58.00).build());
     }
 }
