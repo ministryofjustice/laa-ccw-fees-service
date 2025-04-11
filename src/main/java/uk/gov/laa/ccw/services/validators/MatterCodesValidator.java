@@ -8,9 +8,7 @@ import uk.gov.laa.ccw.exceptions.MissingDataException;
 /**
  * Validator class for the matter codes.
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class MatterCodesValidator {
 
     /**

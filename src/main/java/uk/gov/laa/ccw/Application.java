@@ -7,7 +7,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * Entry point for the Fees Calculator Service application.
  */
-@Slf4j
 @SpringBootApplication
 public class Application {
 

@@ -12,9 +12,7 @@ import java.util.ArrayList;
 /**
  * Validator class for fees.
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class FeeCalculateValidator {
 
     /**

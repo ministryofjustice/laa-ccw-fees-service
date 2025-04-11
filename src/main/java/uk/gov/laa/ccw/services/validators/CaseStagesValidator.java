@@ -9,9 +9,7 @@ import uk.gov.laa.ccw.model.api.CaseStagesRequest;
 /**
  * Validator class for case stages request.
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class CaseStagesValidator {
 
     /**
