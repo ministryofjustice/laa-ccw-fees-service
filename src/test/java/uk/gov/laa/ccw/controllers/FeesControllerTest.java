@@ -101,6 +101,7 @@ public class FeesControllerTest {
                                 .levelCode("LC1")
                                 .levelCodeType("LCType1")
                                 .description("LC Description")
+                                .formQuestion("LC form Q")
                                 .build())
                 );
 
@@ -112,6 +113,6 @@ public class FeesControllerTest {
                 .andExpect(content().string("{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT1\","
                                 + "\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\","
                                 + "\"fees\":[{\"amount\":\"125.00\",\"levelCode\":\"LC1\",\"type\":\"LCType1\","
-                                + "\"description\":\"LC Description\"}]}"));
+                                + "\"description\":\"LC Description\",\"formQuestion\":\"LC form Q\"}]}"));
     }
 }
