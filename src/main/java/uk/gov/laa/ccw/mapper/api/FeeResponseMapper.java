@@ -62,6 +62,7 @@ public class FeeResponseMapper {
                                         .amount(df.format(f.getAmount()))
                                         .levelCode(f.getLevelCode())
                                         .type(f.getLevelCodeType())
+                                        .formQuestion(f.getFormQuestion())
                                         .build()
                         )
                         .toList())

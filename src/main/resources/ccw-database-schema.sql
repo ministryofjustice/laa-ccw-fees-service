@@ -51,7 +51,8 @@ CREATE TABLE CCW.LEVEL_CODES
 (
     LEVEL_CODE_ID       VARCHAR(10)  NOT NULL,
     DESCRIPTION         VARCHAR(150) NOT NULL,
-    TYPE                VARCHAR(2)      NOT NULL,
+    TYPE                VARCHAR(2)   NOT NULL,
+    FORM_QUESTION       VARCHAR(150),
     CONSTRAINT pk_level_codes_id PRIMARY KEY (level_code_id)
 );
 

@@ -14,7 +14,7 @@ import java.util.List;
 public interface FeesRepository extends JpaRepository<FeesEntity, String> {
 
     @NativeQuery(value =
-            "SELECT FF.FEE_ID,FF.AMOUNT,FF.LEVEL_CODE,LC.TYPE,LC.DESCRIPTION FROM "
+            "SELECT FF.FEE_ID,FF.AMOUNT,FF.LEVEL_CODE,LC.TYPE,LC.DESCRIPTION, LC.FORM_QUESTION FROM "
                     + "CCW.FIXED_FEES FF, CCW.LEVEL_CODES LC WHERE "
                     + "FF.PROVIDER_LOCATION = ? AND FF.CASE_STAGE = ? AND FF.LEVEL_CODE = LC.LEVEL_CODE_ID")
     List<FeesEntity> findAllByProviderLocationAndCaseStage(String providerLocation, String caseStage);
