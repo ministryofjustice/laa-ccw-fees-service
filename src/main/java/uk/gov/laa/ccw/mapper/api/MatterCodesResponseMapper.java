@@ -18,7 +18,6 @@ public interface MatterCodesResponseMapper {
      * @return the MatterCodes200ResponseMatterCode
      */
     @Mapping(target = "matterCode", source = "matterCodeId")
-    @Mapping(target = "description", defaultValue = "")
     MatterCodes200ResponseMatterCode toMatterCodes200ResponseMatterCode(MatterCode matterCode);
 
 }

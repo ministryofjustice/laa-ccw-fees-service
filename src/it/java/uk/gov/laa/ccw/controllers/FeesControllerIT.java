@@ -6,6 +6,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.Application;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -36,5 +37,19 @@ public class FeesControllerIT {
                         + " \"vat\": \"17.20\","
                         + "\"total\": \"103.20\""
                         + "}"));
+    }
+
+    @Test
+    void shouldListAvailableFees() throws Exception {
+        mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees/list-available")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content("{\"locationCode\": \"LDN\", \"caseStage\": \"FPL01\", " +
+                        "\"matterCode1\": \"FAMA\", \"matterCode2\": \"FPET\"}"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON))
+                .andExpect(content().string("{\"matterCode1\":\"FAMA\",\"matterCode2\":\"FPET\","
+                                + "\"locationCode\":\"LDN\",\"caseStage\":\"FPL01\","
+                                + "\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"type\":\"A\","
+                                + "\"description\":\"Level 1\"}]}"));
     }
 }

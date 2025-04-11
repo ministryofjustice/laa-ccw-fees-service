@@ -10,9 +10,7 @@ import uk.gov.laa.ccw.model.api.InvoiceCreateRequest;
  * Validates the invoice request.
  *
  */
-@Slf4j
 @Service
-@RequiredArgsConstructor
 public class InvoiceCreationValidator {
     /**
      * Validates the invoice request.
