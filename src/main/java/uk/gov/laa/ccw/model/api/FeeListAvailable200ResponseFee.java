@@ -17,4 +17,5 @@ public class FeeListAvailable200ResponseFee {
     private String levelCode;
     private String type;
     private String description;
+    private String formQuestion;
 }
