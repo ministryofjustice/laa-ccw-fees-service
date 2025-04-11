@@ -1,7 +1,9 @@
 package uk.gov.laa.ccw.services.validators;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.api.InvoiceCreateRequest;
@@ -9,7 +11,7 @@ import uk.gov.laa.ccw.model.api.InvoiceCreateRequest;
 import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
-@SpringBootTest()
+@ExtendWith(MockitoExtension.class)
 public class InvoiceCreationValidatorTest {
     @InjectMocks
     private InvoiceCreationValidator classUnderTest;
