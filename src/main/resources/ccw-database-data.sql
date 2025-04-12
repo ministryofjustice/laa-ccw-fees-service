@@ -161,17 +161,17 @@ VALUES
     ('IMLB', 'IDOM')
 ;
 
-INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE, FORM_QUESTION)
+INSERT INTO CCW.LEVEL_CODES(LEVEL_CODE_ID,DESCRIPTION,TYPE)
 VALUES
-    ('_IMSTD', 'Immigration standard fee','A', ''),
-    ('_IMHOI', 'HO interview fee','OU', 'Number of Home Office interviews'),
-    ('_IMORL', 'CMRH Oral','OU', 'Number of Oral CMR hearings'),
-    ('_IMTEL', 'CMRH Telephone','OU', 'Number of telephone CMR hearings'),
-    ('_IMSUH', 'Substantive hearing','O', 'Was there a substantive hearing?'),
-    ('_IMADJ', 'Adjourned hearing','OU', 'Number of adjourned hearings'),
-    ('_IMDET', 'Detention travel and waiting','OF', 'Detention travel and waiting costs (optional)'),
-    ('_IMJRF', 'JR form filling costs','OF', 'Form filling costs (optional)'),
-    ('_IMNRM', 'NRM advice','O', 'Was this NRM advice?')
+    ('_IMSTD', 'Immigration standard fee','A'),
+    ('_IMHOI', 'HO interview fee','OU'),
+    ('_IMORL', 'CMRH Oral','OU'),
+    ('_IMTEL', 'CMRH Telephone','OU'),
+    ('_IMSUH', 'Substantive hearing','O'),
+    ('_IMADJ', 'Adjourned hearing','OU'),
+    ('_IMDET', 'Detention travel and waiting','OF'),
+    ('_IMJRF', 'JR form filling costs','OF'),
+    ('_IMNRM', 'NRM advice','O')
 ;
 
 INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
