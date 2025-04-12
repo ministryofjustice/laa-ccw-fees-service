@@ -27,6 +27,6 @@ public class FeesEntity {
     private String levelCode;
     private Double amount;
     private String description;
-    @Column(name = "FORM_QUESTION")
+    @Column(name = "TEXT")
     private String formQuestion;
 }

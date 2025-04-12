@@ -220,3 +220,16 @@ VALUES
     (    0.00, '_IMM03', '_IMJRF', 'NA',347),
     (  150.00, '_IMM03', '_IMNRM', 'NA',348)
 ;
+
+INSERT INTO CCW.TEXT_RESOURCES(RESOURCE_ID,TEXT)
+VALUES
+    ('_IMSTD_FQ', 'Immigration standard fee'),
+    ('_IMHOI_FQ', 'Number of Home Office interviews'),
+    ('_IMORL_FQ', 'Number of Oral CMR hearings'),
+    ('_IMTEL_FQ', 'Number of telephone CMR hearings'),
+    ('_IMSUH_FQ', 'Was there a substantive hearing?'),
+    ('_IMADJ_FQ', 'Number of adjourned hearings'),
+    ('_IMDET_FQ', 'Detention travel and waiting costs (optional)'),
+    ('_IMJRF_FQ', 'Form filling costs (optional)'),
+    ('_IMNRM_FQ', 'Was this NRM advice?')
+;
