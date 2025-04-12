@@ -1,27 +1,17 @@
 package uk.gov.laa.ccw.mapper.api;
 
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
+import org.mapstruct.Mapper;
 import uk.gov.laa.ccw.model.Invoice;
 import uk.gov.laa.ccw.model.api.InvoiceCreation200Response;
 
 /**
  * Mapping class from Invoices to the api respnse.
  */
-@Slf4j
-@Service
-@RequiredArgsConstructor
-public class InvoiceResponseMapper {
+@Mapper(componentModel = "spring")
+public interface InvoiceResponseMapper {
 
     /**
-     * Method to map Invoice to response.
+     * Mapping method from Invoices to the api respnse.
      */
-    public InvoiceCreation200Response toInvoiceCreationResponse(Invoice data) {
-
-        return InvoiceCreation200Response.builder()
-            .invoiceId(data.getInvoiceId())
-            .invoiceNumber(data.getInvoiceNumber().toString())
-            .build();
-    }
+    InvoiceCreation200Response toInvoiceCreationResponse(Invoice invoice);
 }

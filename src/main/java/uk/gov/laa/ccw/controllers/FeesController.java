@@ -64,6 +64,6 @@ public class FeesController {
                 request.getLocationCode(),
                 request.getCaseStage());
 
-        return mapper.toListAvailableResponse(result, request);
+        return mapper.toListAvailableResponse(result);
     }
 }
