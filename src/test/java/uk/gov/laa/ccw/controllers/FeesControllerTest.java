@@ -73,7 +73,7 @@ public class FeesControllerTest {
                         .build());
 
         String returnedContent =
-                "{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT2\",\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\",\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}";
+                "{\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}";
 
         when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(
@@ -110,8 +110,7 @@ public class FeesControllerTest {
                         .content("{\"locationCode\": \"LOC1\", \"caseStage\": \"CASE1\", " +
                                 "\"matterCode1\": \"MT1\", \"matterCode2\": \"MT1\"}"))
                 .andExpect(status().isOk())
-                .andExpect(content().string("{\"matterCode1\":\"MT1\",\"matterCode2\":\"MT1\","
-                                + "\"locationCode\":\"LOC1\",\"caseStage\":\"CASE1\","
+                .andExpect(content().string("{"
                                 + "\"fees\":[{\"amount\":\"125.00\",\"levelCode\":\"LC1\",\"type\":\"LCType1\","
                                 + "\"description\":\"LC Description\",\"formQuestion\":\"LC form Q\"}]}"));
     }

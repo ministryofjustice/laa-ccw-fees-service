@@ -29,10 +29,6 @@ public class FeesControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{"
-                        + "\"matterCode1\": \"FAMA\","
-                        + "\"matterCode2\": \"FPET\","
-                        + "\"locationCode\": \"LDN\","
-                        + "\"caseStage\": \"FPL01\","
                         + "\"amount\": \"86.00\","
                         + " \"vat\": \"17.20\","
                         + "\"total\": \"103.20\""
@@ -47,9 +43,8 @@ public class FeesControllerIT {
                         "\"matterCode1\": \"FAMA\", \"matterCode2\": \"FPET\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
-                .andExpect(content().string("{\"matterCode1\":\"FAMA\",\"matterCode2\":\"FPET\","
-                                + "\"locationCode\":\"LDN\",\"caseStage\":\"FPL01\","
-                                + "\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"type\":\"A\","
-                                + "\"description\":\"Level 1\"}]}"));
+                .andExpect(content().string(
+                        "{\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"type\":\"A\","
+                                + "\"description\":\"Level 1\",\"formQuestion\":null}]}"));
     }
 }

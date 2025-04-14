@@ -36,8 +36,6 @@ public class FeeResponseMapperTest {
                 feeRequest);
 
         assertNotNull(result);
-        assertEquals("caseStage", result.getCaseStage());
-        assertEquals("matterCode1", result.getMatterCode1());
         assertEquals("12.34", result.getAmount());
         assertEquals("2.56", result.getVat());
     }
