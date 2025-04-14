@@ -10,14 +10,14 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * entity to represent data retrieved as fee.
+ * entity to represent data retrieved from a view as fee.
  */
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "FIXED_FEES")
+@Table(name = "VW_LEVEL_CODE_FEES")
 public class FeesEntity {
     @Id
     @Column(name = "FEE_ID")
@@ -26,4 +26,6 @@ public class FeesEntity {
     private String levelCodeType;
     private String levelCode;
     private Double amount;
+    private String providerLocation;
+    private String caseStage;
 }
