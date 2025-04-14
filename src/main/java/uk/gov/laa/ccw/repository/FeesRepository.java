@@ -22,9 +22,6 @@ public interface FeesRepository extends JpaRepository<FeesEntity, String> {
             + "WHERE V.PROVIDER_LOCATION = ? AND V.CASE_STAGE = ?")
     List<FeeDetailsEntity> findAllByProviderLocationAndCaseStage(String providerLocation, String caseStage);
 
-    @NativeQuery(value =
-            "SELECT V.FEE_ID, V.AMOUNT, V.LEVEL_CODE, V.TYPE FROM CCW.VW_LEVEL_CODE_FEES V "
-                    + "WHERE V.PROVIDER_LOCATION = ? AND V.CASE_STAGE = ?")
-    List<FeesEntity> findFeeDataByProviderLocationAndCaseStage(String providerLocation, String caseStage);
+    List<FeesEntity> findByProviderLocationAndCaseStage(String providerLocation, String caseStage);
 
 }

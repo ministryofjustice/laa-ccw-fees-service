@@ -71,7 +71,7 @@ public class FeesServiceTest {
     @Test
     void shouldThrowExceptionWhenFeesDaoThrowsException() {
 
-        when(feesRepository.findFeeDataByProviderLocationAndCaseStage("LOC1", "CS1"))
+        when(feesRepository.findByProviderLocationAndCaseStage("LOC1", "CS1"))
                 .thenReturn(new ArrayList<>());
 
         assertThrows(FeesException.class,
@@ -113,7 +113,7 @@ public class FeesServiceTest {
 
         List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4);
 
-        when(feesRepository.findFeeDataByProviderLocationAndCaseStage("LOC1", "CS1"))
+        when(feesRepository.findByProviderLocationAndCaseStage("LOC1", "CS1"))
                 .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
 
         when(feeMapper.toFee(feesEntity1))

@@ -75,7 +75,7 @@ public class FeesService {
             String caseStage) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
-        List<FixedFee> fixedFees =  repository.findFeeDataByProviderLocationAndCaseStage(
+        List<FixedFee> fixedFees =  repository.findByProviderLocationAndCaseStage(
                         location, caseStage).stream()
                 .map(feeMapper::toFee).toList();
 
