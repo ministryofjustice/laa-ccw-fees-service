@@ -7,14 +7,13 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.FeeTotals;
-import uk.gov.laa.ccw.model.FeeDetails;
-import uk.gov.laa.ccw.model.FixedFee;
-import uk.gov.laa.ccw.model.VatRate;
+import uk.gov.laa.ccw.model.*;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRateRepository;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,9 +97,9 @@ public class FeesService {
      * @param caseStage the case stage
      * @return the fee
      */
-    public FeeTotals calculateFees(String location,
-                                   String caseStage,
-                                   List<FeeCalculateRequestLevelCode> levelCodes) {
+    public List<FeeElement> calculateFees(String location,
+                                    String caseStage,
+                                    List<FeeCalculateRequestLevelCode> levelCodes) {
 
         List<FixedFee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
@@ -114,6 +113,9 @@ public class FeesService {
         double totalFees = 0.0;
         double totalVatAmount = 0.0;
         double totalPlusVat = 0.0;
+
+        DecimalFormat numberFormatter = new DecimalFormat("#0.00");
+        List<FeeElement> result = new ArrayList<>();
 
         for (FixedFee f : feesForLocationAndCaseStage) {
 
@@ -152,12 +154,27 @@ public class FeesService {
             totalVatAmount += vatAmountForFee;
             double totalPlusVatForFee = feeAmount + vatAmountForFee;
             totalPlusVat  += totalPlusVatForFee;
+
+            result.add(
+                FeeElement.builder()
+                    .feeType(f.getLevelCode())
+                    .amount(numberFormatter.format(feeAmount))
+                    .vat(numberFormatter.format(vatAmountForFee))
+                    .total(numberFormatter.format(totalPlusVatForFee))
+                    .build()
+                );
+
         }
 
-        return FeeTotals.builder()
-                .amount(totalFees)
-                .vat(totalVatAmount)
-                .total(totalPlusVat)
-                .build();
+        result.add(
+                FeeElement.builder()
+                .feeType("totals")
+                .amount(numberFormatter.format(totalFees))
+                .vat(numberFormatter.format(totalVatAmount))
+                .total(numberFormatter.format(totalPlusVat))
+                .build()
+        );
+
+        return result;
     }
 }

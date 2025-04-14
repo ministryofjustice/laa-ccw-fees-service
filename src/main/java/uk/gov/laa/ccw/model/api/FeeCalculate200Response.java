@@ -5,6 +5,8 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
 /**
  * entity to represent fees calculation api response.
  */
@@ -13,5 +15,5 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeCalculate200Response {
-    FeeCalculate200ResponseFee totals;
+    List<FeeCalculate200ResponseFee> fees;
 }

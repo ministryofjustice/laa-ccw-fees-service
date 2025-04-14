@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeCalculate200ResponseFee {
+    private String feeType;
     private String amount;
     private String vat;
     private String total;

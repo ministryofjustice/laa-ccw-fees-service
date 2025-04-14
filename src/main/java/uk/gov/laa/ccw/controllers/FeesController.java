@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapper.api.FeeResponseMapper;
-import uk.gov.laa.ccw.model.FeeTotals;
+import uk.gov.laa.ccw.model.FeeElement;
 import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
@@ -26,7 +26,7 @@ import java.util.List;
 public class FeesController {
     private final FeesService service;
     private final FeeCalculateValidator validator;
-    private final FeeResponseMapper mapper;
+    private final FeeResponseMapper feeResponseMapper;
 
     /**
      * Calculates the fee for a given request.
@@ -40,12 +40,18 @@ public class FeesController {
         validator.validateFeeCalculateRequest(request);
 
         log.info("calculating fees");
-        FeeTotals result = service.calculateFees(
+        List<FeeElement> result = service.calculateFees(
                 request.getLocationCode(),
                 request.getCaseStage(),
                 request.getLevelCodes());
 
-        return mapper.toFeeCalculateResponse(result);
+        return FeeCalculate200Response.builder()
+                .fees(
+                        result.stream()
+                        .map(feeResponseMapper::toFeeCalculateResponse)
+                        .toList()
+                )
+                .build();
     }
 
     /**
@@ -64,6 +70,12 @@ public class FeesController {
                 request.getLocationCode(),
                 request.getCaseStage());
 
-        return mapper.toListAvailableResponse(result);
+        return FeeListAvailable200Response.builder()
+                .fees(
+                        result.stream()
+                                .map(feeResponseMapper::toListAvailableResponse)
+                                .toList()
+                )
+                .build();
     }
 }
