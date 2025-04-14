@@ -12,6 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FeeCalculate200Response {
-    FeeCalculate200ResponseFee totals;
+public class FeeCalculate200ResponseFee {
+    private String amount;
+    private String vat;
+    private String total;
 }

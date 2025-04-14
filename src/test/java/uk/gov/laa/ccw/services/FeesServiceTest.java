@@ -11,7 +11,7 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
@@ -62,7 +62,7 @@ public class FeesServiceTest {
         setUpMockGetFeesForLocationAndCaseStage();
         setUpMockGetVatRate();
 
-        Fee dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
+        FeeTotals dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
 
         assertEquals(412, dataReturned.getAmount());
         assertEquals(515, dataReturned.getTotal());

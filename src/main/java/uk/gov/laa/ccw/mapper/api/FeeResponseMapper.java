@@ -3,14 +3,9 @@ package uk.gov.laa.ccw.mapper.api;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.model.FeeDetails;
-import uk.gov.laa.ccw.model.FixedFee;
-import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
-import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
-import uk.gov.laa.ccw.model.api.FeeListAvailable200Response;
-import uk.gov.laa.ccw.model.api.FeeListAvailable200ResponseFee;
-import uk.gov.laa.ccw.model.api.FeeListAvailableRequest;
+import uk.gov.laa.ccw.model.api.*;
 
 import java.text.DecimalFormat;
 import java.util.List;
@@ -25,13 +20,16 @@ public class FeeResponseMapper {
     /**
      * Converts from Fee class and FeeCalculateRequest into a fee calculate response.
      */
-    public FeeCalculate200Response toFeeCalculateResponse(Fee fee, FeeCalculateRequest feeRequest) {
+    public FeeCalculate200Response toFeeCalculateResponse(FeeTotals fee) {
         DecimalFormat df = new DecimalFormat("#0.00");
 
-        return FeeCalculate200Response.builder()
+        FeeCalculate200ResponseFee responseFee = FeeCalculate200ResponseFee.builder()
                 .amount(df.format(fee.getAmount()))
                 .vat(df.format(fee.getVat()))
                 .total(df.format(fee.getTotal()))
+                .build();
+        return FeeCalculate200Response.builder()
+                .totals(responseFee)
                 .build();
     }
 

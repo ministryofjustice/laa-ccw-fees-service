@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapper.api.FeeResponseMapper;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
@@ -40,12 +40,12 @@ public class FeesController {
         validator.validateFeeCalculateRequest(request);
 
         log.info("calculating fees");
-        Fee result = service.calculateFees(
+        FeeTotals result = service.calculateFees(
                 request.getLocationCode(),
                 request.getCaseStage(),
                 request.getLevelCodes());
 
-        return mapper.toFeeCalculateResponse(result, request);
+        return mapper.toFeeCalculateResponse(result);
     }
 
     /**

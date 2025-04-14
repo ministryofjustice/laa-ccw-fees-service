@@ -7,7 +7,7 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
@@ -98,14 +98,26 @@ public class FeesService {
      * @param caseStage the case stage
      * @return the fee
      */
-    public Fee calculateFees(String location,
-                             String caseStage,
-                             List<FeeCalculateRequestLevelCode> levelCodes) {
+    public FeeTotals calculateFees(String location,
+                                   String caseStage,
+                                   List<FeeCalculateRequestLevelCode> levelCodes) {
 
         List<FixedFee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
-        Double totalFees = 0.0;
+        VatRate vatRate = vatRateRepository.findAll().stream()
+                .map(vatRateMapper::toVatRate)
+                .findFirst()
+                .orElseThrow(() -> new VatRateNotFoundException("Unable to retrieve VAT rate from database"));
+
+        double vat = vatRate.getRatePercentage() / 100.0;
+
+        double totalFees = 0.0;
+        double totalVatAmount = 0.0;
+        double totalPlusVat = 0.0;
+
         for (FixedFee f : feesForLocationAndCaseStage) {
+
+            Double feeAmount = 0.0;
 
             switch (f.getLevelCodeType()) {
                 case FEE_TYPE_OPTIONAL:
@@ -119,37 +131,32 @@ public class FeesService {
                     if (!levelCodesOfSameCode.isEmpty()) {
                         switch (f.getLevelCodeType()) {
                             case FEE_TYPE_OPTIONAL_PER_UNIT:
-                                totalFees += (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
+                                feeAmount = (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
                                 break;
                             case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
-                                totalFees += levelCodesOfSameCode.getFirst().getFee();
+                                feeAmount = levelCodesOfSameCode.getFirst().getFee();
                                 break;
                             default:
-                                totalFees += f.getAmount();
+                                feeAmount= f.getAmount();
                                 break;
                         }
                     }
                     break;
                 default:
-                    totalFees += f.getAmount();
+                    feeAmount = f.getAmount();
                     break;
             }
+
+            totalFees +=  feeAmount;
+            double vatAmountForFee = feeAmount * vat;
+            totalVatAmount += vatAmountForFee;
+            double totalPlusVatForFee = feeAmount + vatAmountForFee;
+            totalPlusVat  += totalPlusVatForFee;
         }
 
-        VatRate vatRate = vatRateRepository.findAll().stream()
-                .map(vatRateMapper::toVatRate)
-                .findFirst()
-                .orElseThrow(() -> new VatRateNotFoundException("Unable to retrieve VAT rate from database"));
-
-        Double vat = vatRate.getRatePercentage();
-
-        Double vatAmount = vat / 100.0;
-        vatAmount *= totalFees;
-        Double totalPlusVat = totalFees + vatAmount;
-
-        return Fee.builder()
+        return FeeTotals.builder()
                 .amount(totalFees)
-                .vat(vatAmount)
+                .vat(totalVatAmount)
                 .total(totalPlusVat)
                 .build();
     }

@@ -20,7 +20,7 @@ public class MatterCodesController {
 
     private final MatterCodesService service;
     private final MatterCodesValidator validator;
-    private final MatterCodesResponseMapper mapper;
+    private final MatterCodesResponseMapper matterCodesResponseMapper;
 
     /**
      * Gets all the matter code ones.
@@ -36,7 +36,7 @@ public class MatterCodesController {
                 .matterCodes(
                         service.getAllMatterCodes(lawType)
                                 .stream()
-                                .map(mapper::toMatterCodes200ResponseMatterCode)
+                                .map(matterCodesResponseMapper::toMatterCodes200ResponseMatterCode)
                                 .toList())
                 .build();
     }
@@ -55,7 +55,7 @@ public class MatterCodesController {
                 .matterCodes(
                         service.getAllMatterTwosForMatterCodeOne(id)
                                 .stream()
-                                .map(mapper::toMatterCodes200ResponseMatterCode)
+                                .map(matterCodesResponseMapper::toMatterCodes200ResponseMatterCode)
                                 .toList())
                 .build();
     }

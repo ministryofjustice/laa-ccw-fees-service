@@ -11,10 +11,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.FeeDetails;
-import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
@@ -74,11 +73,11 @@ public class FeesControllerTest {
                         .build());
 
         String returnedContent =
-                "{\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}";
+                "{\"totals\":{\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}}";
 
         when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(
-                        Fee.builder()
+                        FeeTotals.builder()
                                 .total(1234.00)
                                 .vat(134.00)
                                 .amount(2331.00)

@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 
@@ -19,7 +19,7 @@ public class FeeResponseMapperTest {
 
     @Test
     void shouldMapToFeeResponse() {
-        Fee fee = Fee.builder()
+        FeeTotals fee = FeeTotals.builder()
                 .amount(12.34)
                 .vat(2.56)
                 .total(233.45)
@@ -32,11 +32,11 @@ public class FeeResponseMapperTest {
                 .build();
 
         FeeCalculate200Response result = classUnderTest.toFeeCalculateResponse(
-                fee,
-                feeRequest);
+                fee
+                );
 
         assertNotNull(result);
-        assertEquals("12.34", result.getAmount());
-        assertEquals("2.56", result.getVat());
+        assertEquals("12.34", result.getTotals().getAmount());
+        assertEquals("2.56", result.getTotals().getVat());
     }
 }
