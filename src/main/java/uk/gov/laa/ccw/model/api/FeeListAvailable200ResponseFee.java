@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 public class FeeListAvailable200ResponseFee {
     private String amount;
     private String levelCode;
-    private String type;
     private String description;
     private String formQuestion;
 }

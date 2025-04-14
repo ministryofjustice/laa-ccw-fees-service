@@ -99,7 +99,6 @@ CREATE TABLE CCW.TEXT_RESOURCES
 (
     RESOURCE_ID         VARCHAR(50)     NOT NULL,
     TEXT                VARCHAR(300)    NOT NULL,
-    LANG                CHAR(2)         NULL,
     CONSTRAINT pk_resource_id PRIMARY KEY (resource_id)
 );
 

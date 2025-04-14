@@ -26,7 +26,4 @@ public class FeesEntity {
     private String levelCodeType;
     private String levelCode;
     private Double amount;
-    private String description;
-    @Column(name = "TEXT")
-    private String formQuestion;
 }

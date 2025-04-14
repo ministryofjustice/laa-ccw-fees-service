@@ -19,7 +19,7 @@ runs:
         bash
 
     - name: Run integration tests
-      run: mvn -B failsafe:integration-test
+      run: mvn failsafe:integration-test
 
       shell:
         bash

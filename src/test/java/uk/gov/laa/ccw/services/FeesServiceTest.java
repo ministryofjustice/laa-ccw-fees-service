@@ -59,13 +59,8 @@ public class FeesServiceTest {
                         .build()
         );
 
-        setUpMockData();
-
-        VatRateEntity vatRateEntity = VatRateEntity.builder().ratePercentage(25.00).build();
-        when(vatRateRepository.findAll())
-                .thenReturn(List.of(vatRateEntity));
-        when(vatRateMapper.toVatRate(vatRateEntity))
-                .thenReturn(VatRate.builder().ratePercentage(25.00).build());
+        setUpMockGetFeesForLocationAndCaseStage();
+        setUpMockGetVatRate();
 
         Fee dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
 
@@ -76,7 +71,7 @@ public class FeesServiceTest {
     @Test
     void shouldThrowExceptionWhenFeesDaoThrowsException() {
 
-        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+        when(feesRepository.findFeeDataByProviderLocationAndCaseStage("LOC1", "CS1"))
                 .thenReturn(new ArrayList<>());
 
         assertThrows(FeesException.class,
@@ -86,7 +81,7 @@ public class FeesServiceTest {
     @Test
     void shouldThrowExceptionWhenVatDaoThrowException() {
 
-       setUpMockData();
+        setUpMockGetFeesForLocationAndCaseStage();
 
        when(vatRateRepository.findAll()).thenReturn(new ArrayList<>());
 
@@ -94,7 +89,7 @@ public class FeesServiceTest {
                 () -> classUnderTest.calculateFees("LOC1", "CS1", new ArrayList<>()));
     }
 
-    void setUpMockData() {
+    void setUpMockGetFeesForLocationAndCaseStage() {
         FeesEntity feesEntity1 = FeesEntity.builder()
                 .levelCodeType("A")
                 .levelCode("LEV0")
@@ -118,7 +113,7 @@ public class FeesServiceTest {
 
         List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4);
 
-        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+        when(feesRepository.findFeeDataByProviderLocationAndCaseStage("LOC1", "CS1"))
                 .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
 
         when(feeMapper.toFee(feesEntity1))
@@ -130,4 +125,13 @@ public class FeesServiceTest {
         when(feeMapper.toFee(feesEntity4))
                 .thenReturn(FixedFee.builder().levelCodeType("OU").levelCode("LEV3").amount(58.00).build());
     }
+
+    void setUpMockGetVatRate() {
+        VatRateEntity vatRateEntity = VatRateEntity.builder().ratePercentage(25.00).build();
+        when(vatRateRepository.findAll())
+                .thenReturn(List.of(vatRateEntity));
+        when(vatRateMapper.toVatRate(vatRateEntity))
+                .thenReturn(VatRate.builder().ratePercentage(25.00).build());
+    }
+
 }

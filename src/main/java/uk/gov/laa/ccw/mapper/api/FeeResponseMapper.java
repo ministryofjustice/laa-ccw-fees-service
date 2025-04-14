@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
@@ -40,7 +41,7 @@ public class FeeResponseMapper {
      * @param fees the fee
      * @return the FeeCalculate200Response
      */
-    public FeeListAvailable200Response toListAvailableResponse(List<FixedFee> fees) {
+    public FeeListAvailable200Response toListAvailableResponse(List<FeeDetails> fees) {
         DecimalFormat df = new DecimalFormat("#0.00");
 
         return FeeListAvailable200Response.builder()
@@ -51,7 +52,6 @@ public class FeeResponseMapper {
                                         .description(f.getDescription())
                                         .amount(df.format(f.getAmount()))
                                         .levelCode(f.getLevelCode())
-                                        .type(f.getLevelCodeType())
                                         .formQuestion(f.getFormQuestion())
                                         .build()
                         )
