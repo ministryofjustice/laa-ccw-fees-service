@@ -16,12 +16,12 @@ public class MatterCodesResponseMapperTest {
 
     @Test
     void shouldMapToMatterCodesResponse() {
-        MatterCode matterCode = MatterCode.builder().matterCodeId("mt1").build();
+        MatterCode matterCode = MatterCode.builder().matterCodeId("mt1").description("matter code 1").build();
 
         MatterCodes200ResponseMatterCode result = matterCodesResponseMapper.toMatterCodes200ResponseMatterCode(matterCode);
 
         assertNotNull(result);
         assertEquals("mt1", result.getMatterCode());
-        assertEquals("", result.getDescription());
+        assertEquals("matter code 1", result.getDescription());
     }
 }

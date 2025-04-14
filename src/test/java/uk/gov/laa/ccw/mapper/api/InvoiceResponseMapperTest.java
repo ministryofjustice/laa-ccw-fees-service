@@ -15,8 +15,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 @ExtendWith(MockitoExtension.class)
 public class InvoiceResponseMapperTest {
 
-    @InjectMocks
-    private InvoiceResponseMapper classUnderTest;
+    private InvoiceResponseMapper classUnderTest = new InvoiceResponseMapperImpl();
 
     @Test
     void shouldMapToResponse() {

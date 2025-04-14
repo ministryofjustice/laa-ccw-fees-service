@@ -28,10 +28,6 @@ public class FeeResponseMapper {
         DecimalFormat df = new DecimalFormat("#0.00");
 
         return FeeCalculate200Response.builder()
-                .matterCode1(feeRequest.getMatterCode1())
-                .matterCode2(feeRequest.getMatterCode2())
-                .caseStage(feeRequest.getCaseStage())
-                .locationCode(feeRequest.getLocationCode())
                 .amount(df.format(fee.getAmount()))
                 .vat(df.format(fee.getVat()))
                 .total(df.format(fee.getTotal()))
@@ -42,18 +38,12 @@ public class FeeResponseMapper {
      * Maps the given fees and fees list available to a FeeListAvailable200Response.
      *
      * @param fees the fee
-     * @param feeRequest the fee list available request
      * @return the FeeCalculate200Response
      */
-    public FeeListAvailable200Response toListAvailableResponse(List<FixedFee> fees,
-                                                                         FeeListAvailableRequest feeRequest) {
+    public FeeListAvailable200Response toListAvailableResponse(List<FixedFee> fees) {
         DecimalFormat df = new DecimalFormat("#0.00");
 
         return FeeListAvailable200Response.builder()
-                .matterCode1(feeRequest.getMatterCode1())
-                .matterCode2(feeRequest.getMatterCode2())
-                .caseStage(feeRequest.getCaseStage())
-                .locationCode(feeRequest.getLocationCode())
                 .fees(fees.stream()
                         .map(f ->
                                 FeeListAvailable200ResponseFee
@@ -62,6 +52,7 @@ public class FeeResponseMapper {
                                         .amount(df.format(f.getAmount()))
                                         .levelCode(f.getLevelCode())
                                         .type(f.getLevelCodeType())
+                                        .formQuestion(f.getFormQuestion())
                                         .build()
                         )
                         .toList())

@@ -71,7 +71,7 @@ public class InvoiceCreationValidatorTest {
         InvoiceCreateRequest request = InvoiceCreateRequest.builder()
                 .amount(null)
                 .office("office")
-                .provider("")
+                .provider("provider")
                 .build();
         assertThrows(MissingDataException.class, () -> classUnderTest.validateRequest(request));
     }

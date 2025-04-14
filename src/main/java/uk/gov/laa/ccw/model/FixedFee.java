@@ -17,4 +17,5 @@ public class FixedFee {
     private String levelCode;
     private Double amount;
     private String description;
+    private String formQuestion;
 }
