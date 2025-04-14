@@ -8,6 +8,7 @@ import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
 import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
@@ -41,12 +42,40 @@ public class FeesService {
      * @param caseStage the case stage
      * @return the fee record
      */
-    public List<FixedFee> getFeesForLocationAndCaseStage(
+    public List<FeeDetails> getFeeDetailsForLocationAndCaseStage(
             String location,
             String caseStage) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
-        List<FixedFee> fixedFees =  repository.findAllByProviderLocationAndCaseStage(
+        List<FeeDetails> feeDetails =  repository.findAllByProviderLocationAndCaseStage(
+                        location, caseStage).stream()
+                .map(feeMapper::toFeeDetails).toList();
+
+        if (feeDetails.isEmpty()) {
+            throw new FeesException(
+                    "Unable to find fixed fees for location "
+                            + location
+                            + " and case stage "
+                            + caseStage);
+        }
+
+        return feeDetails;
+
+    }
+
+    /**
+     * Gets the fees for the given location and case stage.
+     *
+     * @param location the location
+     * @param caseStage the case stage
+     * @return the fee record
+     */
+    private List<FixedFee> getFeesForLocationAndCaseStage(
+            String location,
+            String caseStage) {
+
+        log.info("get fees for location {} and case stage {}", location, caseStage);
+        List<FixedFee> fixedFees =  repository.findByProviderLocationAndCaseStage(
                         location, caseStage).stream()
                 .map(feeMapper::toFee).toList();
 

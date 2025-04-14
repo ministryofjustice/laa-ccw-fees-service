@@ -44,7 +44,7 @@ public class FeesControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(
-                        "{\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"type\":\"A\","
+                        "{\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"levelCodeType\":\"A\","
                                 + "\"description\":\"Level 1\",\"formQuestion\":null}]}"));
     }
 }

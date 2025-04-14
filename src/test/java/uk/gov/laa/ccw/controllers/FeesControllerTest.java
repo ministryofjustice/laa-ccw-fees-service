@@ -13,6 +13,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
+import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 
@@ -94,12 +95,12 @@ public class FeesControllerTest {
     @Test
     void shouldReturnListOfAvailableFees() throws Exception {
 
-        when(feesService.getFeesForLocationAndCaseStage("LOC1", "CASE1"))
+        when(feesService.getFeeDetailsForLocationAndCaseStage("LOC1", "CASE1"))
                 .thenReturn(List.of(
-                        FixedFee.builder()
+                        FeeDetails.builder()
                                 .amount(125.00)
                                 .levelCode("LC1")
-                                .levelCodeType("LCType1")
+                                .levelCodeType("A")
                                 .description("LC Description")
                                 .formQuestion("LC form Q")
                                 .build())
@@ -111,7 +112,7 @@ public class FeesControllerTest {
                                 "\"matterCode1\": \"MT1\", \"matterCode2\": \"MT1\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{"
-                                + "\"fees\":[{\"amount\":\"125.00\",\"levelCode\":\"LC1\",\"type\":\"LCType1\","
+                                + "\"fees\":[{\"amount\":\"125.00\",\"levelCode\":\"LC1\",\"levelCodeType\":\"A\","
                                 + "\"description\":\"LC Description\",\"formQuestion\":\"LC form Q\"}]}"));
     }
 }

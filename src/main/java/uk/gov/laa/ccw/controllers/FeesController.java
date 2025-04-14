@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import uk.gov.laa.ccw.mapper.api.FeeResponseMapper;
 import uk.gov.laa.ccw.model.Fee;
-import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.api.FeeCalculate200Response;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 import uk.gov.laa.ccw.model.api.FeeListAvailable200Response;
@@ -60,7 +60,7 @@ public class FeesController {
         validator.validateFeeListAvailableRequest(request);
 
         log.info("get list of fees");
-        List<FixedFee> result = service.getFeesForLocationAndCaseStage(
+        List<FeeDetails> result = service.getFeeDetailsForLocationAndCaseStage(
                 request.getLocationCode(),
                 request.getCaseStage());
 
