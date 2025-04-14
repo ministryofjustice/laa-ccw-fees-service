@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class FeeDetails {
     private String levelCode;
+    private String levelCodeType;
     private Double amount;
     private String description;
     private String formQuestion;

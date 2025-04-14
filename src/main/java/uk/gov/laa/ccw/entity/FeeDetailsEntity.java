@@ -22,6 +22,8 @@ public class FeeDetailsEntity {
     @Id
     @Column(name = "FEE_ID")
     private int feeId;
+    @Column(name = "TYPE")
+    private String levelCodeType;
     private String levelCode;
     private Double amount;
     private String description;

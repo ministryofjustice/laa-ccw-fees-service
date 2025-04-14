@@ -15,7 +15,7 @@ import java.util.List;
 public interface FeesRepository extends JpaRepository<FeesEntity, String> {
 
     @NativeQuery(value =
-            "SELECT V.FEE_ID, V.AMOUNT, V.LEVEL_CODE, V.DESCRIPTION, T.TEXT "
+            "SELECT V.FEE_ID, V.AMOUNT, V.LEVEL_CODE, V.TYPE, V.DESCRIPTION, T.TEXT "
             + "FROM CCW.VW_LEVEL_CODE_FEES V "
             + "LEFT JOIN CCW.TEXT_RESOURCES T ON "
             + "T.RESOURCE_ID = CONCAT(V.LEVEL_CODE, '_FQ') "
