@@ -50,8 +50,8 @@ jobs:
           REGISTRY: ${{ steps.login-ecr.outputs.registry }}
           REPOSITORY: ${{ vars.ECR_REPOSITORY }}
           NAMESPACE: ${{ secrets.KUBE_NAMESPACE }}
-          ALERT_SEVERITY: laa-ccw-fees-data-dev
-          ENV_NAME: dev
+          ALERT_SEVERITY: laa-ccw-fees-data-${{ inputs.environment }}
+          ENV_NAME:  ${{ inputs.environment }}
 
       - name: Deploy to K8 Cluster
         run: |
