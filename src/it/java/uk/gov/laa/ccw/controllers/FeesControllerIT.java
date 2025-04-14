@@ -29,11 +29,16 @@ public class FeesControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{"
-                        + "\"fees\": [{"
+                        + "\"fees\": ["
+                        + "{\"feeType\": \"LVL1\","
                         + "\"amount\": \"86.00\","
                         + " \"vat\": \"17.20\","
-                        + "\"total\": \"103.20\""
-                        + "}]}"));
+                        + "\"total\": \"103.20\"},"
+                        + "{\"feeType\": \"totals\","
+                        + "\"amount\": \"86.00\","
+                        + " \"vat\": \"17.20\","
+                        + "\"total\": \"103.20\"}"
+                        + "]}"));
     }
 
     @Test

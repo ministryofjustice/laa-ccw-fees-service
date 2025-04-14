@@ -14,7 +14,6 @@ public interface FeeResponseMapper {
     /**
      * Maps the given fees and fees list available to a FeeListAvailable200Response.
      *
-     * @param fees the fee
      * @return the FeeCalculate200Response
      */
     FeeListAvailable200ResponseFee toListAvailableResponse(FeeDetails fee);

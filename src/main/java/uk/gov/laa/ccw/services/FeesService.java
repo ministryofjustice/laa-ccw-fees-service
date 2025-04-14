@@ -7,7 +7,10 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.*;
+import uk.gov.laa.ccw.model.FeeDetails;
+import uk.gov.laa.ccw.model.FeeElement;
+import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRateRepository;
@@ -98,8 +101,8 @@ public class FeesService {
      * @return the fee
      */
     public List<FeeElement> calculateFees(String location,
-                                    String caseStage,
-                                    List<FeeCalculateRequestLevelCode> levelCodes) {
+                                          String caseStage,
+                                          List<FeeCalculateRequestLevelCode> levelCodes) {
 
         List<FixedFee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
@@ -139,7 +142,7 @@ public class FeesService {
                                 feeAmount = levelCodesOfSameCode.getFirst().getFee();
                                 break;
                             default:
-                                feeAmount= f.getAmount();
+                                feeAmount = f.getAmount();
                                 break;
                         }
                     }
@@ -162,7 +165,7 @@ public class FeesService {
                     .vat(numberFormatter.format(vatAmountForFee))
                     .total(numberFormatter.format(totalPlusVatForFee))
                     .build()
-                );
+            );
 
         }
 
