@@ -12,7 +12,7 @@ import uk.gov.laa.ccw.model.FixedFee;
 @Mapper(componentModel = "spring")
 public interface FeeMapper {
     /**
-     * Cpnverts fee entity into a fee details object.
+     * Converts fee entity into a fee details object.
      */
     FeeDetails toFeeDetails(FeeDetailsEntity feesEntity);
 
