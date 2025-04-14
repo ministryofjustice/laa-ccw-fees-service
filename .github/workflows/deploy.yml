@@ -3,8 +3,7 @@ name: deploy
 on:
   push:
     branches:
-#      - main
-      - BILL-122-update-pipeline-to-deploy-per-environment
+      - main
   workflow_dispatch:
 jobs:
   build-test:
