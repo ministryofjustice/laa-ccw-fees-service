@@ -8,7 +8,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 class MatterCodesValidatorTest {
 
-    private MatterCodesValidator classUnderTest = new MatterCodesValidator();
+    private final MatterCodesValidator classUnderTest = new MatterCodesValidator();
 
     @Test
     void shouldAllowValidRequest() {

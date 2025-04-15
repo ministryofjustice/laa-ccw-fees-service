@@ -13,6 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CaseStages200ResponseCaseStage {
-    public String caseStage;
+    private String caseStage;
     private String description;
 }

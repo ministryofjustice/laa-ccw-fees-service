@@ -1,9 +1,6 @@
 package uk.gov.laa.ccw.mapper.api;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
-import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.model.Invoice;
 import uk.gov.laa.ccw.model.api.InvoiceCreation200Response;
 
@@ -12,7 +9,6 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-@ExtendWith(MockitoExtension.class)
 public class InvoiceResponseMapperTest {
 
     private InvoiceResponseMapper classUnderTest = new InvoiceResponseMapperImpl();
