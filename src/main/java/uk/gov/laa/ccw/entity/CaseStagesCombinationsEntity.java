@@ -17,11 +17,12 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "CASE_STAGES")
-public class CaseStagesEntity {
+@Table(name = "VW_CASE_STAGE_COMBINATIONS")
+public class CaseStagesCombinationsEntity {
     @Id
     @Column(name = "CASE_STAGE_ID")
     private String caseStageId;
-
     private String description;
+    @Column(name = "MATTER_CODE_1")
+    private String matterCodeOne;
 }

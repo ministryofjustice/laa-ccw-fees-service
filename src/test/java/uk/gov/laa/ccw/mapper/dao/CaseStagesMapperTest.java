@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.model.CaseStage;
-import uk.gov.laa.ccw.entity.CaseStagesEntity;
+import uk.gov.laa.ccw.entity.CaseStagesCombinationsEntity;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -17,9 +17,10 @@ public class CaseStagesMapperTest {
 
     @Test
     void shouldMapCaseStageEntityToCaseStage() {
-        CaseStagesEntity entity = CaseStagesEntity.builder()
+        CaseStagesCombinationsEntity entity = CaseStagesCombinationsEntity.builder()
                 .caseStageId("cs1")
                 .description("description")
+                .matterCodeOne("matterCodeOne")
                 .build();
         CaseStage result = mapper.toCaseStage(entity);
 

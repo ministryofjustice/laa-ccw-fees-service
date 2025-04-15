@@ -12,6 +12,7 @@ import uk.gov.laa.ccw.model.FeeElement;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+import uk.gov.laa.ccw.repository.FeeDetailsRepository;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRateRepository;
 
@@ -32,6 +33,7 @@ public class FeesService {
     private static final String FEE_TYPE_OPTIONAL_PER_UNIT = "OU";
 
     private final FeesRepository repository;
+    private final FeeDetailsRepository feeDetailsRepository;
     private final FeeMapper feeMapper;
 
     private final VatRateRepository vatRateRepository;
@@ -49,7 +51,7 @@ public class FeesService {
             String caseStage) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
-        List<FeeDetails> feeDetails =  repository.findAllByProviderLocationAndCaseStage(
+        List<FeeDetails> feeDetails =  feeDetailsRepository.findByProviderLocationAndCaseStage(
                         location, caseStage).stream()
                 .map(feeMapper::toFeeDetails).toList();
 
@@ -123,6 +125,7 @@ public class FeesService {
         for (FixedFee f : feesForLocationAndCaseStage) {
 
             Double feeAmount = 0.0;
+            boolean feeCalculated = false;
 
             switch (f.getLevelCodeType()) {
                 case FEE_TYPE_OPTIONAL:
@@ -134,6 +137,8 @@ public class FeesService {
                                     .toList();
 
                     if (!levelCodesOfSameCode.isEmpty()) {
+                        feeCalculated = true;
+
                         switch (f.getLevelCodeType()) {
                             case FEE_TYPE_OPTIONAL_PER_UNIT:
                                 feeAmount = (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
@@ -149,24 +154,26 @@ public class FeesService {
                     break;
                 default:
                     feeAmount = f.getAmount();
+                    feeCalculated = true;
                     break;
             }
 
-            totalFees +=  feeAmount;
-            double vatAmountForFee = feeAmount * vat;
-            totalVatAmount += vatAmountForFee;
-            double totalPlusVatForFee = feeAmount + vatAmountForFee;
-            totalPlusVat  += totalPlusVatForFee;
+            if (feeCalculated) {
+                totalFees +=  feeAmount;
+                double vatAmountForFee = feeAmount * vat;
+                totalVatAmount += vatAmountForFee;
+                double totalPlusVatForFee = feeAmount + vatAmountForFee;
+                totalPlusVat  += totalPlusVatForFee;
 
-            result.add(
-                FeeElement.builder()
-                    .feeType(f.getLevelCode())
-                    .amount(numberFormatter.format(feeAmount))
-                    .vat(numberFormatter.format(vatAmountForFee))
-                    .total(numberFormatter.format(totalPlusVatForFee))
-                    .build()
-            );
-
+                result.add(
+                        FeeElement.builder()
+                                .feeType(f.getLevelCode())
+                                .amount(numberFormatter.format(feeAmount))
+                                .vat(numberFormatter.format(vatAmountForFee))
+                                .total(numberFormatter.format(totalPlusVatForFee))
+                                .build()
+                );
+            }
         }
 
         result.add(

@@ -5,11 +5,11 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import uk.gov.laa.ccw.entity.CaseStagesEntity;
+import uk.gov.laa.ccw.entity.CaseStagesCombinationsEntity;
 import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
 import uk.gov.laa.ccw.model.CaseStage;
-import uk.gov.laa.ccw.repository.CaseStagesRepository;
+import uk.gov.laa.ccw.repository.CaseStagesCombinationsRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CaseStagesServiceTest {
     @Mock
-    private CaseStagesRepository caseStagesRepository;
+    private CaseStagesCombinationsRepository caseStagesCombinationsRepository;
 
     @Mock
     private CaseStagesMapper caseStagesMapper;
@@ -106,16 +106,17 @@ public class CaseStagesServiceTest {
         String matterCodeOne = "CODE1";
         String matterCodeTwo = "CODE2";
 
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne)).thenReturn(new ArrayList<>());
+        when(caseStagesCombinationsRepository
+                .findByMatterCodeOne(matterCodeOne)).thenReturn(new ArrayList<>());
 
         assertThrows(CaseStagesNotFoundException.class,
                 () -> classUnderTest.getAllCaseStagesForMatterCodes(matterCodeOne, matterCodeTwo));
     }
 
     private void setUpMockData(String matterCodeOne, boolean addInFPL10) {
-        CaseStagesEntity cs1Entity = CaseStagesEntity.builder().caseStageId("cs1").build();
-        CaseStagesEntity cs2Entity = CaseStagesEntity.builder().caseStageId("cs2").build();
-        List<CaseStagesEntity> caseStagesEntities = new ArrayList<>();
+        CaseStagesCombinationsEntity cs1Entity = CaseStagesCombinationsEntity.builder().caseStageId("cs1").build();
+        CaseStagesCombinationsEntity cs2Entity = CaseStagesCombinationsEntity.builder().caseStageId("cs2").build();
+        List<CaseStagesCombinationsEntity> caseStagesEntities = new ArrayList<>();
         caseStagesEntities.add(cs1Entity);
         caseStagesEntities.add(cs2Entity);
 
@@ -123,12 +124,12 @@ public class CaseStagesServiceTest {
         when(caseStagesMapper.toCaseStage(cs2Entity)).thenReturn(CaseStage.builder().caseStageId("cs2").build());
 
         if (addInFPL10) {
-            CaseStagesEntity fpl10Entity = CaseStagesEntity.builder().caseStageId("FPL10").build();
+            CaseStagesCombinationsEntity fpl10Entity = CaseStagesCombinationsEntity.builder().caseStageId("FPL10").build();
             caseStagesEntities.add(fpl10Entity);
             when(caseStagesMapper.toCaseStage(fpl10Entity)).thenReturn(CaseStage.builder().caseStageId("FPL10").build());
         }
 
-        when(caseStagesRepository.findCaseStagesByMatterCodeOne(matterCodeOne)).thenReturn(caseStagesEntities);
+        when(caseStagesCombinationsRepository.findByMatterCodeOne(matterCodeOne)).thenReturn(caseStagesEntities);
     }
 
 }

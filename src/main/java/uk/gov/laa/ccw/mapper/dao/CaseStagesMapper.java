@@ -1,7 +1,7 @@
 package uk.gov.laa.ccw.mapper.dao;
 
 import org.mapstruct.Mapper;
-import uk.gov.laa.ccw.entity.CaseStagesEntity;
+import uk.gov.laa.ccw.entity.CaseStagesCombinationsEntity;
 import uk.gov.laa.ccw.model.CaseStage;
 
 /**
@@ -16,5 +16,5 @@ public interface CaseStagesMapper {
      * @param entity the case stages entity
      * @return the case stages
      */
-    CaseStage toCaseStage(CaseStagesEntity entity);
+    CaseStage toCaseStage(CaseStagesCombinationsEntity entity);
 }
