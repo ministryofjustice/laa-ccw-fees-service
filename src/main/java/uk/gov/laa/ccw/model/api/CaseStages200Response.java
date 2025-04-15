@@ -15,5 +15,5 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CaseStages200Response {
-    List<CaseStages200ResponseCaseStage> caseStages;
+    private List<CaseStages200ResponseCaseStage> caseStages;
 }

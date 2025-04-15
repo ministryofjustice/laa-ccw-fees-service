@@ -4,7 +4,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 import uk.gov.laa.ccw.model.api.FeeListAvailableRequest;
