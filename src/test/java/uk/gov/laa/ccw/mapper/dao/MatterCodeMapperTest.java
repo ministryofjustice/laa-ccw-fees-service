@@ -6,7 +6,7 @@ import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.model.MatterCode;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
-import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
+import uk.gov.laa.ccw.entity.MatterCodeCombinationsEntity;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -32,9 +32,10 @@ class MatterCodeMapperTest {
 
     @Test
     void shouldMapMatterCodesTwoEntityToMatterCode() {
-        MatterCodesTwoEntity matterCodesTwoEntity = MatterCodesTwoEntity.builder()
+        MatterCodeCombinationsEntity matterCodesTwoEntity = MatterCodeCombinationsEntity.builder()
                 .matterCodeId("mt2")
                 .description("desc")
+                .matterCode1("mat1")
                 .build();
 
         MatterCode result = matterCodeMapper.toMatterCode(matterCodesTwoEntity);

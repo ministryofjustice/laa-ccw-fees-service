@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.repository.MatterCodeCombinationsRepository;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
 import java.util.List;
@@ -19,6 +20,7 @@ import java.util.List;
 public class MatterCodesService {
 
     private final MatterCodesRepository matterCodesRepository;
+    private final MatterCodeCombinationsRepository matterCodeCombinationsRepository;
     private final MatterCodeMapper matterCodeMapper;
 
     /**
@@ -51,7 +53,7 @@ public class MatterCodesService {
                 .findById(matterCodeOne)
                 .orElseThrow(() -> new MatterCodeNotFoundException("Unable to find Matter Code " + matterCodeOne));
 
-        List<MatterCode> matterCodes =  matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne)
+        List<MatterCode> matterCodes =  matterCodeCombinationsRepository.findAllByMatterCode1(matterCodeOne)
                 .stream().map(matterCodeMapper::toMatterCode).toList();
 
         if (matterCodes.isEmpty()) {

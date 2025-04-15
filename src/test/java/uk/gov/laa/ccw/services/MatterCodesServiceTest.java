@@ -6,10 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
-import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
+import uk.gov.laa.ccw.entity.MatterCodeCombinationsEntity;
 import uk.gov.laa.ccw.exceptions.MatterCodeNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.MatterCodeMapper;
 import uk.gov.laa.ccw.model.MatterCode;
+import uk.gov.laa.ccw.repository.MatterCodeCombinationsRepository;
 import uk.gov.laa.ccw.repository.MatterCodesRepository;
 
 import java.util.ArrayList;
@@ -25,6 +26,9 @@ public class MatterCodesServiceTest {
 
     @Mock
     private MatterCodesRepository matterCodesRepository;
+
+    @Mock
+    private MatterCodeCombinationsRepository matterCodeCombinationsRepository;
 
     @Mock
     private MatterCodeMapper matterCodeMapper;
@@ -50,12 +54,12 @@ public class MatterCodesServiceTest {
     void shouldFetchMatterCodesForSpecificMatterCodeOne() {
 
         String matterCodeOne = "mt1A";
-        MatterCodesTwoEntity mt2AEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2A").build();
-        MatterCodesTwoEntity mt2BEntity = MatterCodesTwoEntity.builder().matterCodeId("mt2B").build();
+        MatterCodeCombinationsEntity mt2AEntity = MatterCodeCombinationsEntity.builder().matterCodeId("mt2A").build();
+        MatterCodeCombinationsEntity mt2BEntity = MatterCodeCombinationsEntity.builder().matterCodeId("mt2B").build();
 
         when(matterCodesRepository.findById(matterCodeOne))
                 .thenReturn(Optional.of(MatterCodesOneEntity.builder().matterCodeId(matterCodeOne).build()));
-        when(matterCodesRepository.findMatterCodesTwosByMatterCodeOne(matterCodeOne))
+        when(matterCodeCombinationsRepository.findAllByMatterCode1(matterCodeOne))
                 .thenReturn(List.of(mt2AEntity, mt2BEntity));
         when(matterCodeMapper.toMatterCode(mt2AEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2A").build());
         when(matterCodeMapper.toMatterCode(mt2BEntity)).thenReturn(MatterCode.builder().matterCodeId("mt2B").build());
@@ -89,7 +93,7 @@ public class MatterCodesServiceTest {
     void shouldThrowExceptionIfNoMatterCodesTwo() {
         when(matterCodesRepository.findById("mt1"))
                 .thenReturn(Optional.of(MatterCodesOneEntity.builder().matterCodeId("mt1").build()));
-        when(matterCodesRepository.findMatterCodesTwosByMatterCodeOne("mt1"))
+        when(matterCodeCombinationsRepository.findAllByMatterCode1("mt1"))
                 .thenReturn(new ArrayList<>());
 
         assertThrows(MatterCodeNotFoundException.class,

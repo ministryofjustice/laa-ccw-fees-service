@@ -17,6 +17,7 @@ import uk.gov.laa.ccw.model.FeeElement;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+import uk.gov.laa.ccw.repository.FeeDetailsRepository;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRateRepository;
 
@@ -32,6 +33,9 @@ import static org.mockito.Mockito.when;
 public class FeesServiceTest {
     @Mock
     private FeesRepository feesRepository;
+
+    @Mock
+    private FeeDetailsRepository feeDetailsRepository;
 
     @Mock
     private FeeMapper feeMapper;
@@ -174,7 +178,7 @@ public class FeesServiceTest {
 
         List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4);
 
-        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+        when(feeDetailsRepository.findByProviderLocationAndCaseStage("LOC1", "CS1"))
                 .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
 
         when(feeMapper.toFeeDetails(feesEntity1))

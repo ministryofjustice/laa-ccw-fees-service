@@ -1,8 +1,8 @@
 package uk.gov.laa.ccw.mapper.dao;
 
 import org.mapstruct.Mapper;
+import uk.gov.laa.ccw.entity.MatterCodeCombinationsEntity;
 import uk.gov.laa.ccw.entity.MatterCodesOneEntity;
-import uk.gov.laa.ccw.entity.MatterCodesTwoEntity;
 import uk.gov.laa.ccw.model.MatterCode;
 
 /**
@@ -25,5 +25,5 @@ public interface MatterCodeMapper {
      * @param entity the matter codes one entity
      * @return the matter code
      */
-    MatterCode toMatterCode(MatterCodesTwoEntity entity);
+    MatterCode toMatterCode(MatterCodeCombinationsEntity entity);
 }

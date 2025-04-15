@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import uk.gov.laa.ccw.exceptions.CaseStagesNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.CaseStagesMapper;
 import uk.gov.laa.ccw.model.CaseStage;
-import uk.gov.laa.ccw.repository.CaseStagesRepository;
+import uk.gov.laa.ccw.repository.CaseStagesCombinationsRepository;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 @RequiredArgsConstructor
 public class CaseStagesService {
-    private final CaseStagesRepository repository;
+    private final CaseStagesCombinationsRepository caseStagesCombinationsRepository;
     private final CaseStagesMapper caseStagesMapper;
 
     /**
@@ -33,7 +33,8 @@ public class CaseStagesService {
                                                           String matterCodeTwo) {
         log.info("get case stages");
 
-        List<CaseStage> caseStages =  repository.findCaseStagesByMatterCodeOne(matterCodeOne).stream()
+        List<CaseStage> caseStages =  caseStagesCombinationsRepository
+                .findByMatterCodeOne(matterCodeOne).stream()
                 .map(caseStagesMapper::toCaseStage)
                 .collect(Collectors.toList());
 
