@@ -7,14 +7,16 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FeeDetails;
+import uk.gov.laa.ccw.model.FeeElement;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 import uk.gov.laa.ccw.repository.FeesRepository;
 import uk.gov.laa.ccw.repository.VatRateRepository;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -98,14 +100,29 @@ public class FeesService {
      * @param caseStage the case stage
      * @return the fee
      */
-    public Fee calculateFees(String location,
-                             String caseStage,
-                             List<FeeCalculateRequestLevelCode> levelCodes) {
+    public List<FeeElement> calculateFees(String location,
+                                          String caseStage,
+                                          List<FeeCalculateRequestLevelCode> levelCodes) {
 
         List<FixedFee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
-        Double totalFees = 0.0;
+        VatRate vatRate = vatRateRepository.findAll().stream()
+                .map(vatRateMapper::toVatRate)
+                .findFirst()
+                .orElseThrow(() -> new VatRateNotFoundException("Unable to retrieve VAT rate from database"));
+
+        double vat = vatRate.getRatePercentage() / 100.0;
+
+        double totalFees = 0.0;
+        double totalVatAmount = 0.0;
+        double totalPlusVat = 0.0;
+
+        DecimalFormat numberFormatter = new DecimalFormat("#0.00");
+        List<FeeElement> result = new ArrayList<>();
+
         for (FixedFee f : feesForLocationAndCaseStage) {
+
+            Double feeAmount = 0.0;
 
             switch (f.getLevelCodeType()) {
                 case FEE_TYPE_OPTIONAL:
@@ -119,38 +136,48 @@ public class FeesService {
                     if (!levelCodesOfSameCode.isEmpty()) {
                         switch (f.getLevelCodeType()) {
                             case FEE_TYPE_OPTIONAL_PER_UNIT:
-                                totalFees += (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
+                                feeAmount = (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
                                 break;
                             case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
-                                totalFees += levelCodesOfSameCode.getFirst().getFee();
+                                feeAmount = levelCodesOfSameCode.getFirst().getFee();
                                 break;
                             default:
-                                totalFees += f.getAmount();
+                                feeAmount = f.getAmount();
                                 break;
                         }
                     }
                     break;
                 default:
-                    totalFees += f.getAmount();
+                    feeAmount = f.getAmount();
                     break;
             }
+
+            totalFees +=  feeAmount;
+            double vatAmountForFee = feeAmount * vat;
+            totalVatAmount += vatAmountForFee;
+            double totalPlusVatForFee = feeAmount + vatAmountForFee;
+            totalPlusVat  += totalPlusVatForFee;
+
+            result.add(
+                FeeElement.builder()
+                    .feeType(f.getLevelCode())
+                    .amount(numberFormatter.format(feeAmount))
+                    .vat(numberFormatter.format(vatAmountForFee))
+                    .total(numberFormatter.format(totalPlusVatForFee))
+                    .build()
+            );
+
         }
 
-        VatRate vatRate = vatRateRepository.findAll().stream()
-                .map(vatRateMapper::toVatRate)
-                .findFirst()
-                .orElseThrow(() -> new VatRateNotFoundException("Unable to retrieve VAT rate from database"));
+        result.add(
+                FeeElement.builder()
+                .feeType("totals")
+                .amount(numberFormatter.format(totalFees))
+                .vat(numberFormatter.format(totalVatAmount))
+                .total(numberFormatter.format(totalPlusVat))
+                .build()
+        );
 
-        Double vat = vatRate.getRatePercentage();
-
-        Double vatAmount = vat / 100.0;
-        vatAmount *= totalFees;
-        Double totalPlusVat = totalFees + vatAmount;
-
-        return Fee.builder()
-                .amount(totalFees)
-                .vat(vatAmount)
-                .total(totalPlusVat)
-                .build();
+        return result;
     }
 }

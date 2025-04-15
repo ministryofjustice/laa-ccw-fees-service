@@ -29,10 +29,16 @@ public class FeesControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().json("{"
+                        + "\"fees\": ["
+                        + "{\"feeType\": \"LVL1\","
                         + "\"amount\": \"86.00\","
                         + " \"vat\": \"17.20\","
-                        + "\"total\": \"103.20\""
-                        + "}"));
+                        + "\"total\": \"103.20\"},"
+                        + "{\"feeType\": \"totals\","
+                        + "\"amount\": \"86.00\","
+                        + " \"vat\": \"17.20\","
+                        + "\"total\": \"103.20\"}"
+                        + "]}"));
     }
 
     @Test
@@ -44,7 +50,7 @@ public class FeesControllerIT {
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON))
                 .andExpect(content().string(
-                        "{\"fees\":[{\"amount\":\"86.00\",\"levelCode\":\"LVL1\",\"levelCodeType\":\"A\","
+                        "{\"fees\":[{\"amount\":86.0,\"levelCode\":\"LVL1\",\"levelCodeType\":\"A\","
                                 + "\"description\":\"Level 1\",\"formQuestion\":null}]}"));
     }
 }

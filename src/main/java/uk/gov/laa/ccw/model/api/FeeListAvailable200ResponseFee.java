@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class FeeListAvailable200ResponseFee {
-    private String amount;
+    private Double amount;
     private String levelCode;
     private String levelCodeType;
     private String description;

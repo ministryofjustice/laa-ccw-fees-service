@@ -11,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeElement;
+import uk.gov.laa.ccw.model.FeeTotals;
 import uk.gov.laa.ccw.exceptions.MissingDataException;
 import uk.gov.laa.ccw.model.FeeDetails;
-import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequest;
 
 import uk.gov.laa.ccw.services.FeesService;
@@ -74,15 +74,16 @@ public class FeesControllerTest {
                         .build());
 
         String returnedContent =
-                "{\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}";
+                "{\"fees\":[{\"feeType\":\"totals\",\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}]}";
 
         when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(
-                        Fee.builder()
-                                .total(1234.00)
-                                .vat(134.00)
-                                .amount(2331.00)
-                                .build()
+                        List.of(FeeElement.builder()
+                                .feeType("totals")
+                                .total("1234.00")
+                                .vat("134.00")
+                                .amount("2331.00")
+                                .build())
                 );
 
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees/calculate")
@@ -112,7 +113,7 @@ public class FeesControllerTest {
                                 "\"matterCode1\": \"MT1\", \"matterCode2\": \"MT1\"}"))
                 .andExpect(status().isOk())
                 .andExpect(content().string("{"
-                                + "\"fees\":[{\"amount\":\"125.00\",\"levelCode\":\"LC1\",\"levelCodeType\":\"A\","
+                                + "\"fees\":[{\"amount\":125.0,\"levelCode\":\"LC1\",\"levelCodeType\":\"A\","
                                 + "\"description\":\"LC Description\",\"formQuestion\":\"LC form Q\"}]}"));
     }
 }

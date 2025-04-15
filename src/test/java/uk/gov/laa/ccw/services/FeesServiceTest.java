@@ -5,13 +5,15 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import uk.gov.laa.ccw.entity.FeeDetailsEntity;
 import uk.gov.laa.ccw.entity.FeesEntity;
 import uk.gov.laa.ccw.entity.VatRateEntity;
 import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
-import uk.gov.laa.ccw.model.Fee;
+import uk.gov.laa.ccw.model.FeeDetails;
+import uk.gov.laa.ccw.model.FeeElement;
 import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
@@ -20,9 +22,9 @@ import uk.gov.laa.ccw.repository.VatRateRepository;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 
 
@@ -62,10 +64,15 @@ public class FeesServiceTest {
         setUpMockGetFeesForLocationAndCaseStage();
         setUpMockGetVatRate();
 
-        Fee dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
+        List<FeeElement> dataReturned = classUnderTest.calculateFees("LOC1", "CS1", testLevelCodes);
 
-        assertEquals(412, dataReturned.getAmount());
-        assertEquals(515, dataReturned.getTotal());
+        Optional<FeeElement> total = dataReturned.stream()
+                            .filter(f -> f.getFeeType().contentEquals("totals"))
+                            .findAny();
+
+        assertTrue(total.isPresent());
+        assertEquals("412.00", total.get().getAmount());
+        assertEquals("515.00", total.get().getTotal());
     }
 
     @Test
@@ -132,6 +139,58 @@ public class FeesServiceTest {
                 .thenReturn(List.of(vatRateEntity));
         when(vatRateMapper.toVatRate(vatRateEntity))
                 .thenReturn(VatRate.builder().ratePercentage(25.00).build());
+    }
+
+    @Test
+    void shouldGetFeeDetailsForLocationAndCaseStage() {
+        FeeDetailsEntity feesEntity1 = FeeDetailsEntity.builder()
+                .levelCodeType("A")
+                .levelCode("LEV0")
+                .amount(32.00)
+                .description("description0")
+                .formQuestion("why")
+                .build();
+        FeeDetailsEntity feesEntity2 = FeeDetailsEntity.builder()
+                .levelCodeType("O")
+                .levelCode("LEV1")
+                .amount(64.00)
+                .description("description1")
+                .formQuestion("when")
+                .build();
+        FeeDetailsEntity feesEntity3 = FeeDetailsEntity.builder()
+                .levelCodeType("OF")
+                .levelCode("LEV2")
+                .amount(128.00)
+                .description("description2")
+                .formQuestion("which")
+                .build();
+        FeeDetailsEntity feesEntity4 = FeeDetailsEntity.builder()
+                .levelCodeType("OU")
+                .levelCode("LEV3")
+                .formQuestion("what")
+                .amount(58.00)
+                .description("description3")
+                .build();
+
+        List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4);
+
+        when(feesRepository.findAllByProviderLocationAndCaseStage("LOC1", "CS1"))
+                .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
+
+        when(feeMapper.toFeeDetails(feesEntity1))
+                .thenReturn(FeeDetails.builder().amount(32.00).build());
+        when(feeMapper.toFeeDetails(feesEntity2))
+                .thenReturn(FeeDetails.builder().amount(64.00).build());
+        when(feeMapper.toFeeDetails(feesEntity3))
+                .thenReturn(FeeDetails.builder().amount(128.00).build());
+        when(feeMapper.toFeeDetails(feesEntity4))
+                .thenReturn(FeeDetails.builder().amount(58.00).formQuestion("what").build());
+
+
+        List<FeeDetails> dataReturned = classUnderTest.getFeeDetailsForLocationAndCaseStage("LOC1", "CS1");
+
+        assertEquals(32.0, dataReturned.get(0).getAmount());
+        assertEquals("what", dataReturned.get(3).getFormQuestion());
     }
 
 }

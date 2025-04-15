@@ -6,14 +6,15 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * The model class for Fee.
+ * The model class for FeeTotals.
  */
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class Fee {
-    private Double amount;
-    private Double vat;
-    private Double total;
+public class FeeElement {
+    private String feeType;
+    private String amount;
+    private String vat;
+    private String total;
 }
