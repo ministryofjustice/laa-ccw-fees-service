@@ -12,7 +12,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class FixedFee {
+public class Fee {
     private String levelCodeType;
     private String levelCode;
     private Double amount;

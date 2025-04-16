@@ -14,7 +14,7 @@ import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
 import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FeeElement;
-import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 import uk.gov.laa.ccw.repository.FeeDetailsRepository;
@@ -128,13 +128,13 @@ public class FeesServiceTest {
                 .thenReturn(List.of(feesEntity1, feesEntity2, feesEntity3, feesEntity4));
 
         when(feeMapper.toFee(feesEntity1))
-                .thenReturn(FixedFee.builder().levelCodeType("A").levelCode("LEV0").amount(32.00).build());
+                .thenReturn(Fee.builder().levelCodeType("A").levelCode("LEV0").amount(32.00).build());
         when(feeMapper.toFee(feesEntity2))
-                .thenReturn(FixedFee.builder().levelCodeType("O").levelCode("LEV1").amount(64.00).build());
+                .thenReturn(Fee.builder().levelCodeType("O").levelCode("LEV1").amount(64.00).build());
         when(feeMapper.toFee(feesEntity3))
-                .thenReturn(FixedFee.builder().levelCodeType("OF").levelCode("LEV2").amount(128.00).build());
+                .thenReturn(Fee.builder().levelCodeType("OF").levelCode("LEV2").amount(128.00).build());
         when(feeMapper.toFee(feesEntity4))
-                .thenReturn(FixedFee.builder().levelCodeType("OU").levelCode("LEV3").amount(58.00).build());
+                .thenReturn(Fee.builder().levelCodeType("OU").levelCode("LEV3").amount(58.00).build());
     }
 
     void setUpMockGetVatRate() {
