@@ -3,8 +3,8 @@ package uk.gov.laa.ccw.mapper.dao;
 import org.mapstruct.Mapper;
 import uk.gov.laa.ccw.entity.FeeDetailsEntity;
 import uk.gov.laa.ccw.entity.FeesEntity;
+import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FeeDetails;
-import uk.gov.laa.ccw.model.FixedFee;
 
 /**
  * mapper class for fee dao.
@@ -19,5 +19,5 @@ public interface FeeMapper {
     /**
      * Cpnverts fee entity into a fee object.
      */
-    FixedFee toFee(FeesEntity feesEntity);
+    Fee toFee(FeesEntity feesEntity);
 }

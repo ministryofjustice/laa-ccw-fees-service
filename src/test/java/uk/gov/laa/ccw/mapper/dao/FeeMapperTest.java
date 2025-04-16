@@ -5,7 +5,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
 import uk.gov.laa.ccw.entity.FeesEntity;
-import uk.gov.laa.ccw.model.FixedFee;
+import uk.gov.laa.ccw.model.Fee;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -21,7 +21,7 @@ public class FeeMapperTest {
         FeesEntity entity = FeesEntity.builder()
                 .amount(12.34)
                 .build();
-        FixedFee result = mapper.toFee(entity);
+        Fee result = mapper.toFee(entity);
 
         assertNotNull(result);
         assertEquals(result.getAmount(), entity.getAmount());

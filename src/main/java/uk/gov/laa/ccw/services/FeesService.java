@@ -7,9 +7,9 @@ import uk.gov.laa.ccw.exceptions.FeesException;
 import uk.gov.laa.ccw.exceptions.VatRateNotFoundException;
 import uk.gov.laa.ccw.mapper.dao.FeeMapper;
 import uk.gov.laa.ccw.mapper.dao.VatRateMapper;
+import uk.gov.laa.ccw.model.Fee;
 import uk.gov.laa.ccw.model.FeeDetails;
 import uk.gov.laa.ccw.model.FeeElement;
-import uk.gov.laa.ccw.model.FixedFee;
 import uk.gov.laa.ccw.model.VatRate;
 import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
 import uk.gov.laa.ccw.repository.FeeDetailsRepository;
@@ -74,12 +74,12 @@ public class FeesService {
      * @param caseStage the case stage
      * @return the fee record
      */
-    private List<FixedFee> getFeesForLocationAndCaseStage(
+    private List<Fee> getFeesForLocationAndCaseStage(
             String location,
             String caseStage) {
 
         log.info("get fees for location {} and case stage {}", location, caseStage);
-        List<FixedFee> fixedFees =  repository.findByProviderLocationAndCaseStage(
+        List<Fee> fixedFees =  repository.findByProviderLocationAndCaseStage(
                         location, caseStage).stream()
                 .map(feeMapper::toFee).toList();
 
@@ -106,7 +106,7 @@ public class FeesService {
                                           String caseStage,
                                           List<FeeCalculateRequestLevelCode> levelCodes) {
 
-        List<FixedFee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
+        List<Fee> feesForLocationAndCaseStage = getFeesForLocationAndCaseStage(location, caseStage);
 
         VatRate vatRate = vatRateRepository.findAll().stream()
                 .map(vatRateMapper::toVatRate)
@@ -122,7 +122,7 @@ public class FeesService {
         DecimalFormat numberFormatter = new DecimalFormat("#0.00");
         List<FeeElement> result = new ArrayList<>();
 
-        for (FixedFee f : feesForLocationAndCaseStage) {
+        for (Fee f : feesForLocationAndCaseStage) {
 
             Double feeAmount = 0.0;
             boolean feeCalculated = false;
