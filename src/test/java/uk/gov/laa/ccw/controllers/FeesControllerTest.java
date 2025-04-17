@@ -73,7 +73,7 @@ public class FeesControllerTest {
                         .build());
 
         String returnedContent =
-                "{\"fees\":[{\"feeType\":\"totals\",\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\"}]}";
+                "{\"fees\":[{\"feeType\":\"totals\",\"amount\":\"2331.00\",\"vat\":\"134.00\",\"total\":\"1234.00\",\"unit\":\"1.00\"}]}";
 
         when(feesService.calculateFees(anyString(), anyString(), anyList()))
                 .thenReturn(
@@ -82,6 +82,7 @@ public class FeesControllerTest {
                                 .total("1234.00")
                                 .vat("134.00")
                                 .amount("2331.00")
+                                .unit("1.00")
                                 .build())
                 );
 

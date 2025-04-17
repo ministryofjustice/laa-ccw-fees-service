@@ -174,11 +174,11 @@ VALUES
     ('_IMNRM', 'NRM advice','O')
 ;
 
-INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID)
+INSERT INTO CCW.CASE_STAGES(CASE_STAGE_ID, DESCRIPTION)
 VALUES
-    ('_IMM01'),
-    ('_IMM02'),
-    ('_IMM03')
+    ('_IMM01','pseudo case stage for IALB calculation'),
+    ('_IMM02', 'pseudo case stage for IACF calculation'),
+    ('_IMM03', 'pseudo case stage for IMLB calculation')
 ;
 
 INSERT INTO CCW.CASE_STAGES_COMBINATIONS(MATTER_CODE_1,CASE_STAGES)
@@ -192,33 +192,21 @@ INSERT INTO CCW.FEES(AMOUNT,CASE_STAGE,LEVEL_CODE,PROVIDER_LOCATION,FEE_ID)
 VALUES
     (  413.00, '_IMM01', '_IMSTD', 'NA',300),
     (  266.00, '_IMM01', '_IMHOI', 'NA',301),
-    (  166.00, '_IMM01', '_IMORL', 'NA',302),
-    (   90.00, '_IMM01', '_IMTEL', 'NA',303),
-    (  302.00, '_IMM01', '_IMSUH', 'NA',304),
-    (  161.00, '_IMM01', '_IMADJ', 'NA',305),
-    (    0.00, '_IMM01', '_IMDET', 'NA',306),
-    (    0.00, '_IMM01', '_IMJRF', 'NA',307),
-    (  150.00, '_IMM01', '_IMNRM', 'NA',308),
+    (    0.00, '_IMM01', '_IMJRF', 'NA',302),
+    (  150.00, '_IMM01', '_IMNRM', 'NA',303),
 
     ( 1009.00, '_IMM02', '_IMSTD', 'NA',320),
-    (  266.00, '_IMM02', '_IMHOI', 'NA',321),
-    (  166.00, '_IMM02', '_IMORL', 'NA',322),
-    (   90.00, '_IMM02', '_IMTEL', 'NA',323),
-    (  302.00, '_IMM02', '_IMSUH', 'NA',324),
-    (  161.00, '_IMM02', '_IMADJ', 'NA',325),
-    (    0.00, '_IMM02', '_IMDET', 'NA',326),
-    (    0.00, '_IMM02', '_IMJRF', 'NA',327),
-    (  150.00, '_IMM02', '_IMNRM', 'NA',328),
+    (  166.00, '_IMM02', '_IMORL', 'NA',321),
+    (   90.00, '_IMM02', '_IMTEL', 'NA',322),
+    (  302.00, '_IMM02', '_IMSUH', 'NA',323),
+    (  161.00, '_IMM02', '_IMADJ', 'NA',324),
+    (    0.00, '_IMM02', '_IMJRF', 'NA',325),
+    (  150.00, '_IMM02', '_IMNRM', 'NA',326),
 
     (  234.00, '_IMM03', '_IMSTD', 'NA',340),
     (  266.00, '_IMM03', '_IMHOI', 'NA',341),
-    (  166.00, '_IMM03', '_IMORL', 'NA',342),
-    (   90.00, '_IMM03', '_IMTEL', 'NA',343),
-    (  302.00, '_IMM03', '_IMSUH', 'NA',344),
-    (  161.00, '_IMM03', '_IMADJ', 'NA',345),
-    (    0.00, '_IMM03', '_IMDET', 'NA',346),
-    (    0.00, '_IMM03', '_IMJRF', 'NA',347),
-    (  150.00, '_IMM03', '_IMNRM', 'NA',348)
+    (    0.00, '_IMM03', '_IMJRF', 'NA',342),
+    (  150.00, '_IMM03', '_IMNRM', 'NA',343)
 ;
 
 INSERT INTO CCW.TEXT_RESOURCES(RESOURCE_ID,TEXT)

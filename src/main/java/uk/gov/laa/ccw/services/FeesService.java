@@ -125,6 +125,7 @@ public class FeesService {
         for (Fee f : feesForLocationAndCaseStage) {
 
             Double feeAmount = 0.0;
+            Double feeUnits = 1.0;
             boolean feeCalculated = false;
 
             switch (f.getLevelCodeType()) {
@@ -141,7 +142,8 @@ public class FeesService {
 
                         switch (f.getLevelCodeType()) {
                             case FEE_TYPE_OPTIONAL_PER_UNIT:
-                                feeAmount = (levelCodesOfSameCode.getFirst().getUnits() * f.getAmount());
+                                feeUnits = levelCodesOfSameCode.getFirst().getUnits();
+                                feeAmount = (feeUnits * f.getAmount());
                                 break;
                             case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
                                 feeAmount = levelCodesOfSameCode.getFirst().getFee();
@@ -168,6 +170,7 @@ public class FeesService {
                 result.add(
                         FeeElement.builder()
                                 .feeType(f.getLevelCode())
+                                .unit(numberFormatter.format(feeUnits))
                                 .amount(numberFormatter.format(feeAmount))
                                 .vat(numberFormatter.format(vatAmountForFee))
                                 .total(numberFormatter.format(totalPlusVatForFee))
@@ -179,6 +182,7 @@ public class FeesService {
         result.add(
                 FeeElement.builder()
                 .feeType("totals")
+                .unit("1.0")
                 .amount(numberFormatter.format(totalFees))
                 .vat(numberFormatter.format(totalVatAmount))
                 .total(numberFormatter.format(totalPlusVat))
