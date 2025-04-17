@@ -139,8 +139,6 @@ INSERT INTO CCW.MATTER_CODES_1(MATTER_CODE_ID, LAW_TYPE, DESCRIPTION)
 VALUES
     ('IALB', 'IMM', 'Asylum - Stage 1 (LH)'),
     ('IACF', 'IMM', 'Asylum - Stage 2e (CLR)'),
-    ('IMXC', 'IMM', 'Immigration - CLR Work Not Subject to the Standard Fee Scheme'),
-    ('IAXL', 'IMM', 'Asylum - LH Work Not Subject to the Standard Fee Scheme'),
     ('IMLB', 'IMM', 'Immigration - Stage 1 (LH)')
 ;
 
@@ -156,8 +154,6 @@ INSERT INTO CCW.MATTER_CODES_COMBINATIONS(MATTER_CODE_1,MATTER_CODE_2)
 VALUES
     ('IALB', 'IASY'),
     ('IACF', 'IASY'),
-    ('IMXC', 'IBAI'),
-    ('IAXL', 'IUAS'),
     ('IMLB', 'IDOM')
 ;
 
