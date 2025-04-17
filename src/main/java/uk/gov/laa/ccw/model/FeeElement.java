@@ -17,4 +17,5 @@ public class FeeElement {
     private String amount;
     private String vat;
     private String total;
+    private String unit;
 }
