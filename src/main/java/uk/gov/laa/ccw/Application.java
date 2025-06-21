@@ -2,6 +2,7 @@ package uk.gov.laa.ccw;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ApplicationContext;
 
 /**
  * Entry point for the Fees Calculator Service application.
@@ -9,6 +10,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class Application {
 
+
+    private static ApplicationContext applicationContext;
     /**
      * The application main method.
      *
@@ -16,7 +19,17 @@ public class Application {
      */
     public static void main(String[] args) {
 
-        SpringApplication.run(Application.class, args);
+        applicationContext = SpringApplication.run(Application.class, args);
+        displayAllBeans();
+
+
+    }
+
+    public static void displayAllBeans() {
+        String[] allBeanNames = applicationContext.getBeanDefinitionNames();
+        for(String beanName : allBeanNames) {
+            System.out.println(beanName);
+        }
     }
 
 }

@@ -19,6 +19,7 @@ import uk.gov.laa.ccw.repository.VatRateRepository;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Service class for the fees.
@@ -38,6 +39,7 @@ public class FeesService {
 
     private final VatRateRepository vatRateRepository;
     private final VatRateMapper vatRateMapper;
+    private final DroolsFeeService droolsFeeService;
 
     /**
      * Gets the fees for the given location and case stage.
@@ -119,76 +121,23 @@ public class FeesService {
         double totalVatAmount = 0.0;
         double totalPlusVat = 0.0;
 
-        DecimalFormat numberFormatter = new DecimalFormat("#0.00");
-        List<FeeElement> result = new ArrayList<>();
+     //   DecimalFormat numberFormatter = new DecimalFormat("#0.00");
+       List<FeeElement> feeElementList = new ArrayList<>();
+       List<String> result = droolsFeeService.calculateFeesWithDrools(feesForLocationAndCaseStage,vatRate,levelCodes);
+//        result.add(
+//                FeeElement.builder()
+//                .feeType("totals")
+//                .unit("1.0")
+//                .amount(numberFormatter.format(totalFees))
+//                .vat(numberFormatter.format(totalVatAmount))
+//                .total(numberFormatter.format(totalPlusVat))
+//                .build()
+//        );
 
-        for (Fee f : feesForLocationAndCaseStage) {
+        //List<FeeElement> feeElements =
 
-            Double feeAmount = 0.0;
-            Double feeUnits = 1.0;
-            boolean feeCalculated = false;
-
-            switch (f.getLevelCodeType()) {
-                case FEE_TYPE_OPTIONAL:
-                case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
-                case FEE_TYPE_OPTIONAL_PER_UNIT:
-                    List<FeeCalculateRequestLevelCode> levelCodesOfSameCode =
-                            levelCodes.stream()
-                                    .filter(l -> l.getLevelCode().contentEquals(f.getLevelCode()))
-                                    .toList();
-
-                    if (!levelCodesOfSameCode.isEmpty()) {
-                        feeCalculated = true;
-
-                        switch (f.getLevelCodeType()) {
-                            case FEE_TYPE_OPTIONAL_PER_UNIT:
-                                feeUnits = levelCodesOfSameCode.getFirst().getUnits();
-                                feeAmount = (feeUnits * f.getAmount());
-                                break;
-                            case FEE_TYPE_OPTIONAL_FIXED_AMOUNT:
-                                feeAmount = levelCodesOfSameCode.getFirst().getFee();
-                                break;
-                            default:
-                                feeAmount = f.getAmount();
-                                break;
-                        }
-                    }
-                    break;
-                default:
-                    feeAmount = f.getAmount();
-                    feeCalculated = true;
-                    break;
-            }
-
-            if (feeCalculated) {
-                totalFees +=  feeAmount;
-                double vatAmountForFee = feeAmount * vat;
-                totalVatAmount += vatAmountForFee;
-                double totalPlusVatForFee = feeAmount + vatAmountForFee;
-                totalPlusVat  += totalPlusVatForFee;
-
-                result.add(
-                        FeeElement.builder()
-                                .feeType(f.getLevelCode())
-                                .unit(numberFormatter.format(feeUnits))
-                                .amount(numberFormatter.format(feeAmount))
-                                .vat(numberFormatter.format(vatAmountForFee))
-                                .total(numberFormatter.format(totalPlusVatForFee))
-                                .build()
-                );
-            }
-        }
-
-        result.add(
-                FeeElement.builder()
-                .feeType("totals")
-                .unit("1.0")
-                .amount(numberFormatter.format(totalFees))
-                .vat(numberFormatter.format(totalVatAmount))
-                .total(numberFormatter.format(totalPlusVat))
-                .build()
-        );
-
-        return result;
+        return result.stream()
+                .map(FeeElement::new)
+                .collect(Collectors.toList());
     }
 }

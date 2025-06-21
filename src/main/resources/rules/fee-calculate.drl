@@ -1,0 +1,78 @@
+// === DROOLS RULE FILE (resources/rules/fee-calculate.drl) ===
+package rules;
+
+import uk.gov.laa.ccw.model.Fee;
+import java.util.List;
+import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+
+
+global java.util.List levelCodes;
+global java.lang.Double vat;
+global List fees;
+
+function double getUnits(String levelCode, List levelCodes) {
+    for (Object obj : levelCodes) {
+        FeeCalculateRequestLevelCode code = (FeeCalculateRequestLevelCode) obj;
+        if (code.getLevelCode().equals(levelCode)) {
+            return code.getUnits();
+        }
+    }
+    return 1.0;
+}
+
+function double getFixedFee(String levelCode, List levelCodes) {
+    for (Object obj : levelCodes) {
+        FeeCalculateRequestLevelCode code = (FeeCalculateRequestLevelCode) obj;
+        if (code.getLevelCode().equals(levelCode)) {
+            return code.getFee();
+        }
+    }
+    return 0.0;
+}
+
+rule "Optional Fixed Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "OF")
+    eval(getFixedFee($fee.getLevelCode(), levelCodes) > 0)
+then
+    double feeAmount = getFixedFee($fee.getLevelCode(), levelCodes);
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+    fees.add("Optional Fixed Fee: " + $fee.getLevelCode() + " = " + total);
+end
+
+rule "Optional Per Unit Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "OU")
+    eval(getUnits($fee.getLevelCode(), levelCodes) > 0)
+then
+    double units = getUnits($fee.getLevelCode(), levelCodes);
+    double feeAmount = units * $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+    fees.add("Per Unit Fee: " + $fee.getLevelCode() + " = " + total);
+end
+
+rule "Optional Default Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "O")
+then
+    double feeAmount = $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+    fees.add("Optional Fee: " + $fee.getLevelCode() + " = " + total);
+end
+
+rule "Standard Fee Calculation"
+when
+    $fee : Fee(levelCodeType != "OF" && levelCodeType != "OU" && levelCodeType != "O")
+then
+    double feeAmount = $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+    fees.add("Standard Fee: " + $fee.getLevelCode() + " = " + total);
+end

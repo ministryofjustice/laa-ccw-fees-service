@@ -10,12 +10,8 @@ import lombok.NoArgsConstructor;
  */
 @Data
 @Builder
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class FeeElement {
-    private String feeType;
     private String amount;
-    private String vat;
-    private String total;
-    private String unit;
 }

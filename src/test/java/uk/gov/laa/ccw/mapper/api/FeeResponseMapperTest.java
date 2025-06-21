@@ -20,15 +20,15 @@ public class FeeResponseMapperTest {
     void shouldMapToFeeCalculationResponse() {
         FeeElement fee = FeeElement.builder()
                 .amount("12.34")
-                .vat("2.56")
-                .total("233.45")
+              //  .vat("2.56")
+              //  .total("233.45")
                 .build();
 
         FeeCalculate200ResponseFee result = feeRespMapper.toFeeCalculateResponse(fee);
 
         assertNotNull(result);
         assertEquals("12.34", result.getAmount());
-        assertEquals("2.56", result.getVat());
+      //  assertEquals("2.56", result.getVat());
     }
 
     @Test
