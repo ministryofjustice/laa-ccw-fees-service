@@ -1,0 +1,101 @@
+// === DROOLS RULE FILE (resources/rules/fee-calculate.drl) ===
+package rules;
+
+import uk.gov.laa.ccw.model.Fee;
+import java.util.List;
+import uk.gov.laa.ccw.model.api.FeeCalculateRequestLevelCode;
+import uk.gov.laa.ccw.model.FeeElement;
+import function uk.gov.laa.ccw.services.RuleFunctions.log;
+
+global java.util.List levelCodes;
+global java.lang.Double vat;
+global List fees;
+global List feeElements;
+
+function double getUnits(String levelCode, List levelCodes) {
+    for (Object obj : levelCodes) {
+        FeeCalculateRequestLevelCode code = (FeeCalculateRequestLevelCode) obj;
+        if (code.getLevelCode().equals(levelCode) && code.getUnits() !=null) {
+            return code.getUnits();
+        }
+    }
+    return 1.0;
+}
+
+function double getFixedFee(String levelCode, List levelCodes) {
+    for (Object obj : levelCodes) {
+        FeeCalculateRequestLevelCode code = (FeeCalculateRequestLevelCode) obj;
+        if (code.getLevelCode().equals(levelCode)) {
+            return code.getFee();
+        }
+    }
+    return 0.0;
+}
+
+rule "Optional Fixed Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "OF")
+    eval(getFixedFee($fee.getLevelCode(), levelCodes) > 0)
+then
+    log(drools, "=====Optional Fixed Fee Calculation=====START======");
+    double feeAmount = getFixedFee($fee.getLevelCode(), levelCodes);
+    double units = getUnits($fee.getLevelCode(), levelCodes);
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+
+    feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+                ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
+end
+
+rule "Optional Per Unit Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "OU")
+    eval(getUnits($fee.getLevelCode(), levelCodes) > 0)
+then
+    log(drools, "=====Optional Per Unit Fee Calculation=====START======");
+    double units = getUnits($fee.getLevelCode(), levelCodes);
+    double feeAmount = units * $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+
+     log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+
+     feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+                    ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
+end
+
+rule "Optional Default Fee Calculation"
+when
+    $fee : Fee(levelCodeType == "O")
+then
+     log(drools, "=====Optional Default Fee Calculation=====START======");
+    double feeAmount = $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+    double units = getUnits($fee.getLevelCode(), levelCodes);
+
+    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+
+
+     feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+                    ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
+end
+
+rule "Standard Fee Calculation"
+when
+    $fee : Fee(levelCodeType != "OF" && levelCodeType != "OU" && levelCodeType != "O")
+then
+    log(drools, "=====Standard Fee Calculation=====START======");
+    double feeAmount = $fee.getAmount();
+    double vatAmount = feeAmount * vat;
+    double total = feeAmount + vatAmount;
+    double units = getUnits($fee.getLevelCode(), levelCodes);
+
+    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+
+
+    feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+                        ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
+end

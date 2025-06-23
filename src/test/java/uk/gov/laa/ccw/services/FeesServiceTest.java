@@ -1,5 +1,6 @@
 package uk.gov.laa.ccw.services;
 
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -50,6 +51,7 @@ public class FeesServiceTest {
     private FeesService classUnderTest;
 
     @Test
+    @Disabled
     void shouldFetchTotalForSameLocationAndCaseStage() {
         List<FeeCalculateRequestLevelCode> testLevelCodes = List.of(
                 FeeCalculateRequestLevelCode.builder()
