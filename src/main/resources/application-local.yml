@@ -16,3 +16,7 @@ spring:
       mode: always
       schema-locations: classpath:ccw-database-schema.sql
       data-locations: classpath:ccw-database-data.sql
+
+logging:
+  level:
+    root: INFO  # Set the general logging level for the application

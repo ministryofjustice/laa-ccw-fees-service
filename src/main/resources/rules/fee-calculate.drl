@@ -37,15 +37,15 @@ when
     $fee : Fee(levelCodeType == "OF")
     eval(getFixedFee($fee.getLevelCode(), levelCodes) > 0)
 then
-    log(drools, "=====Optional Fixed Fee Calculation=====START======");
+    log(drools, "=====Optional Fixed Fee Calculation:: Level Code Type :" + $fee.getLevelCode());
     double feeAmount = getFixedFee($fee.getLevelCode(), levelCodes);
     double units = getUnits($fee.getLevelCode(), levelCodes);
     double vatAmount = feeAmount * vat;
     double total = feeAmount + vatAmount;
 
-    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+    log(drools, "feeAmount = %s , units = %s, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
 
-    feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+    feeElements.add(new FeeElement($fee.getLevelCode(),String.valueOf(feeAmount)
                 ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
 end
 
@@ -54,15 +54,15 @@ when
     $fee : Fee(levelCodeType == "OU")
     eval(getUnits($fee.getLevelCode(), levelCodes) > 0)
 then
-    log(drools, "=====Optional Per Unit Fee Calculation=====START======");
+    log(drools, "Optional Per Unit Fee Calculation:: Level Code Type :" + $fee.getLevelCode());
     double units = getUnits($fee.getLevelCode(), levelCodes);
     double feeAmount = units * $fee.getAmount();
     double vatAmount = feeAmount * vat;
     double total = feeAmount + vatAmount;
 
-     log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+    log(drools, "feeAmount = %s , units = %s, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
 
-     feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+     feeElements.add(new FeeElement($fee.getLevelCode(),String.valueOf(feeAmount)
                     ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
 end
 
@@ -70,16 +70,16 @@ rule "Optional Default Fee Calculation"
 when
     $fee : Fee(levelCodeType == "O")
 then
-     log(drools, "=====Optional Default Fee Calculation=====START======");
+     log(drools, "::Optional Default Fee Calculation:: Level Code Type :" + $fee.getLevelCode());
     double feeAmount = $fee.getAmount();
     double vatAmount = feeAmount * vat;
     double total = feeAmount + vatAmount;
     double units = getUnits($fee.getLevelCode(), levelCodes);
 
-    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+    log(drools, "feeAmount = %s , units = %s, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
 
 
-     feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
+     feeElements.add(new FeeElement($fee.getLevelCode(),String.valueOf(feeAmount)
                     ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
 end
 
@@ -87,15 +87,14 @@ rule "Standard Fee Calculation"
 when
     $fee : Fee(levelCodeType != "OF" && levelCodeType != "OU" && levelCodeType != "O")
 then
-    log(drools, "=====Standard Fee Calculation=====START======");
+    log(drools, ":::Standard Fee Calculation:: Level Code Type :" + $fee.getLevelCode());
     double feeAmount = $fee.getAmount();
     double vatAmount = feeAmount * vat;
     double total = feeAmount + vatAmount;
     double units = getUnits($fee.getLevelCode(), levelCodes);
 
-    log(drools, "%s feeAmount, %s units, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
+    log(drools, "feeAmount = %s , units = %s, vatAmount  = %s, total  = %s", feeAmount, units, vatAmount, total);
 
-
-    feeElements.add(new FeeElement($fee.getLevelCodeType(),String.valueOf(feeAmount)
-                        ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
+    feeElements.add(new FeeElement($fee.getLevelCode(),String.valueOf(feeAmount)
+                    ,String.valueOf(vatAmount), String.valueOf(total), String.valueOf(units)));
 end

@@ -20,6 +20,7 @@ public class RuleFunctions {
         final String category = drools.getRule().getPackageName() + "."
                 + drools.getRule().getName();
         final String formattedMessage = String.format(message, parameters);
+        System.out.println("Inside Rule functions : " + category + ": " + formattedMessage);
         Logger.getLogger(category).log(Level.ALL,formattedMessage);
     }
 }
