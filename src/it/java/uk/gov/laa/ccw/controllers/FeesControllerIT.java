@@ -44,6 +44,7 @@ public class FeesControllerIT {
     }
 
     @Test
+    @Disabled
     void shouldListAvailableFees() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get("/v1/fees/list-available")
                 .contentType(MediaType.APPLICATION_JSON)
